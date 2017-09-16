@@ -1,0 +1,93 @@
+:root {
+	--bg-gray    : #404040;
+	--gray       : #a6a6a6;
+	--light-gray : #4e4e4e;
+	--orange     : #e99756;
+	--blue       : #0275d8;
+	--red        : #e96656;
+	--purple     : #9756e9;
+	--green      : #5cb85c;
+}
+
+.bg-green {
+	background-color : var(--green);
+}
+
+.bg-light-gray { background-color : var(--light-gray) }
+
+.bg-gray { background-color : var(--bg-gray) }
+
+.bg-orange {
+	background-color : var(--orange);
+}
+
+.bg-red { background-color : var(--red); }
+
+.bg-purple { background-color : var(--purple) }
+
+.bg-blue { background-color : var(--blue) }
+
+.GridContainer {
+	display               : grid;
+	grid-template-columns : 2fr 1fr 1fr 1fr 1fr;
+	grid-template-rows    : auto;
+	grid-template-areas   : "logo title title title download" "logo position position position linkedin" "logo nav nav nav nav" "about-me about-me about-me spotlight spotlight";
+	justify-items         : stretch;
+}
+
+.about-me-area {
+	grid-area : about-me;
+}
+
+.spotlight-area {
+	grid-area : spotlight;
+}
+
+.Logo {
+	max-height : 350px;
+}
+
+.logo-area {
+	grid-area : logo;
+}
+
+.title-area {
+	grid-area : title;
+	font-size : 40px;
+}
+
+.download-area {
+	grid-area : download;
+}
+
+.position-area {
+	grid-area : position;
+	font-size : 36px;
+}
+
+.nav-area {
+	grid-area : nav;
+}
+
+.linkedin-area {
+	grid-area : linkedin;
+}
+
+.HeaderBox {
+	color          : var(--gray);
+	font-family    : "Dosis", "Helvetica Neue", Helvetica, sans-serif;
+	text-transform : uppercase;
+	padding        : 1em;
+	display        : flex;
+	align-items    : center;
+}
+
+h1, h2, h3, h4, h5 {
+	font-family    : "Dosis", "Helvetica Neue", Helvetica, sans-serif;
+	letter-spacing : 2px;
+	text-transform : uppercase;
+}
+
+.small {
+	color : #999999;
+}

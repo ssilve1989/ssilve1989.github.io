@@ -1,0 +1,32 @@
+.TextScroller {
+	position  : relative;
+	font-size : 18px;
+}
+
+.TextScroller .Fixed {
+	margin-right : .5em;
+}
+
+.TextScroller > span {
+	display        : inline-block;
+	vertical-align : middle;
+}
+
+.TextScroller::after {
+	content        : "";
+	vertical-align : middle;
+	border         : 1px solid var(--gray);
+	margin-left    : .25em;
+}
+
+.TextScroller .shrink {
+	min-width : 0;
+	max-width : .1%;
+}
+
+.Scroller {
+	max-width   : 100%;
+	transition  : max-width .5s, min-width .5s;
+	white-space : nowrap;
+	overflow    : hidden;
+}

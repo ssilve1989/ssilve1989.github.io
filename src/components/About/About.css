@@ -1,0 +1,37 @@
+.About {
+	padding : 1em 2em;
+}
+
+.About i {
+	color: var(--red);
+}
+
+.About .h1 {
+	margin-bottom : 1em;
+}
+
+.About .quote {
+	margin       : 1em 0;
+	border-left  : 2px solid var(--red);
+	padding-left : 2em;
+	color        : var(--red);
+	font-weight  : bold;
+}
+
+.About .title {
+	font-weight: bold;
+}
+
+.About-grid {
+	display               : grid;
+	grid-template-rows    : auto;
+	grid-template-columns : 1fr 1fr 1fr;
+	grid-template-areas   : 'col1 col2 col3';
+}
+
+.About-block {
+	margin-top            : 1em;
+	display               : grid;
+	grid-template-rows    : auto;
+	grid-template-columns : 1fr 2fr;
+}
