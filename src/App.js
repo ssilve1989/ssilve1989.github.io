@@ -3,10 +3,12 @@ import TextBox from './components/TextBox'
 import logo from './img/html5Logo.png'
 import IconBox from './components/IconBox'
 import TextScroller from './components/TextScroller'
-import Spotlight from './components/Spotlight/index';
+import Spotlight from './components/Spotlight';
 import Navigation from './components/Navigation';
-import About from './components/About/index';
+import About from './components/About';
+import Experience from './components/Experience/index';
 import 'hover.css/css/hover.css'
+import './index.css';
 import './App.css'
 
 class App extends Component {
@@ -36,6 +38,7 @@ class App extends Component {
 				<Navigation className="nav-area"/>
 				<About className="about-me-area" />
 				<Spotlight className="spotlight-area bg-green" />
+				<Experience className="exp-area bg-purple" />
 			</div>
 		)
 	}
