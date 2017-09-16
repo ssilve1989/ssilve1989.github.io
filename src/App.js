@@ -3,14 +3,12 @@ import TextBox from './components/TextBox'
 import logo from './img/html5Logo.png'
 import IconBox from './components/IconBox'
 import TextScroller from './components/TextScroller'
-import Spotlight from './components/Spotlight';
+import Home from './routes/Home';
 import Navigation from './components/Navigation';
-import About from './components/About';
-import Experience from './components/Experience';
-import Skills from './components/Skills';
 import 'hover.css/css/hover.css'
 import './index.css';
 import './App.css'
+import { Route, Switch } from 'react-router-dom';
 
 class App extends Component {
 	render() {
@@ -41,10 +39,7 @@ class App extends Component {
 				         external
 				/>
 				<Navigation className="nav-area"/>
-				<About className="about-me-area"/>
-				<Spotlight className="spotlight-area bg-green"/>
-				<Experience className="exp-area bg-purple"/>
-				<Skills className="skills-area bg-blue"/>
+				{ this.renderRoutes() }
 				<footer className="footer-area row">
 					<div className="col-md-4">
 						<h4>Steve Silvestri</h4>
@@ -111,6 +106,12 @@ class App extends Component {
 		              ] }
 		/>
 	);
+
+	renderRoutes = () => (
+		<Switch>
+			<Route path="/" exact component={ Home } />
+		</Switch>
+	)
 }
 
 export default App
