@@ -28,6 +28,7 @@ class App extends Component {
 				         target="_blank"
 				         title="Download Resume PDF"
 				         rel="noopener noreferrer"
+				         external
 				/>
 				<TextBox className="HeaderBox position-area bg-light-gray"
 				         value={ this.getTextScroller() }
@@ -37,6 +38,7 @@ class App extends Component {
 				         to="https://www.linkedin.com/in/stevensilvestri"
 				         target="_blank"
 				         rel="noopener noreferrer"
+				         external
 				/>
 				<Navigation className="nav-area"/>
 				<About className="about-me-area"/>

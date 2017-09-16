@@ -1,16 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import './IconBox.css';
 
 class IconBox extends React.Component {
 	render() {
-		const { className='', to, icon, text, ...rest } = this.props;
+		const { external, className='', to, icon, text, ...rest } = this.props;
+
+		if(external) {
+			return (
+				<a href={ to } className={`IconBox ${className}`} { ...rest }>
+					<i className={ icon } />
+					<span>{ text }</span>
+				</a>
+			)
+		}
 
 		return (
-			<a href={ to } className={`IconBox ${className}`} { ...rest }>
+			<Link to={ to } className={`IconBox ${className}`} { ...rest }>
 				<i className={ icon } />
 				<span>{ text }</span>
-			</a>
+			</Link>
 		)
 	}
 }
