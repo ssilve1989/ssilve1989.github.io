@@ -3,9 +3,6 @@
 	grid-template-columns : 1fr 1fr 1fr 1fr;
 	grid-template-rows    : auto;
 	grid-template-areas   : "home resume career github";
-	margin: 0;
-	padding: 0;
-	list-style-type: none;
 	height: 100%;
 	text-transform: uppercase;
 	letter-spacing: 2px;

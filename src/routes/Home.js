@@ -3,7 +3,7 @@ import About from '../components/About/index';
 import Spotlight from '../components/Spotlight/index';
 import Experience from '../components/Experience/index';
 import Skills from '../components/Skills/index';
-import './Home.css';
+import './routes.css';
 
 const Home = () => (
 	<div className="Home RouteContainer">

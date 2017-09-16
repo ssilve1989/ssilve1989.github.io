@@ -10,12 +10,6 @@
 	color: #fff;
 }
 
-.Experience ul {
-	margin          : 0;
-	padding         : 0;
-	list-style-type : none;
-}
-
 .Experience ul li a {
 	display   : block;
 	font-size : 18px;
