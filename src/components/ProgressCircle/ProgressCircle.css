@@ -1,0 +1,15 @@
+.Circle {
+	fill: none;
+}
+
+.circle-fg {
+	stroke: #999;
+}
+
+.circle-bg {
+	stroke: #fff;
+}
+
+.circle-text {
+	stroke:#fff;
+}

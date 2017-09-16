@@ -2,9 +2,12 @@
 	display         : flex;
 	flex-flow       : column;
 	align-items     : center;
-	justify-content : center;
-	color           : #ffffff;
+	color           : hsla(0, 0%, 100%, 0.7);
 	padding         : 1em;
+}
+
+.Experience h1 {
+	color: #fff;
 }
 
 .Experience ul {
@@ -16,4 +19,5 @@
 .Experience ul li a {
 	display   : block;
 	font-size : 18px;
+	color: #fff;
 }

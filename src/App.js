@@ -6,7 +6,8 @@ import TextScroller from './components/TextScroller'
 import Spotlight from './components/Spotlight';
 import Navigation from './components/Navigation';
 import About from './components/About';
-import Experience from './components/Experience/index';
+import Experience from './components/Experience';
+import Skills from './components/Skills/index';
 import 'hover.css/css/hover.css'
 import './index.css';
 import './App.css'
@@ -26,6 +27,7 @@ class App extends Component {
 				         to="https://drive.google.com/open?id=0B-QjQxm8doHNeW0xUWVjWUE0V1E"
 				         target="_blank"
 				         title="Download Resume PDF"
+				         rel="noopener noreferrer"
 				/>
 				<TextBox className="HeaderBox position-area bg-light-gray"
 				         value={ this.getTextScroller() }
@@ -34,11 +36,13 @@ class App extends Component {
 				         icon="fa fa-4x fa-linkedin"
 				         to="https://www.linkedin.com/in/stevensilvestri"
 				         target="_blank"
+				         rel="noopener noreferrer"
 				/>
 				<Navigation className="nav-area"/>
 				<About className="about-me-area" />
 				<Spotlight className="spotlight-area bg-green" />
 				<Experience className="exp-area bg-purple" />
+				<Skills className="skills-area bg-blue" />
 			</div>
 		)
 	}
