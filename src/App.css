@@ -31,8 +31,15 @@
 	display               : grid;
 	grid-template-columns : 2fr 1fr 1fr 1fr 1fr;
 	grid-template-rows    : auto;
-	grid-template-areas   : "logo title title title download" "logo position position position linkedin" "logo nav nav nav nav" "about-me about-me about-me spotlight spotlight" "exp skills skills skills skills";
+	grid-template-areas   : "logo title title title download" "logo position position position linkedin" "logo nav nav nav nav" "about-me about-me about-me spotlight spotlight" "exp skills skills skills skills" "footer footer footer footer footer";
 	justify-items         : stretch;
+}
+
+.footer-area {
+	padding: 1em;
+	background-color: var(--bg-gray);
+	color: #fff;
+	grid-area: footer;
 }
 
 .exp-area {
@@ -88,4 +95,12 @@
 	padding        : 1em;
 	display        : flex;
 	align-items    : center;
+}
+
+.SocialMedia {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	justify-content: space-between;
 }
