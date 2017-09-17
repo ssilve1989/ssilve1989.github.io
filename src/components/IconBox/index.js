@@ -5,20 +5,20 @@ import './IconBox.css';
 
 class IconBox extends React.Component {
 	render() {
-		const { external, className='', to, icon, text, ...rest } = this.props;
+		const { external, className = '', to, icon, text, ...rest } = this.props;
 
 		if(external) {
 			return (
-				<a href={ to } className={`IconBox ${className}`} { ...rest }>
-					<i className={ icon } />
+				<a href={ to } className={ `IconBox ${className}` } { ...rest }>
+					<i className={ icon }/>
 					<span>{ text }</span>
 				</a>
 			)
 		}
 
 		return (
-			<Link to={ to } className={`IconBox ${className}`} { ...rest }>
-				<i className={ icon } />
+			<Link to={ to } className={ `IconBox ${className}` } { ...rest }>
+				<i className={ icon }/>
 				<span>{ text }</span>
 			</Link>
 		)
@@ -26,9 +26,9 @@ class IconBox extends React.Component {
 }
 
 IconBox.propTypes = {
-	to: PropTypes.string.isRequired,
+	to  : PropTypes.string.isRequired,
 	icon: PropTypes.string.isRequired,
-	text : PropTypes.string
+	text: PropTypes.string
 }
 
 export default IconBox;

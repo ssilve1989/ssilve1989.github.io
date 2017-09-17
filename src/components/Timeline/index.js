@@ -6,11 +6,11 @@ const Timeline = ({ timeline }) => {
 	const renderTimelineItem = ({ icon, company, position, time }) => (
 		<li>
 			<div className="Timeline-Badge">
-				<i className={ icon } />
+				<i className={ icon }/>
 			</div>
 			<div className="Timeline-Panel">
 				<p className="Timeline-Time">
-					<i className="fa fa-clock-o" />
+					<i className="fa fa-clock-o"/>
 					{ time }
 				</p>
 				<div className="Timeline-Heading">

@@ -42,9 +42,11 @@ const Resume = props => {
 					</div>
 				</section>
 				<section className="job"><h4>Digital Reasoning</h4>
-					<div className="job-meta"><span className="job-date">Aug 2015 - Feb 2016</span><span className="job-title">Professional Services Engineer</span><span
+					<div className="job-meta"><span className="job-date">Aug 2015 - Feb 2016</span><span
+						className="job-title">Professional Services Engineer</span><span
 						className="job-location">New York, New York</span></div>
-					<div className="job-description">Digital Reasoning is a machine learning, data analytics company that
+					<div className="job-description">Digital Reasoning is a machine learning, data analytics company
+						that
 						provides insights into unstructured data that can help users reason about relationships and
 						actions that otherwise would have gone unnoticed. As a Professional Services Engineer, I worked
 						with the clients who use Digital Reasoning's software to process their unstructured Data and
@@ -55,9 +57,11 @@ const Resume = props => {
 					</div>
 				</section>
 				<section className="job"><h4>Mount Sinai Health System</h4>
-					<div className="job-meta"><span className="job-date">Oct 2014 - Aug 2015</span><span className="job-title">Senior Web Applications Developer</span><span
+					<div className="job-meta"><span className="job-date">Oct 2014 - Aug 2015</span><span
+						className="job-title">Senior Web Applications Developer</span><span
 						className="job-location">New York, New York</span></div>
-					<div className="job-description">Mount Sinai is a leader in healthcare and the largest healthcare system
+					<div className="job-description">Mount Sinai is a leader in healthcare and the largest healthcare
+						system
 						in New York City. Here I led a small team of around 5 developers. We supported a J2EE backed
 						site to serve the content for all the hospitals that were part of the Mount Sinai healthsystem.
 						This web application leveraged the OpenText WEM content management system. I created a custom
@@ -68,9 +72,11 @@ const Resume = props => {
 					</div>
 				</section>
 				<section className="job"><h4>The Mount Sinai Hospital</h4>
-					<div className="job-meta"><span className="job-date">Jun 2013 - Oct 2014</span><span className="job-title">Web / Java Developer</span><span
+					<div className="job-meta"><span className="job-date">Jun 2013 - Oct 2014</span><span
+						className="job-title">Web / Java Developer</span><span
 						className="job-location">New York, New York</span></div>
-					<div className="job-description">The early years. This is where it all began and was my first job after
+					<div className="job-description">The early years. This is where it all began and was my first job
+						after
 						graduating with a B.S in Computer Information Systems. Here I learned the fundamental skills for
 						web application development and general programming principles that would allow me to move up to
 						Senior Web Applications Developer and be qualified enough to lead the team.
@@ -79,7 +85,7 @@ const Resume = props => {
 			</section>
 			<section>
 				<h2 className="Resume-Header">
-					<i className="fa fa-code" />
+					<i className="fa fa-code"/>
 					Skills
 				</h2>
 				<ul className="Resume-Skills-List">
@@ -87,7 +93,8 @@ const Resume = props => {
 						<span>HTML 5 / CSS</span>
 						<div>
 							<div className="progress">
-								<div className="progress-bar w-100" role="progressbar" aria-valuemin={ 0 } aria-valuenow={ 100 } aria-valuemax={ 100 }/>
+								<div className="progress-bar w-100" role="progressbar" aria-valuemin={ 0 }
+								     aria-valuenow={ 100 } aria-valuemax={ 100 }/>
 							</div>
 							<small>
 								<em>SASS, LESS, Semantics, Responsive Design, CSS Modules</em>
@@ -98,7 +105,8 @@ const Resume = props => {
 						<span>VCS / DevOps</span>
 						<div>
 							<div className="progress">
-								<div className="progress-bar" aria-valuemin={ 0 } aria-valuenow={ 90 } aria-valuemax={ 100 } style={{ width: '90%' }} />
+								<div className="progress-bar" aria-valuemin={ 0 } aria-valuenow={ 90 }
+								     aria-valuemax={ 100 } style={ { width: '90%' } }/>
 							</div>
 							<small><em>SVN, Git, Maven, NPM</em></small>
 						</div>
@@ -107,7 +115,8 @@ const Resume = props => {
 						<span>JavaScript / Node.js</span>
 						<div>
 							<div className="progress">
-								<div className="progress-bar" aria-valuemin={ 0 } aria-valuenow={ 90 } aria-valuemax={ 100 } style={{ width: '90%' }} />
+								<div className="progress-bar" aria-valuemin={ 0 } aria-valuenow={ 90 }
+								     aria-valuemax={ 100 } style={ { width: '90%' } }/>
 							</div>
 							<small><em>jQuery, ES6, React, Redux, OOP, Functional Programming</em></small>
 						</div>
@@ -116,7 +125,8 @@ const Resume = props => {
 						<span>Java / J2EE</span>
 						<div>
 							<div className="progress">
-								<div className="progress-bar" aria-valuemin={ 0 } aria-valuenow={ 90 } aria-valuemax={ 100 } style={{ width: '90%' }} />
+								<div className="progress-bar" aria-valuemin={ 0 } aria-valuenow={ 90 }
+								     aria-valuemax={ 100 } style={ { width: '90%' } }/>
 							</div>
 							<small><em>Java 8, Groovy, Tomcat, JSP, Servlets</em></small>
 						</div>
@@ -125,7 +135,8 @@ const Resume = props => {
 						<span>Scripting</span>
 						<div>
 							<div className="progress">
-								<div className="progress-bar " aria-valuemin={ 0 } aria-valuenow={ 80 } aria-valuemax={ 100 } style={{ width: '80%' }}/>
+								<div className="progress-bar " aria-valuemin={ 0 } aria-valuenow={ 80 }
+								     aria-valuemax={ 100 } style={ { width: '80%' } }/>
 							</div>
 							<small><em>Python, Bash, Groovy</em></small>
 						</div>
@@ -134,7 +145,8 @@ const Resume = props => {
 						<span>Big Data</span>
 						<div>
 							<div className="progress">
-								<div className="progress-bar w-50" aria-valuemin={ 0 } aria-valuenow={ 50 } aria-valuemax={ 100 } />
+								<div className="progress-bar w-50" aria-valuemin={ 0 } aria-valuenow={ 50 }
+								     aria-valuemax={ 100 }/>
 							</div>
 							<small><em>Hadoop, NLP, Machine Learning</em></small>
 						</div>

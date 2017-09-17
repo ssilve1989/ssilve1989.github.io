@@ -29,6 +29,10 @@
 	text-align       : center;
 }
 
+.Contact-Body > section {
+	margin : 1em 0;
+}
+
 .Contact-Body p {
 	margin : 0;
 }

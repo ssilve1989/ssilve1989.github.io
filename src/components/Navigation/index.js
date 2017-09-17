@@ -2,14 +2,14 @@ import React from 'react';
 import IconBox from '../IconBox/index';
 import './Navigation.css';
 
-const Navigation = ({ className='' }) => (
+const Navigation = ({ className = '' }) => (
 	<nav className={ className }>
 		<ul className="Navigation-grid">
 			<li className="home-area">
-				 <IconBox icon="fa fa-4x fa-home"
-				          className="bg-orange hvr-shutter-out-horizontal"
-				          to="/"
-				          text="Home"
+				<IconBox icon="fa fa-4x fa-home"
+				         className="bg-orange hvr-shutter-out-horizontal"
+				         to="/"
+				         text="Home"
 				/>
 			</li>
 			<li className="resume-area">

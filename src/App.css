@@ -29,10 +29,29 @@
 
 .GridContainer {
 	display               : grid;
-	grid-template-columns : 2fr 1fr 1fr 1fr 1fr;
 	grid-template-rows    : auto;
-	grid-template-areas   : "logo title title title download" "logo position position position linkedin" "logo nav nav nav nav" "route-container route-container route-container route-container route-container" "footer footer footer footer footer";
 	justify-items         : stretch;
+	grid-template-columns : 1fr 1fr;
+	grid-template-areas   : "logo logo" "title title" "download download" "position position" "linkedin linkedin" "nav nav" "route-container route-container" "footer footer"
+}
+
+@media screen and (min-width : 576px) {
+	.GridContainer {
+		grid-template-columns : 1fr 1fr 1fr 1fr;
+		grid-template-areas   : "logo logo logo logo" "title title title download" "position position position linkedin" "nav nav nav nav" "route-container route-container route-container route-container" "footer footer footer footer"
+	}
+}
+
+@media screen and (min-width : 768px) {
+	.GridContainer {
+		grid-template-columns : 2fr 1fr 1fr 1fr 1fr;
+		grid-template-areas   : "logo title title title download" "logo position position position linkedin" "logo nav nav nav nav" "route-container route-container route-container route-container route-container" "footer footer footer footer footer";
+	}
+
+	.logo-area {
+		display     : flex;
+		align-items : center;
+	}
 }
 
 .RouteContainer {
@@ -52,8 +71,7 @@
 
 .logo-area {
 	grid-area     : logo;
-	display       : flex;
-	align-items   : center;
+	text-align    : center;
 	border-bottom : 1px solid var(--gray);
 }
 

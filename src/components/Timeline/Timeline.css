@@ -8,7 +8,7 @@
 
 .Timeline ul {
 	position : relative;
-	padding: 20px 0;
+	padding  : 20px 0;
 }
 
 .Timeline ul:before {
@@ -49,11 +49,11 @@
 }
 
 .Timeline-Panel {
-	padding  : 30px;
-	border   : 1px solid var(--gray);
-	position : relative;
-	width    : 100%;
-	background-color: #fff;
+	padding          : 30px;
+	border           : 1px solid var(--gray);
+	position         : relative;
+	width            : 100%;
+	background-color : #ffffff;
 }
 
 .Timeline-Heading {
@@ -62,13 +62,13 @@
 @media screen and (min-width : 768px) {
 
 	.Timeline-Badge {
-		position         : absolute;
-		top              : -10px;
-		margin           : 0 auto;
+		position : absolute;
+		top      : -10px;
+		margin   : 0 auto;
 	}
 
 	.Timeline-Panel {
-		width: 46%;
+		width : 46%;
 	}
 
 	.Timeline-Panel:hover {

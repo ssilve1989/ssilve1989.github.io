@@ -18,15 +18,17 @@ const Experience = props => {
 					<p>Software Engineer</p></li>
 				<li>
 					<small>08/2015 - 02/2016</small>
-					<a href="http://www.digitalreasoning.com/" target="_blank" class="text-uppercase" rel="noopener noreferrer">Digital Reasoning</a><p>Professional Services Engineer</p>
+					<a href="http://www.digitalreasoning.com/" target="_blank" class="text-uppercase"
+					   rel="noopener noreferrer">Digital Reasoning</a><p>Professional Services Engineer</p>
 				</li>
 				<li>
 					<small>10/2014-08/2015</small>
-					<a href="https://www.mountsinaihealth.org" target="_blank" rel="noopener noreferrer" class="text-uppercase">Mount Sinai Health
+					<a href="https://www.mountsinaihealth.org" target="_blank" rel="noopener noreferrer"
+					   class="text-uppercase">Mount Sinai Health
 						System</a><p>Senior Web Applications Developer</p></li>
 				<li>
 					<a href="/career">
-						<i className="fa fa-3x fa-ellipsis-h" aria-hidden="true" />
+						<i className="fa fa-3x fa-ellipsis-h" aria-hidden="true"/>
 					</a>
 				</li>
 			</ul>

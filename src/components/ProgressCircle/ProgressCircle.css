@@ -1,15 +1,15 @@
 .Circle {
-	fill: none;
+	fill : none;
 }
 
 .circle-fg {
-	stroke: #999;
+	stroke : #999999;
 }
 
 .circle-bg {
-	stroke: #fff;
+	stroke : #ffffff;
 }
 
 .circle-text {
-	stroke:#fff;
+	stroke : #ffffff;
 }

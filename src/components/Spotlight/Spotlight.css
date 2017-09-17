@@ -1,14 +1,15 @@
 .Spotlight {
-	color: #fff;
-	display: flex;
-	flex-flow: column;
-	align-items : center;
-	justify-content: center;
+	color           : #ffffff;
+	display         : flex;
+	flex-flow       : column;
+	align-items     : center;
+	justify-content : center;
 }
 
 .Spotlight ul li > a {
-	color: inherit;
+	color : inherit;
 }
+
 .Spotlight ul li {
-	margin: 1em 0;
+	margin : 1em 0;
 }

@@ -22,7 +22,7 @@ const Spotlight = props => {
 		<section className={ className }>
 			<header className="text-center">
 				<h1>Spotlight</h1>
-				<i className="fa fa-4x fa-code-fork" />
+				<i className="fa fa-4x fa-code-fork"/>
 				<h5>Open Source Development</h5>
 			</header>
 			<ul>
@@ -30,7 +30,7 @@ const Spotlight = props => {
 					<li>
 						<a href={ item.link }>{ item.name }</a>
 					</li>
-				))}
+				)) }
 			</ul>
 		</section>
 	)

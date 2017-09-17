@@ -13,7 +13,7 @@
 }
 
 .IconBox.hvr-sweep-to-right, .IconBox.hvr-shutter-out-horizontal {
-	display: flex;
+	display : flex;
 }
 
 .IconBox.hvr-sweep-to-right:before, .IconBox.hvr-shutter-out-horizontal:before {

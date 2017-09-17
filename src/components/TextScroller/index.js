@@ -22,25 +22,25 @@ class TextScroller extends React.Component {
 
 	render() {
 		const { values, fixed, className = '', ...rest } = this.props;
-		const { index, shrink } = this.state;
-		const value = values[index];
+		const { index, shrink }                          = this.state;
+		const value                                      = values[ index ];
 		return (
 			<div className={ `${className} TextScroller` } { ...rest }>
 				{ !!fixed && <span className="Fixed">{ fixed }</span> }
-				<span className={`Scroller ${ shrink ? 'shrink' : ''}`}>
+				<span className={ `Scroller ${ shrink ? 'shrink' : ''}` }>
 					{ value }
 				</span>
 			</div>
 		)
 	}
 
-	start = () => setInterval(this.scroller, 3500);
+	start    = () => setInterval(this.scroller, 3500);
 	scroller = () => {
-		let { index } = this.state;
+		let { index }    = this.state;
 		const { values } = this.props;
-		index = index === values.length - 1 ? 0 : index + 1;
+		index            = index === values.length - 1 ? 0 : index + 1;
 		this.setState({ shrink: true });
-		this.scrollerTimeout = setTimeout(() => this.setState({ index, shrink : false }), 500);
+		this.scrollerTimeout = setTimeout(() => this.setState({ index, shrink: false }), 500);
 	}
 }
 

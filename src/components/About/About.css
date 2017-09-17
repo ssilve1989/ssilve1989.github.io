@@ -3,7 +3,7 @@
 }
 
 .About i {
-	color: var(--red);
+	color : var(--red);
 }
 
 .About .h1 {
@@ -19,7 +19,7 @@
 }
 
 .About .title {
-	font-weight: bold;
+	font-weight : bold;
 }
 
 .About-grid {

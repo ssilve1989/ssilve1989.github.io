@@ -30,7 +30,7 @@ const Career = () => {
 	]
 
 	return (
-		<article style={{ padding : '1em' }}>
+		<article style={ { padding: '1em' } }>
 			<section className="text-center">
 				<h1>Professional Timeline</h1>
 				<h5>Constantly growing and delivering quality code</h5>

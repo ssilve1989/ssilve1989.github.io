@@ -1,11 +1,18 @@
 .Navigation-grid {
 	display               : grid;
-	grid-template-columns : 1fr 1fr 1fr 1fr;
 	grid-template-rows    : auto;
-	grid-template-areas   : "home resume career github";
-	height: 100%;
-	text-transform: uppercase;
-	letter-spacing: 2px;
+	height                : 100%;
+	text-transform        : uppercase;
+	letter-spacing        : 2px;
+	grid-template-columns : 1fr 1fr;
+	grid-template-areas   : "home resume" "career github";
+}
+
+@media screen and (min-width : 576px) {
+	.Navigation-grid {
+		grid-template-columns : 1fr 1fr 1fr 1fr;
+		grid-template-areas   : "home resume career github";
+	}
 }
 
 .home-area {

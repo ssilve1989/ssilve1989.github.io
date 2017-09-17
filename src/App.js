@@ -43,22 +43,26 @@ class App extends Component {
 				<Navigation className="nav-area"/>
 				{ this.renderRoutes() }
 				<footer className="footer-area row">
-					<div className="col-md-4">
+					<div className="col-sm-6 col-md-4">
 						<h4>Steve Silvestri</h4>
 						<p>Software Engineer, JavaScript Developer</p>
 						<small>
 							&copy; Steven Silvestri 2017
 						</small>
 					</div>
-					<div className="col-md-4">
+					<div className="col-sm-6 col-md-4">
 						<h4>Download CV</h4>
 						<p>
 							<a
-								href="https://drive.google.com/open?id=0B-QjQxm8doHNeW0xUWVjWUE0V1E" target="_blank">
-								<i className="fa fa-arrow-circle-o-down"/>&nbsp; Download</a>
+								rel="noopener noreferrer"
+								href="https://drive.google.com/open?id=0B-QjQxm8doHNeW0xUWVjWUE0V1E"
+								target="_blank"
+							>
+								<i className="fa fa-arrow-circle-o-down"/>&nbsp; Download
+							</a>
 						</p>
 					</div>
-					<div className="col-md-4">
+					<div className="col-sm-6 col-md-4">
 						<h4>Follow me at</h4>
 						<ul className="SocialMedia">
 							<li className="social-icon">
@@ -112,9 +116,9 @@ class App extends Component {
 	renderRoutes = () => (
 		<Switch>
 			<main className="RouteContainer">
-				<Route path="/" exact component={ Home } />
-				<Route path="/resume" component={ Resume } />
-				<Route path="/career" component={ Career } />
+				<Route path="/" exact component={ Home }/>
+				<Route path="/resume" component={ Resume }/>
+				<Route path="/career" component={ Career }/>
 			</main>
 		</Switch>
 	)

@@ -3,7 +3,7 @@ import './Contact.css';
 import { Link } from 'react-router-dom';
 
 const Contact = ({ className }) => (
-	<div className={`Contact ${className}`}>
+	<div className={ `Contact ${className}` }>
 		<section className="Contact-Header">
 			<h1>Steve Silvestri</h1>
 			<p className="Contact-SubHeader">Software Engineer</p>
@@ -12,23 +12,23 @@ const Contact = ({ className }) => (
 			<section>
 				<ul>
 					<li>
-						<i className="fa fa-envelope" />
+						<i className="fa fa-envelope"/>
 						<a href="mailto:steven.m.silvestri@gmail.com">steven.m.silvestri@gmail.com</a>
 					</li>
 					<li>
-						<i className="fa fa-linkedin" />
+						<i className="fa fa-linkedin"/>
 						<a href="https://www.linkedin.com/in/stevensilvestri">
 							linkedin.com/in/stevesilvestri
 						</a>
 					</li>
 					<li>
-						<i className="fa fa-github" />
+						<i className="fa fa-github"/>
 						<a href="https://www.github.com/ssilve1989">
 							github.com/ssilve1989
 						</a>
 					</li>
 					<li>
-						<i className="fa fa-globe" />
+						<i className="fa fa-globe"/>
 						<Link to="/">ssilve1989.github.io</Link>
 					</li>
 				</ul>

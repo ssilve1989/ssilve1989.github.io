@@ -1,7 +1,7 @@
 .TextScroller {
-	position  : relative;
-	font-size : 24px;
-	letter-spacing: 2px;
+	position       : relative;
+	font-size      : 24px;
+	letter-spacing : 2px;
 }
 
 .TextScroller .Fixed {

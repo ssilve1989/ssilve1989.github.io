@@ -4,8 +4,8 @@ import './ProgressCircle.css';
 
 const ProgressCircle = props => {
 	const { progress, radius, strokeWidth } = props;
-	const dashArray    = radius * Math.PI * 2;
-	const dashOffset = dashArray - dashArray * progress / 100;
+	const dashArray                         = radius * Math.PI * 2;
+	const dashOffset                        = dashArray - dashArray * progress / 100;
 	return (
 		<svg className="ProgressCircle"
 		     width={ 100 }
@@ -15,20 +15,20 @@ const ProgressCircle = props => {
 			<circle className="Circle circle-fg"
 			        cx={ radius }
 			        cy={ radius }
-			        r={ radius - 1}
+			        r={ radius - 1 }
 			        strokeWidth={ `${strokeWidth}px` }
 			/>
 			<circle className="Circle circle-bg"
 			        cx={ radius }
 			        cy={ radius }
-			        r={ radius - 1}
+			        r={ radius - 1 }
 			        strokeDasharray={ dashArray }
 			        strokeDashoffset={ dashOffset }
 			        strokeWidth={ `${strokeWidth}px` }
 			        transform="rotate(-90 50 50)"
 			/>
 			<text className="circle-text" x={ radius } y={ radius } dy=".4em" textAnchor="middle">
-			      { props.text }
+				{ props.text }
 			</text>
 		</svg>
 	)
