@@ -29,7 +29,7 @@ const Navigation = ({ className = '' }) => (
 			<li className="github-area">
 				<IconBox icon="fa fa-4x fa-github"
 				         className="bg-purple hvr-shutter-out-horizontal"
-				         to="https://ssilve1989.github.io"
+				         to="https://www.github.com/ssilve1989"
 				         text="GitHub"
 				         external
 				/>
