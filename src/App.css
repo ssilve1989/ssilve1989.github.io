@@ -31,24 +31,19 @@
 	display               : grid;
 	grid-template-columns : 2fr 1fr 1fr 1fr 1fr;
 	grid-template-rows    : auto;
-	grid-template-areas   :
-			"logo title title title download"
-			"logo position position position linkedin"
-			"logo nav nav nav nav"
-			"route-container route-container route-container route-container route-container"
-			"footer footer footer footer footer";
+	grid-template-areas   : "logo title title title download" "logo position position position linkedin" "logo nav nav nav nav" "route-container route-container route-container route-container route-container" "footer footer footer footer footer";
 	justify-items         : stretch;
 }
 
 .RouteContainer {
-	grid-area: route-container;
+	grid-area : route-container;
 }
 
 .footer-area {
-	padding: 1em;
-	background-color: var(--bg-gray);
-	color: #fff;
-	grid-area: footer;
+	padding          : 1em;
+	background-color : var(--bg-gray);
+	color            : #ffffff;
+	grid-area        : footer;
 }
 
 .Logo {
@@ -56,7 +51,10 @@
 }
 
 .logo-area {
-	grid-area : logo;
+	grid-area     : logo;
+	display       : flex;
+	align-items   : center;
+	border-bottom : 1px solid var(--gray);
 }
 
 .title-area {
@@ -91,6 +89,6 @@
 }
 
 .SocialMedia {
-	display: flex;
-	justify-content: space-between;
+	display         : flex;
+	justify-content : space-between;
 }

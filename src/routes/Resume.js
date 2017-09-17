@@ -5,7 +5,7 @@ import './routes.css';
 
 const ResumeRoute = props => {
 	return (
-		<div className="ResumeGrid RouteContainer">
+		<div className="ResumeGrid">
 			<Contact className="resume-left" />
 			<Resume className="resume-right"/>
 		</div>

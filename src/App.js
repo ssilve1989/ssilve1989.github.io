@@ -6,6 +6,7 @@ import TextScroller from './components/TextScroller'
 import Home from './routes/Home';
 import Resume from './routes/Resume';
 import Navigation from './components/Navigation';
+import Career from './routes/Career';
 import 'hover.css/css/hover.css'
 import './index.css';
 import './App.css'
@@ -110,8 +111,11 @@ class App extends Component {
 
 	renderRoutes = () => (
 		<Switch>
-			<Route path="/" exact component={ Home } />
-			<Route path="/resume" component={ Resume } exact />
+			<main className="RouteContainer">
+				<Route path="/" exact component={ Home } />
+				<Route path="/resume" component={ Resume } />
+				<Route path="/career" component={ Career } />
+			</main>
 		</Switch>
 	)
 }

@@ -6,7 +6,7 @@ import Skills from '../components/Skills/index';
 import './routes.css';
 
 const Home = () => (
-	<div className="Home RouteContainer">
+	<div className="Home">
 		<About className="about-me-area"/>
 		<Spotlight className="spotlight-area bg-green"/>
 		<Experience className="exp-area bg-purple"/>
