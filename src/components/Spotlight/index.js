@@ -3,8 +3,8 @@ import './Spotlight.css';
 
 const npmPackages = [
 	{
-		link: 'https://www.npmjs.com/package/redux-session-manager-middleware',
-		name: 'Redux Session Manager Middlware'
+		link: 'https://www.npmjs.com/package/redux-session-manager',
+		name: 'Redux Session Manager'
 	},
 	{
 		link: 'https://www.npmjs.com/package/react-redux-dialog',
