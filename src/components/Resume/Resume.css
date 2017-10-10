@@ -15,6 +15,11 @@
 .job {
 	margin : 1.5em 0;
 }
+@media print {
+	.Resume-Skills-List {
+		font-family: "Helvetica Neue", Helvetica, sans-serif;
+	}
+}
 
 .job-title {
 	display     : block;
