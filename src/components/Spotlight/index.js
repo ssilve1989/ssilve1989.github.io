@@ -27,7 +27,7 @@ const Spotlight = props => {
 			</header>
 			<ul>
 				{ npmPackages.map(item => (
-					<li>
+					<li key={ item.name }>
 						<a href={ item.link }>{ item.name }</a>
 					</li>
 				)) }

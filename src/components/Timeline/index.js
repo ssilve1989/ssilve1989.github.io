@@ -4,7 +4,7 @@ import './Timeline.css';
 
 const Timeline = ({ timeline }) => {
 	const renderTimelineItem = ({ icon, company, position, time }) => (
-		<li>
+		<li key={ position }>
 			<div className="Timeline-Badge">
 				<i className={ icon }/>
 			</div>
