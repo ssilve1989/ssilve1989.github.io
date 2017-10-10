@@ -116,13 +116,13 @@ class App extends Component {
 	);
 
 	renderRoutes = () => (
-		<Switch>
-			<main className="RouteContainer">
+		<main className="RouteContainer">
+			<Switch>
 				<Route path="/" exact component={ Home }/>
 				<Route path="/resume" component={ Resume }/>
 				<Route path="/career" component={ Career }/>
-			</main>
-		</Switch>
+			</Switch>
+		</main>
 	)
 }
 
