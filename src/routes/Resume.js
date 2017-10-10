@@ -1,9 +1,10 @@
 import React from 'react';
 import Contact from '../components/Contact';
 import Resume from '../components/Resume/index';
+import ScrollTop from '../components/ScrollTop';
 import './routes.css';
 
-const ResumeRoute = props => {
+const ResumeRoute = () => {
 	return (
 		<div className="ResumeGrid">
 			<Contact className="resume-left"/>
@@ -12,4 +13,4 @@ const ResumeRoute = props => {
 	)
 };
 
-export default ResumeRoute;
+export default ScrollTop(ResumeRoute);

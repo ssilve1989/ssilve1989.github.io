@@ -4,6 +4,7 @@ import Spotlight from '../components/Spotlight/index';
 import Experience from '../components/Experience/index';
 import Skills from '../components/Skills/index';
 import './routes.css';
+import ScrollTop from '../components/ScrollTop';
 
 const Home = () => (
 	<div className="Home">
@@ -14,4 +15,4 @@ const Home = () => (
 	</div>
 );
 
-export default Home;
+export default ScrollTop(Home);
