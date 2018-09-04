@@ -5,37 +5,13 @@ module.exports = {
 		"commonjs": true,
 		"es6"     : true
 	},
-	"extends"      : "eslint:recommended",
-	"parserOptions": {
-		"ecmaFeatures": {
-			"experimentalObjectRestSpread": true,
-			"jsx"                         : true
-		},
-		"sourceType"  : "module"
-	},
+	"extends"      : ["airbnb", 'prettier', 'prettier/react'],
 	"plugins"      : [
+    'prettier',
 		"react"
 	],
 	"rules"        : {
-		"no-unused-vars"          : [ "error", { "vars": "all", "args": "after-used", "ignoreRestSiblings": false } ],
-		"react/jsx-uses-react"    : 2,
-		"react/react-in-jsx-scope": 2,
-		"react/jsx-uses-vars"     : 2,
-		"indent"                  : [
-			"error",
-			"tab"
-		],
-		"linebreak-style"         : [
-			"error",
-			"unix"
-		],
-		"quotes"                  : [
-			"error",
-			"single"
-		],
-		"semi"                    : [
-			"warn",
-			"never"
-		]
+    "prettier/prettier": 'error',
+    "react/prop-types": 1,
 	}
 };
