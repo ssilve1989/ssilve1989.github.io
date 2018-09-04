@@ -17,12 +17,12 @@ const Skills = props => {
       </Skill>
       <Skill className="Skill skill-2" knowledge={85} skill="Back End">
         <p>
-          Java is my strongest back end oriented language, although I know many others including
-          Python, Groovy, PHP, and Node. Learning new languages comes fairly easy to me. Did I
-          mention I have experience with Hadoop?
+          More often than not, I work in a full-stack role and have built systems involving numerous
+          languages. Some of my strongest skills lie in Node.JS and JVM oriented languages like
+          Groovy and Java. Learning new languages comes fairly easy to me.
         </p>
       </Skill>
-      <Skill className="Skill skill-3" knowledge={50} skill="Design">
+      <Skill className="Skill skill-3" knowledge={75} skill="Design">
         <p>
           As a Full Stack Developer for Web Applications, I often find that I also need to propose
           UI/UX solutions as there often may not be a dedicated person available.
