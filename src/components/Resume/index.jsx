@@ -25,9 +25,30 @@ const Resume = props => {
           Experiences
         </h2>
         <section className="job">
+          <h4>TruMid</h4>
+          <div className="job-meta">
+            <span className="job-date">Jan 2018 - Present</span>
+            <span className="job-title">JavaScript Engineer</span>
+            <span className="job-location">Remote</span>
+          </div>
+          <div className="job-description">
+            <p>
+              As a full-stack JavaScript engineer for Trumid, I worked on the main platform of
+              applications including the Trumid Apps Market Center and Trading Center.
+            </p>
+            <p>
+              Separately I worked led a team creating customized a Risk Asset Management system for
+              clients that tracked various metrics intra-day to help show real-time risk for PNL and
+              other areas. This system scales to large volume data coming through WebSockets and
+              MongoDB change streams, leveraging multiple microservices to handle tasks from alert
+              management to bond price calculations and more.
+            </p>
+          </div>
+        </section>
+        <section className="job">
           <h4>TuringsCraft</h4>
           <div className="job-meta">
-            <span className="job-date">Feb 2016 - Present</span>
+            <span className="job-date">Feb 2016 - Jan 2018</span>
             <span className="job-title">Software Engineer</span>
             <span className="job-location">Brooklyn, New York</span>
           </div>
