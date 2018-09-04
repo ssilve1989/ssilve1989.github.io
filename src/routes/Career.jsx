@@ -4,9 +4,15 @@ import ScrollTop from '../components/ScrollTop';
 
 const timeline = [
   {
+    company: 'TruMid',
+    position: 'JavaScript Engineer',
+    time: 'Jan 2018 - Present',
+    icon: 'fa fa-line-chart',
+  },
+  {
     company: 'TuringsCraft Inc.',
     position: 'Software Engineer',
-    time: 'Feb 2016 - Present',
+    time: 'Feb 2016 - Jan 2018',
     icon: 'fa fa-code',
   },
   {
