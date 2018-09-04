@@ -9,7 +9,19 @@ const Experience = props => {
       <h1>Pro. Experience</h1>
       <ul className="career-list">
         <li>
-          <small>02/2016 - Present</small>
+          <small>01/2018 - Present</small>
+          <a
+            href="http://www.trumid.com"
+            target="_blank"
+            className="text-uppercase"
+            rel="noopener noreferrer"
+          >
+            TruMid
+          </a>
+          <p>JavaScript Engineer</p>
+        </li>
+        <li>
+          <small>02/2016 - 01/2018</small>
           <a
             href="http://www.turingscraft.com"
             target="_blank"
@@ -31,18 +43,6 @@ const Experience = props => {
             Digital Reasoning
           </a>
           <p>Professional Services Engineer</p>
-        </li>
-        <li>
-          <small>10/2014-08/2015</small>
-          <a
-            href="https://www.mountsinaihealth.org"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-uppercase"
-          >
-            Mount Sinai Health System
-          </a>
-          <p>Senior Web Applications Developer</p>
         </li>
         <li>
           <Link to="/career">
