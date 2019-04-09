@@ -15,7 +15,7 @@ const Skills = props => {
           technologies.
         </p>
       </Skill>
-      <Skill className="Skill skill-2" knowledge={85} skill="Back End">
+      <Skill className="Skill skill-2" knowledge={95} skill="Back End">
         <p>
           More often than not, I work in a full-stack role and have built systems involving numerous
           languages. Some of my strongest skills lie in Node.JS and JVM oriented languages like

@@ -11,5 +11,6 @@
 }
 
 .circle-text {
-	stroke : #ffffff;
+  stroke : #ffffff;
+  fill: #fff
 }
