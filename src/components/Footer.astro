@@ -1,0 +1,136 @@
+---
+// Footer component with contact info and social links
+---
+
+<footer class="footer-area container-fluid">
+  <div class="row">
+    <div class="col-sm-6 col-md-4">
+      <h4>Steve Silvestri</h4>
+      <p>Software Engineer, JavaScript Developer</p>
+      <small>&copy; Steven Silvestri 2024</small>
+    </div>
+    <div class="col-sm-6 col-md-4">
+      <h4>Download CV</h4>
+      <p>
+        <a
+          rel="noopener noreferrer"
+          href="https://drive.google.com/open?id=0B-QjQxm8doHNeW0xUWVjWUE0V1E"
+          target="_blank"
+        >
+          <i class="fa fa-arrow-circle-o-down"></i>
+          &nbsp; Download
+        </a>
+      </p>
+    </div>
+    <div class="col-sm-6 col-md-4">
+      <h4>Follow me at</h4>
+      <ul class="social-media">
+        <li class="social-icon">
+          <a href="https://www.github.com/ssilve1989" target="_blank" rel="noopener noreferrer">
+            <i class="fa fa-2x fa-github"></i>
+          </a>
+        </li>
+        <li class="social-icon">
+          <a href="http://www.facebook.com/steve.silvestri.33" target="_blank" rel="noopener noreferrer">
+            <i class="fa fa-2x fa-facebook-square"></i>
+          </a>
+        </li>
+        <li class="social-icon">
+          <a href="https://www.twitter.com/jsx1080" target="_blank" rel="noopener noreferrer">
+            <i class="fa fa-2x fa-twitter"></i>
+          </a>
+        </li>
+        <li class="social-icon">
+          <a href="http://www.instagram.com/jsx1080" target="_blank" rel="noopener noreferrer">
+            <i class="fa fa-2x fa-instagram"></i>
+          </a>
+        </li>
+        <li class="social-icon">
+          <a href="http://www.linkedin.com/in/stevensilvestri" target="_blank" rel="noopener noreferrer">
+            <i class="fa fa-2x fa-linkedin"></i>
+          </a>
+        </li>
+        <li class="social-icon">
+          <a href="http://www.soundcloud.com/stevesilvestri" target="_blank" rel="noopener noreferrer">
+            <i class="fa fa-2x fa-soundcloud"></i>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer-area {
+    padding: 1em;
+    background-color: var(--bg-gray);
+    color: #ffffff;
+    grid-area: footer;
+  }
+
+  .footer-area h4 {
+    margin-bottom: 1em;
+    color: #ffffff;
+  }
+
+  .footer-area p {
+    margin-bottom: 0.5em;
+  }
+
+  .footer-area a {
+    color: #ffffff;
+    text-decoration: none;
+  }
+
+  .footer-area a:hover {
+    opacity: 0.8;
+  }
+
+  .social-media {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1em;
+  }
+
+  .social-icon a {
+    display: inline-block;
+    transition: transform 0.3s ease;
+  }
+
+  .social-icon a:hover {
+    transform: scale(1.1);
+  }
+
+  /* Bootstrap-like grid system for layout */
+  .container-fluid {
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+  }
+
+  .col-sm-6, .col-md-4 {
+    position: relative;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-bottom: 2em;
+  }
+
+  @media (min-width: 576px) {
+    .col-sm-6 { flex: 0 0 50%; max-width: 50%; }
+  }
+
+  @media (min-width: 768px) {
+    .col-md-4 { flex: 0 0 33.333333%; max-width: 33.333333%; }
+  }
+</style> 

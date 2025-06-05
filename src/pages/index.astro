@@ -1,0 +1,150 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import About from '../components/About.astro';
+import Experience from '../components/Experience.astro';
+import Skills from '../components/Skills.astro';
+import Projects from '../components/Projects.astro';
+import Contact from '../components/Contact.astro';
+import ThemeToggle from '../components/ThemeToggle.astro';
+
+// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
+// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+---
+
+<BaseLayout title="Steven Silvestri - Full Stack Developer">
+  <!-- Fixed theme toggle -->
+  <ThemeToggle />
+  
+  <!-- Hero Section -->
+  <section class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-blue-900">
+    <Hero />
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="py-20 bg-white dark:bg-gray-800">
+    <div class="container mx-auto px-6">
+      <About />
+    </div>
+  </section>
+
+  <!-- Experience Section -->
+  <section id="experience" class="py-20 bg-gray-50 dark:bg-gray-900">
+    <div class="container mx-auto px-6">
+      <Experience />
+    </div>
+  </section>
+
+  <!-- Skills Section -->
+  <section id="skills" class="py-20 bg-white dark:bg-gray-800">
+    <div class="container mx-auto px-6">
+      <Skills />
+    </div>
+  </section>
+
+  <!-- Projects Section -->
+  <section id="projects" class="py-20 bg-gray-50 dark:bg-gray-900">
+    <div class="container mx-auto px-6">
+      <Projects />
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="py-20 bg-gradient-to-br from-blue-600 to-purple-700 text-white">
+    <div class="container mx-auto px-6">
+      <Contact />
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .grid-container {
+    display: grid;
+    grid-template-rows: auto;
+    justify-items: stretch;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: 
+      "logo logo" 
+      "title title" 
+      "download download" 
+      "position position" 
+      "linkedin linkedin" 
+      "nav nav" 
+      "route-container route-container" 
+      "footer footer";
+  }
+
+  @media screen and (min-width: 576px) {
+    .grid-container {
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      grid-template-areas: 
+        "logo logo logo logo" 
+        "title title title download" 
+        "position position position linkedin" 
+        "nav nav nav nav" 
+        "route-container route-container route-container route-container" 
+        "footer footer footer footer";
+    }
+  }
+
+  @media screen and (min-width: 768px) {
+    .grid-container {
+      grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+      grid-template-areas: 
+        "logo title title title download" 
+        "logo position position position linkedin" 
+        "logo nav nav nav nav" 
+        "route-container route-container route-container route-container route-container" 
+        "footer footer footer footer footer";
+    }
+  }
+
+  .route-container {
+    grid-area: route-container;
+  }
+
+  .home-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    grid-template-areas: 
+      "about-me" 
+      "exp" 
+      "skills" 
+      "spotlight";
+  }
+
+  @media screen and (min-width: 768px) {
+    .home-grid {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto;
+      grid-template-areas: 
+        "about-me exp" 
+        "skills spotlight";
+    }
+  }
+
+  @media screen and (min-width: 992px) {
+    .home-grid {
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-rows: auto;
+      grid-template-areas: 
+        "about-me exp skills" 
+        "spotlight spotlight spotlight";
+    }
+  }
+
+  @media screen and (min-width: 1020px) {
+    .home-grid {
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      grid-template-rows: auto;
+      grid-template-areas: 
+        "about-me exp skills spotlight";
+    }
+  }
+
+  .exp-area { grid-area: exp; }
+  .skills-area { grid-area: skills; }
+  .about-area { grid-area: about-me; }
+  .spotlight-area { grid-area: spotlight; }
+</style>

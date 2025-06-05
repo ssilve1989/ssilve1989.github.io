@@ -1,0 +1,67 @@
+---
+export interface Props {
+  progress: number;
+  text: string;
+  radius?: number;
+  strokeWidth?: number;
+}
+
+const { 
+  progress, 
+  text, 
+  radius = 50, 
+  strokeWidth = 2 
+} = Astro.props;
+
+const dashArray = radius * Math.PI * 2;
+const dashOffset = dashArray - (dashArray * progress) / 100;
+---
+
+<svg class="progress-circle" width={100} height={100} viewBox="0 0 100 100">
+  <circle
+    class="circle circle-fg"
+    cx={radius}
+    cy={radius}
+    r={radius - 1}
+    stroke-width={`${strokeWidth}px`}
+  />
+  <circle
+    class="circle circle-bg"
+    cx={radius}
+    cy={radius}
+    r={radius - 1}
+    stroke-dasharray={dashArray}
+    stroke-dashoffset={dashOffset}
+    stroke-width={`${strokeWidth}px`}
+    transform="rotate(-90 50 50)"
+  />
+  <text class="circle-text" x={radius} y={radius} dy=".4em" text-anchor="middle">
+    {text}
+  </text>
+</svg>
+
+<style>
+  .progress-circle {
+    margin-bottom: 1em;
+    color: #ffffff;
+  }
+
+  .circle {
+    fill: none;
+  }
+
+  .circle-fg {
+    stroke: #999999;
+  }
+
+  .circle-bg {
+    stroke: #ffffff;
+  }
+
+  .circle-text {
+    stroke: #ffffff;
+    fill: #fff;
+    font-size: 14px;
+    font-weight: bold;
+  }
+</style> 

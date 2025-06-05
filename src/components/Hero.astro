@@ -1,0 +1,75 @@
+---
+// Hero component - modern redesign
+---
+
+<div class="container mx-auto px-6 py-20 text-center">
+  <!-- Main heading with modern typography -->
+  <div class="mb-8">
+    <h1 class="text-5xl md:text-7xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 bg-clip-text text-transparent mb-6 leading-tight">
+      Steven Silvestri
+    </h1>
+    <div class="text-xl md:text-2xl text-gray-600 dark:text-gray-300 font-light">
+      <span class="block mb-2">Full Stack Developer</span>
+      <div class="h-8 overflow-hidden">
+        <div class="animate-text-scroll">
+          <div class="h-8 flex items-center justify-center">Building modern web experiences</div>
+          <div class="h-8 flex items-center justify-center">Crafting scalable applications</div>
+          <div class="h-8 flex items-center justify-center">Solving complex problems</div>
+          <div class="h-8 flex items-center justify-center">Creating intuitive interfaces</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Short bio -->
+  <p class="text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto mb-12 leading-relaxed">
+    Passionate about creating exceptional digital experiences using modern technologies. 
+    Specializing in React, TypeScript, and cloud-native solutions.
+  </p>
+
+  <!-- Action buttons -->
+  <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
+    <a 
+      href="#contact" 
+      class="px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300"
+    >
+      Get In Touch
+    </a>
+    
+    <a 
+      href="/resume" 
+      target="_blank"
+      class="px-8 py-4 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:border-blue-500 dark:hover:border-blue-400 font-semibold rounded-full hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300"
+    >
+      <span class="flex items-center gap-2">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+        </svg>
+        View Resume
+      </span>
+    </a>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="animate-bounce">
+    <a href="#about" class="inline-block p-2 text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+      </svg>
+    </a>
+  </div>
+</div>
+
+<style>
+  @keyframes text-scroll {
+    0%, 20% { transform: translateY(0); }
+    25%, 45% { transform: translateY(-25%); }
+    50%, 70% { transform: translateY(-50%); }
+    75%, 95% { transform: translateY(-75%); }
+    100% { transform: translateY(-100%); }
+  }
+  
+  .animate-text-scroll {
+    animation: text-scroll 8s infinite;
+  }
+</style> 

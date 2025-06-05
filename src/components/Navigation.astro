@@ -1,0 +1,127 @@
+---
+// Navigation component with responsive grid layout
+---
+
+<nav class="nav-area">
+  <ul class="navigation-grid">
+    <li class="home-area">
+      <a 
+        class="icon-box bg-orange hvr-shutter-out-horizontal"
+        href="/"
+        title="Home"
+      >
+        <i class="fa fa-4x fa-home"></i>
+        <span>Home</span>
+      </a>
+    </li>
+    <li class="resume-area">
+      <a 
+        class="icon-box bg-blue hvr-shutter-out-horizontal"
+        href="/resume"
+        title="Resume"
+      >
+        <i class="fa fa-4x fa-list-alt"></i>
+        <span>Resume</span>
+      </a>
+    </li>
+    <li class="career-area">
+      <a 
+        class="icon-box bg-red hvr-shutter-out-horizontal"
+        href="/career"
+        title="Career"
+      >
+        <i class="fa fa-4x fa-folder-open"></i>
+        <span>Career</span>
+      </a>
+    </li>
+    <li class="github-area">
+      <a 
+        class="icon-box bg-purple hvr-shutter-out-horizontal"
+        href="https://www.github.com/ssilve1989"
+        target="_blank"
+        rel="noopener noreferrer"
+        title="GitHub"
+      >
+        <i class="fa fa-4x fa-github"></i>
+        <span>GitHub</span>
+      </a>
+    </li>
+  </ul>
+</nav>
+
+<style>
+  .nav-area {
+    grid-area: nav;
+  }
+
+  .navigation-grid {
+    display: grid;
+    grid-template-rows: auto;
+    height: 100%;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: 
+      "home resume" 
+      "career github";
+  }
+
+  @media screen and (min-width: 576px) {
+    .navigation-grid {
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      grid-template-areas: "home resume career github";
+    }
+  }
+
+  .home-area { grid-area: home; }
+  .resume-area { grid-area: resume; }
+  .career-area { grid-area: career; }
+  .github-area { grid-area: github; }
+
+  .icon-box {
+    color: #f2f2f2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    flex-flow: column;
+    padding: 1em;
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .icon-box:hover {
+    text-decoration: none;
+    color: #f2f2f2;
+  }
+
+  .icon-box span {
+    margin-top: 0.5em;
+    font-size: 0.9em;
+  }
+
+  /* Shutter effect */
+  .hvr-shutter-out-horizontal {
+    position: relative;
+    transition: all 0.3s;
+  }
+
+  .hvr-shutter-out-horizontal:before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.1);
+    transform: scaleX(0);
+    transform-origin: 50%;
+    transition: transform 0.3s ease-out;
+  }
+
+  .hvr-shutter-out-horizontal:hover:before {
+    transform: scaleX(1);
+  }
+</style> 

@@ -1,0 +1,394 @@
+---
+import { getCollection } from 'astro:content';
+
+// Get all data from content collections
+const experiences = await getCollection('experience');
+const skillsData = await getCollection('skills');
+
+// Sort experiences by start date (most recent first)
+const sortedExperiences = experiences.sort((a, b) => {
+  return new Date(b.data.startDate).getTime() - new Date(a.data.startDate).getTime();
+});
+
+// Personal information
+const personalInfo = {
+  name: "Steven Silvestri",
+  title: "Principal Software Engineer",
+  email: "ssilve1989@gmail.com",
+  linkedin: "https://www.linkedin.com/in/steven-silvestri-65734780/",
+  github: "https://github.com/ssilve1989",
+  website: "https://ssilve1989.github.io"
+};
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{personalInfo.name} - Resume</title>
+  <style>
+    /* Reset and base styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background: white;
+      font-size: 14px;
+    }
+    
+    .resume {
+      max-width: 8.5in;
+      margin: 0 auto;
+      padding: 0.75in;
+      min-height: 11in;
+    }
+    
+    /* Header */
+    .header {
+      text-align: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid #2563eb;
+    }
+    
+    .name {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: #1e40af;
+      margin-bottom: 0.5rem;
+    }
+    
+    .title {
+      font-size: 1.2rem;
+      color: #6b7280;
+      margin-bottom: 1rem;
+    }
+    
+    .contact-info {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      font-size: 0.9rem;
+    }
+    
+    .contact-info a {
+      color: #2563eb;
+      text-decoration: none;
+    }
+    
+    /* Section styles */
+    .section {
+      margin-bottom: 2rem;
+    }
+    
+    .section-title {
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: #1e40af;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid #e5e7eb;
+      padding-bottom: 0.25rem;
+    }
+    
+    /* Experience styles */
+    .experience-item {
+      margin-bottom: 1.5rem;
+      page-break-inside: avoid;
+    }
+    
+    .experience-header {
+      display: flex;
+      justify-content: between;
+      align-items: flex-start;
+      margin-bottom: 0.5rem;
+    }
+    
+    .position {
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: #1f2937;
+    }
+    
+    .company {
+      font-size: 1rem;
+      color: #2563eb;
+      font-weight: 600;
+    }
+    
+    .date-location {
+      font-size: 0.9rem;
+      color: #6b7280;
+      text-align: right;
+      flex-shrink: 0;
+      margin-left: auto;
+    }
+    
+    .description {
+      margin: 0.75rem 0;
+      color: #4b5563;
+    }
+    
+    .achievements {
+      margin: 0.75rem 0;
+    }
+    
+    .achievements ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    
+    .achievements li {
+      margin-bottom: 0.25rem;
+      padding-left: 1rem;
+      position: relative;
+    }
+    
+    .achievements li::before {
+      content: "•";
+      color: #2563eb;
+      font-weight: bold;
+      position: absolute;
+      left: 0;
+    }
+    
+    .technologies {
+      margin-top: 0.75rem;
+    }
+    
+    .tech-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.25rem;
+    }
+    
+    .tech-item {
+      background: #f3f4f6;
+      color: #374151;
+      padding: 0.125rem 0.5rem;
+      border-radius: 0.25rem;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+    
+    /* Skills styles */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+    }
+    
+    .skill-category {
+      page-break-inside: avoid;
+    }
+    
+    .skill-category-title {
+      font-size: 1rem;
+      font-weight: bold;
+      color: #1f2937;
+      margin-bottom: 0.75rem;
+    }
+    
+    .skill-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+    
+    .skill-name {
+      font-size: 0.9rem;
+      color: #374151;
+    }
+    
+    .skill-level {
+      font-size: 0.8rem;
+      color: #6b7280;
+      font-weight: 600;
+    }
+    
+    /* Print styles */
+    @media print {
+      body {
+        font-size: 12px;
+      }
+      
+      .resume {
+        padding: 0.5in;
+        box-shadow: none;
+      }
+      
+      .no-print {
+        display: none;
+      }
+      
+      .page-break {
+        page-break-before: always;
+      }
+      
+      a {
+        color: inherit !important;
+        text-decoration: none !important;
+      }
+    }
+    
+    @page {
+      margin: 0.5in;
+      size: letter;
+    }
+    
+    /* Download button */
+    .download-btn {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      background: #2563eb;
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      font-weight: 600;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+    }
+    
+    .download-btn:hover {
+      background: #1d4ed8;
+    }
+  </style>
+</head>
+<body>
+  <button class="download-btn no-print" onclick="window.print()">
+    📄 Download PDF
+  </button>
+  
+  <div class="resume">
+    <!-- Header -->
+    <header class="header">
+      <h1 class="name">{personalInfo.name}</h1>
+      <div class="title">{personalInfo.title}</div>
+      <div class="contact-info">
+        <span>{personalInfo.email}</span>
+        <a href={personalInfo.linkedin}>LinkedIn</a>
+        <a href={personalInfo.github}>GitHub</a>
+      </div>
+    </header>
+
+    <!-- Professional Summary -->
+    <section class="section">
+      <h2 class="section-title">Professional Summary</h2>
+      <p class="description">
+        Principal Software Engineer specializing in scalable microservices architecture and developer experience optimization. 
+        Expertise in developing highly scalable gRPC microservices in Node.js, managing developer experience ecosystems, 
+        and leveraging modern AI tools to dramatically increase team productivity. Proven track record in establishing 
+        best practices for TypeScript and RxJS implementation across organizations.
+      </p>
+    </section>
+
+    <!-- Professional Experience -->
+    <section class="section">
+      <h2 class="section-title">Professional Experience</h2>
+      {sortedExperiences.map((experience, index) => {
+        const startDate = experience.data.startDate.toLocaleDateString('en-US', { 
+          month: 'short', 
+          year: 'numeric',
+          timeZone: 'UTC'
+        });
+        const endDate = experience.data.current 
+          ? 'Present' 
+          : experience.data.endDate 
+            ? experience.data.endDate.toLocaleDateString('en-US', { 
+                month: 'short', 
+                year: 'numeric',
+                timeZone: 'UTC'
+              })
+            : 'Present';
+            
+        return (
+          <div class="experience-item">
+            <div class="experience-header">
+              <div>
+                <div class="position">{experience.data.position}</div>
+                <div class="company">{experience.data.company}</div>
+              </div>
+              <div class="date-location">
+                <div>{startDate} - {endDate}</div>
+                <div>{experience.data.location}</div>
+              </div>
+            </div>
+            
+            <div class="description">
+              {experience.data.description}
+            </div>
+            
+            {experience.data.achievements && experience.data.achievements.length > 0 && (
+              <div class="achievements">
+                <ul>
+                  {experience.data.achievements.map((achievement) => (
+                    <li>{achievement}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            
+            <div class="technologies">
+              <strong>Technologies:</strong>
+              <div class="tech-list">
+                {experience.data.technologies.map((tech) => (
+                  <span class="tech-item">{tech}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </section>
+
+    <!-- Technical Skills -->
+    <section class="section">
+      <h2 class="section-title">Technical Skills</h2>
+      <div class="skills-grid">
+        {skillsData.map((category) => (
+          <div class="skill-category">
+            <h3 class="skill-category-title">{category.data.category}</h3>
+            {category.data.skills.map((skill) => (
+              <div class="skill-item">
+                <span class="skill-name">{skill.name}</span>
+                <span class="skill-level">{skill.level}%</span>
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Education -->
+    <section class="section">
+      <h2 class="section-title">Education</h2>
+      <div class="experience-item">
+        <div class="experience-header">
+          <div>
+            <div class="position">Bachelor of Science in Computer Information Systems</div>
+            <div class="company">Brooklyn College</div>
+          </div>
+          <div class="date-location">
+            <div>2007 - 2013</div>
+            <div>Brooklyn, NY</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</body>
+</html> 

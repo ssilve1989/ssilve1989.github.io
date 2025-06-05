@@ -1,0 +1,106 @@
+import { getCollection } from 'astro:content';
+
+// Get featured projects
+const allProjects = await getCollection('projects');
+const featuredProjects = allProjects.filter(project => project.data.featured);
+
+// Fallback npm packages if no projects are marked as featured
+const npmPackages = [
+  {
+    name: 'Redux Session Manager',
+    link: 'https://www.npmjs.com/package/redux-session-manager',
+  },
+  {
+    name: 'React Redux Dialog',
+    link: 'https://www.npmjs.com/package/react-redux-dialog',
+  },
+  {
+    name: 'Flux Standard Error',
+    link: 'https://www.npmjs.com/package/flux-standard-error',
+  },
+];
+
+const projectsToShow = featuredProjects.length > 0 
+  ? featuredProjects.map(project => ({ 
+      name: project.data.title, 
+      link: project.data.link || project.data.github 
+    }))
+  : npmPackages;
+
+<section class="spotlight">
+  <header class="text-center">
+    <h1>Spotlight</h1>
+    <i class="fa fa-4x fa-code-fork"></i>
+    <h5>Open Source Development</h5>
+  </header>
+  <ul>
+    {projectsToShow.map((item) => (
+      <li>
+        <a href={item.link} target="_blank" rel="noopener noreferrer">
+          {item.name}
+        </a>
+      </li>
+    ))}
+  </ul>
+</section>
+
+<style>
+  .spotlight {
+    color: #ffffff;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1em;
+  }
+
+  .spotlight header {
+    text-align: center;
+    margin-bottom: 2em;
+  }
+
+  .spotlight h1 {
+    margin-bottom: 0.5em;
+  }
+
+  .spotlight h5 {
+    margin-top: 1em;
+    color: var(--gray);
+  }
+
+  .spotlight i {
+    color: var(--orange);
+    margin: 1em 0;
+  }
+
+  .spotlight ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .spotlight ul li {
+    margin: 1em 0;
+    text-align: center;
+  }
+
+  .spotlight ul li a {
+    color: inherit;
+    text-decoration: none;
+    font-size: 1.1em;
+    font-weight: 500;
+    padding: 0.5em 1em;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    display: inline-block;
+  }
+
+  .spotlight ul li a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+  }
+
+  .text-center {
+    text-align: center;
+  }
+</style> 

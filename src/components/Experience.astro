@@ -1,0 +1,181 @@
+---
+import { getCollection } from 'astro:content';
+
+const experiences = await getCollection('experience');
+// Sort by start date, most recent first
+const sortedExperiences = experiences.sort((a, b) => {
+  const dateA = a.data.startDate;
+  const dateB = b.data.startDate;
+  return dateB.getTime() - dateA.getTime();
+});
+---
+
+<div class="max-w-4xl mx-auto">
+  <div class="text-center mb-16">
+    <h2 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+      Professional Experience
+    </h2>
+    <p class="text-xl text-gray-600 dark:text-gray-300">
+      My journey in software development and engineering
+    </p>
+  </div>
+
+  <div class="space-y-8">
+    {sortedExperiences.map((experience) => (
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-xl transition-shadow duration-300">
+        <div class="p-8">
+          <!-- Company and Position -->
+          <div class="flex flex-col md:flex-row md:items-start md:justify-between mb-4">
+            <div>
+              <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+                {experience.data.position}
+              </h3>
+              <div class="flex items-center gap-2 text-lg text-blue-600 dark:text-blue-400 mb-2">
+                {experience.data.website ? (
+                  <a 
+                    href={experience.data.website} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    class="hover:underline"
+                  >
+                    {experience.data.company}
+                  </a>
+                ) : (
+                  <span>{experience.data.company}</span>
+                )}
+                <span class="text-gray-400">•</span>
+                <span class="text-gray-600 dark:text-gray-400">{experience.data.location}</span>
+              </div>
+            </div>
+            
+            <!-- Date Range -->
+            <div class="text-sm text-gray-500 dark:text-gray-400 md:text-right">
+              <div class="bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full">
+                {experience.data.startDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric', timeZone: 'UTC' })}
+                {' - '}
+                {experience.data.current 
+                  ? 'Present' 
+                  : experience.data.endDate?.toLocaleDateString('en-US', { month: 'short', year: 'numeric', timeZone: 'UTC' }) || 'Present'
+                }
+              </div>
+            </div>
+          </div>
+
+          <!-- Description -->
+          <p class="text-gray-700 dark:text-gray-300 mb-6 leading-relaxed">
+            {experience.data.description}
+          </p>
+
+          <!-- Achievements -->
+          {experience.data.achievements && experience.data.achievements.length > 0 && (
+            <div class="mb-6">
+              <h4 class="text-lg font-semibold text-gray-900 dark:text-white mb-3">Key Achievements</h4>
+              <ul class="space-y-2">
+                {experience.data.achievements.map((achievement) => (
+                  <li class="flex items-start gap-3">
+                    <div class="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
+                    <span class="text-gray-700 dark:text-gray-300">{achievement}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          <!-- Technologies -->
+          <div>
+            <h4 class="text-lg font-semibold text-gray-900 dark:text-white mb-3">Technologies Used</h4>
+            <div class="flex flex-wrap gap-2">
+              {experience.data.technologies.map((tech) => (
+                <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium">
+                  {tech}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+  
+  <!-- View Full Timeline -->
+  <div class="text-center mt-12">
+    <a 
+      href="/career" 
+      class="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors"
+    >
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+      </svg>
+      View Full Career Timeline
+    </a>
+  </div>
+</div>
+
+<style>
+  .experience {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    color: hsla(0, 0%, 100%, 0.7);
+    padding: 1em;
+  }
+
+  .experience h1 {
+    color: #ffffff;
+  }
+
+  .experience ul li a {
+    display: block;
+    font-size: 18px;
+    color: #ffffff;
+  }
+
+  .career-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .career-list li {
+    margin-bottom: 1.5em;
+    text-align: center;
+  }
+
+  .career-list li small {
+    display: block;
+    margin-bottom: 0.5em;
+    color: var(--gray);
+  }
+
+  .career-list li a {
+    text-decoration: none;
+    font-weight: bold;
+    margin-bottom: 0.25em;
+  }
+
+  .career-list li a:hover {
+    opacity: 0.8;
+  }
+
+  .career-list li p {
+    margin: 0.25em 0 0 0;
+    font-style: italic;
+  }
+
+  .career-list li:last-child {
+    margin-top: 2em;
+  }
+
+  .career-list li:last-child a {
+    color: var(--gray);
+    transition: color 0.3s ease;
+  }
+
+  .career-list li:last-child a:hover {
+    color: #ffffff;
+  }
+
+  .text-uppercase {
+    text-transform: uppercase;
+  }
+</style> 

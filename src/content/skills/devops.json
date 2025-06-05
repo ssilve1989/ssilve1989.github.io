@@ -1,0 +1,35 @@
+{
+  "category": "DevOps & Cloud",
+  "skills": [
+    {
+      "name": "Docker / Kubernetes",
+      "level": 85,
+      "years": 4,
+      "description": "Containerization, orchestration, service mesh, Helm charts"
+    },
+    {
+      "name": "AWS Cloud Services",
+      "level": 80,
+      "years": 3,
+      "description": "ECS, Lambda, API Gateway, RDS, S3, CloudFormation"
+    },
+    {
+      "name": "CI/CD Pipelines",
+      "level": 85,
+      "years": 5,
+      "description": "GitHub Actions, Jenkins, automated testing, deployment strategies"
+    },
+    {
+      "name": "Bazel Build System",
+      "level": 85,
+      "years": 3,
+      "description": "Custom rules and macros, polyglot builds, remote execution, BUILD file optimization"
+    },
+    {
+      "name": "Monitoring & Observability",
+      "level": 70,
+      "years": 3,
+      "description": "Prometheus, Grafana, distributed tracing, logging strategies"
+    }
+  ]
+} 

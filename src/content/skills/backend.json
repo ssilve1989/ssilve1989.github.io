@@ -1,0 +1,35 @@
+{
+  "category": "Backend & Microservices",
+  "skills": [
+    {
+      "name": "Node.js / Nest.JS",
+      "level": 95,
+      "years": 6,
+      "description": "Enterprise applications, dependency injection, decorators, middleware"
+    },
+    {
+      "name": "Microservices Architecture",
+      "level": 90,
+      "years": 4,
+      "description": "Service decomposition, API gateways, event-driven design, distributed systems"
+    },
+    {
+      "name": "gRPC / Protocol Buffers",
+      "level": 85,
+      "years": 3,
+      "description": "High-performance RPC, schema definition, streaming, service mesh integration"
+    },
+    {
+      "name": "REST APIs / GraphQL",
+      "level": 90,
+      "years": 5,
+      "description": "RESTful design, OpenAPI, GraphQL schema design, real-time subscriptions"
+    },
+    {
+      "name": "Database Design",
+      "level": 85,
+      "years": 6,
+      "description": "PostgreSQL, MongoDB, Redis, query optimization, data modeling"
+    }
+  ]
+} 
