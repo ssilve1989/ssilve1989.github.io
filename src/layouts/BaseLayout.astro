@@ -94,6 +94,24 @@ const canonicalURL = canonical || new URL(Astro.url.pathname, Astro.site);
       
       window.localStorage.setItem('theme', theme!);
     </script>
+
+    <!-- Service Worker cleanup script -->
+    <script>
+      // Clean up any old service workers from the previous React SPA
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(function(registrations) {
+          for(let registration of registrations) {
+            registration.unregister().then(function(success) {
+              if (success) {
+                console.log('Successfully unregistered old service worker');
+              }
+            });
+          }
+        }).catch(function(err) {
+          console.log('Service Worker unregistration failed: ', err);
+        });
+      }
+    </script>
   </body>
 </html>
 
