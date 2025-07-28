@@ -7,7 +7,7 @@
 	},
 	"files": {
 		"ignoreUnknown": false,
-		"ignore": []
+		"ignore": ["*.astro"]
 	},
 	"formatter": {
 		"enabled": true,
@@ -20,12 +20,12 @@
 		"enabled": true,
 		"rules": {
 			"recommended": true,
-      "correctness": {
+			"correctness": {
 				"all": true
 			},
-      "performance": {
-        "all": true
-      }
+			"performance": {
+				"all": true
+			}
 		}
 	},
 	"javascript": {
@@ -33,17 +33,17 @@
 			"quoteStyle": "double"
 		}
 	},
-  "overrides": [
-    {
-      "include": ["*.astro"],
-      "linter": {
-        "rules": {
-          "style": {
-            "useConst": "off",
-            "useImportType": "off"
-          }
-        }
-      }
-    }
-  ]
+	"overrides": [
+		{
+			"include": ["*.astro"],
+			"linter": {
+				"rules": {
+					"style": {
+						"useConst": "off",
+						"useImportType": "off"
+					}
+				}
+			}
+		}
+	]
 }

@@ -1,35 +1,35 @@
 {
-  "category": "Frontend & Languages",
-  "skills": [
-    {
-      "name": "TypeScript",
-      "level": 95,
-      "years": 5,
-      "description": "Advanced types, generics, decorators, strict typing, modern ES features"
-    },
-    {
-      "name": "React / Next.js",
-      "level": 90,
-      "years": 6,
-      "description": "Hooks, Context, SSR, SSG, Performance optimization, Testing"
-    },
-    {
-      "name": "JavaScript (ES6+)",
-      "level": 90,
-      "years": 8,
-      "description": "Modern ES features, async/await, modules, functional programming"
-    },
-    {
-      "name": "HTML5 / CSS3",
-      "level": 85,
-      "years": 10,
-      "description": "Semantic markup, Grid, Flexbox, CSS-in-JS, Tailwind CSS"
-    },
-    {
-      "name": "Python",
-      "level": 80,
-      "years": 4,
-      "description": "FastAPI, Django, data processing, automation scripts"
-    }
-  ]
-} 
+	"category": "Frontend & Languages",
+	"skills": [
+		{
+			"name": "TypeScript",
+			"level": 95,
+			"years": 5,
+			"description": "Advanced types, generics, decorators, strict typing, modern ES features"
+		},
+		{
+			"name": "React / Next.js",
+			"level": 90,
+			"years": 6,
+			"description": "Hooks, Context, SSR, SSG, Performance optimization, Testing"
+		},
+		{
+			"name": "JavaScript (ES6+)",
+			"level": 90,
+			"years": 8,
+			"description": "Modern ES features, async/await, modules, functional programming"
+		},
+		{
+			"name": "HTML5 / CSS3",
+			"level": 85,
+			"years": 10,
+			"description": "Semantic markup, Grid, Flexbox, CSS-in-JS, Tailwind CSS"
+		},
+		{
+			"name": "Python",
+			"level": 80,
+			"years": 4,
+			"description": "FastAPI, Django, data processing, automation scripts"
+		}
+	]
+}

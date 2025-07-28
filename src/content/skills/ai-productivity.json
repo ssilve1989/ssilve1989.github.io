@@ -1,35 +1,35 @@
 {
-  "category": "AI & Productivity",
-  "skills": [
-    {
-      "name": "AI Agent Customization",
-      "level": 90,
-      "years": 2,
-      "description": "Tailoring AI agents for development workflows and team productivity"
-    },
-    {
-      "name": "Code Generation Tools",
-      "level": 85,
-      "years": 2,
-      "description": "Leveraging AI for automated code generation and refactoring"
-    },
-    {
-      "name": "AI-Driven Code Review",
-      "level": 80,
-      "years": 1,
-      "description": "Implementing AI tools for code quality and review processes"
-    },
-    {
-      "name": "Developer Workflow Automation",
-      "level": 88,
-      "years": 3,
-      "description": "Streamlining development processes with AI-enhanced tooling"
-    },
-    {
-      "name": "Prompt Engineering",
-      "level": 85,
-      "years": 2,
-      "description": "Crafting effective prompts for AI tools and development tasks"
-    }
-  ]
-} 
+	"category": "AI & Productivity",
+	"skills": [
+		{
+			"name": "AI Agent Customization",
+			"level": 90,
+			"years": 2,
+			"description": "Tailoring AI agents for development workflows and team productivity"
+		},
+		{
+			"name": "Code Generation Tools",
+			"level": 85,
+			"years": 2,
+			"description": "Leveraging AI for automated code generation and refactoring"
+		},
+		{
+			"name": "AI-Driven Code Review",
+			"level": 80,
+			"years": 1,
+			"description": "Implementing AI tools for code quality and review processes"
+		},
+		{
+			"name": "Developer Workflow Automation",
+			"level": 88,
+			"years": 3,
+			"description": "Streamlining development processes with AI-enhanced tooling"
+		},
+		{
+			"name": "Prompt Engineering",
+			"level": 85,
+			"years": 2,
+			"description": "Crafting effective prompts for AI tools and development tasks"
+		}
+	]
+}
