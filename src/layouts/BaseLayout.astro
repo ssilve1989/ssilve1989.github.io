@@ -14,6 +14,7 @@ const {
 } = Astro.props;
 
 const canonicalURL = canonical || new URL(Astro.url.pathname, Astro.site);
+import "../global.css";
 ---
 
 <!doctype html>
