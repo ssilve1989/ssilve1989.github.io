@@ -1,31 +1,32 @@
 {
-	"name": "ssilve1989.github.io",
-	"type": "module",
-	"version": "0.0.1",
-	"scripts": {
-		"dev": "astro dev",
-		"build": "astro build",
-		"preview": "astro preview",
-		"astro": "astro"
-	},
-	"dependencies": {
-		"@astrojs/sitemap": "^3.4.2",
-		"@fontsource/dosis": "^5.2.6",
-		"@fontsource/roboto": "^5.2.6",
-		"@tailwindcss/vite": "^4.1.11",
-		"astro": "^5.12.4",
-		"tailwindcss": "^4.1.11"
-	},
-	"pnpm": {
-		"onlyBuiltDependencies": [
-			"@biomejs/biome",
-			"@tailwindcss/oxide",
-			"esbuild",
-			"sharp"
-		]
-	},
-	"devDependencies": {
-		"@biomejs/biome": "^2.1.2",
-		"typescript": "^5.8.3"
-	}
+  "name": "ssilve1989.github.io",
+  "type": "module",
+  "version": "0.0.1",
+  "packageManager": "pnpm@10.17.1",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.6.0",
+    "@fontsource/dosis": "^5.2.8",
+    "@fontsource/roboto": "^5.2.8",
+    "@tailwindcss/vite": "^4.1.13",
+    "astro": "^5.14.1",
+    "tailwindcss": "^4.1.13"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@biomejs/biome",
+      "@tailwindcss/oxide",
+      "esbuild",
+      "sharp"
+    ]
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.2.4",
+    "typescript": "^5.9.2"
+  }
 }
