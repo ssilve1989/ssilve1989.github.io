@@ -1,7 +1,11 @@
 ---
 import { getCollection } from 'astro:content';
 
-const projects = await getCollection('projects');
+const allProjects = await getCollection('projects');
+const openSourceProjects = allProjects.filter((project) => project.data.type === 'opensource');
+const otherProjects = allProjects.filter((project) => project.data.type !== 'opensource');
+
+const projects = [...openSourceProjects, ...otherProjects];
 ---
 
 <div class="max-w-6xl mx-auto">
