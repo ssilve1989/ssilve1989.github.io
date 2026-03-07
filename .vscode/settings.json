@@ -1,0 +1,16 @@
+{
+	"biome.enabled": true,
+	"editor.codeActionsOnSave": {
+		"source.organizeImports.biome": "explicit",
+		"source.fixAll.biome": "explicit"
+	},
+	"typescript.tsdk": "node_modules/typescript/lib",
+	"typescript.preferences.preferTypeOnlyAutoImports": true,
+	"typescript.updateImportsOnFileMove.enabled": "always",
+	"[json]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[typescript]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	}
+}
