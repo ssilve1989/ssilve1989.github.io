@@ -1,7 +1,9 @@
-import { defineCollection, z } from "astro:content";
+import { defineCollection } from "astro:content";
+import { z } from "zod";
+import { glob } from "astro/loaders";
 
 const experienceCollection = defineCollection({
-	type: "content",
+	loader: glob({ pattern: "**/*.md", base: "./src/content/experience" }),
 	schema: z.object({
 		company: z.string(),
 		position: z.string(),
@@ -13,12 +15,12 @@ const experienceCollection = defineCollection({
 		technologies: z.array(z.string()),
 		achievements: z.array(z.string()).optional(),
 		icon: z.string().optional(),
-		website: z.string().url().optional(),
+		website: z.url().optional(),
 	}),
 });
 
 const skillsCollection = defineCollection({
-	type: "data",
+	loader: glob({ pattern: "**/*.json", base: "./src/content/skills" }),
 	schema: z.object({
 		category: z.string(),
 		skills: z.array(
@@ -33,13 +35,13 @@ const skillsCollection = defineCollection({
 });
 
 const projectsCollection = defineCollection({
-	type: "content",
+	loader: glob({ pattern: "**/*.md", base: "./src/content/projects" }),
 	schema: z.object({
 		title: z.string(),
 		description: z.string(),
 		technologies: z.array(z.string()),
-		link: z.string().url().optional(),
-		github: z.string().url().optional(),
+		link: z.url().optional(),
+		github: z.url().optional(),
 		featured: z.boolean().default(false),
 		image: z.string().optional(),
 		type: z
