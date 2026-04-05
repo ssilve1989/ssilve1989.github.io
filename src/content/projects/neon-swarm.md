@@ -5,4 +5,5 @@ technologies: ["TypeScript", "Canvas", "PixiJS"]
 link: "http://neon-swarm.fly.dev"
 featured: false
 type: "professional"
+image: "/images/projects/neon-swarm-landing.png"
 ---

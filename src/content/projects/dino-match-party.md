@@ -5,4 +5,5 @@ technologies: ["TypeScript", "Web APIs"]
 link: "http://dino-match-party.fly.dev"
 featured: false
 type: "professional"
+image: "/images/projects/dino-match-party-landing.png"
 ---
