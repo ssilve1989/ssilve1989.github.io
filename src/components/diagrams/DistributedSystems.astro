@@ -1,0 +1,109 @@
+---
+---
+
+<div class="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-5 flex items-center justify-center">
+  <svg
+    id="ds-diagram"
+    viewBox="0 0 600 300"
+    class="w-full h-auto"
+    role="img"
+    aria-label="A client request passes through a gateway to three services and a shared data layer; when one service goes down, traffic reroutes to a healthy service."
+  >
+    <path id="ds-pathA" d="M60,150 L220,150 L420,72 L558,150" class="fill-none stroke-gray-300 dark:stroke-gray-600" stroke-width="2" />
+    <path id="ds-pathB" d="M60,150 L220,150 L420,150 L558,150" class="fill-none stroke-gray-300 dark:stroke-gray-600" stroke-width="2" />
+    <path id="ds-pathC" d="M60,150 L220,150 L420,228 L558,150" class="fill-none stroke-gray-300 dark:stroke-gray-600" stroke-width="2" />
+
+    <circle id="ds-client" cx="60" cy="150" r="22" class="fill-white dark:fill-gray-800 stroke-purple-500 dark:stroke-purple-400" stroke-width="2" />
+    <text x="60" y="154" text-anchor="middle" class="fill-gray-700 dark:fill-gray-200" font-size="11">Client</text>
+
+    <circle id="ds-gateway" cx="220" cy="150" r="22" class="fill-white dark:fill-gray-800 stroke-purple-500 dark:stroke-purple-400" stroke-width="2" />
+    <text x="220" y="154" text-anchor="middle" class="fill-gray-700 dark:fill-gray-200" font-size="9">Gateway</text>
+
+    <circle cx="420" cy="72" r="24" class="fill-white dark:fill-gray-800 stroke-purple-500 dark:stroke-purple-400" stroke-width="2" />
+    <text x="420" y="76" text-anchor="middle" class="fill-gray-700 dark:fill-gray-200" font-size="9">Service A</text>
+
+    <circle cx="420" cy="150" r="24" class="fill-white dark:fill-gray-800 stroke-purple-500 dark:stroke-purple-400" stroke-width="2" />
+    <text x="420" y="154" text-anchor="middle" class="fill-gray-700 dark:fill-gray-200" font-size="9">Service B</text>
+
+    <circle id="ds-serviceC" cx="420" cy="228" r="24" class="fill-white dark:fill-gray-800 stroke-purple-500 dark:stroke-purple-400" stroke-width="2" />
+    <circle id="ds-serviceC-danger" cx="420" cy="228" r="24" class="fill-none stroke-red-500" stroke-width="2" opacity="0" />
+    <text x="420" y="232" text-anchor="middle" class="fill-gray-700 dark:fill-gray-200" font-size="9">Service C</text>
+    <text id="ds-badge" x="420" y="196" text-anchor="middle" class="fill-red-500" font-size="10" opacity="0">⚠ down</text>
+
+    <rect x="528" y="130" width="60" height="40" rx="8" class="fill-white dark:fill-gray-800 stroke-purple-500 dark:stroke-purple-400" stroke-width="2" />
+    <text x="558" y="154" text-anchor="middle" class="fill-gray-700 dark:fill-gray-200" font-size="11">Data</text>
+
+    <circle id="ds-packetA" r="4.5" class="fill-blue-500 dark:fill-blue-400" />
+    <circle id="ds-packetB" r="4.5" class="fill-blue-500 dark:fill-blue-400" />
+    <circle id="ds-packetC" r="4.5" class="fill-blue-500 dark:fill-blue-400" />
+    <circle id="ds-packetReroute" r="4.5" class="fill-amber-500" opacity="0" />
+  </svg>
+</div>
+
+<script>
+  import { gsap } from 'gsap';
+  import { MotionPathPlugin } from 'gsap/MotionPathPlugin';
+
+  gsap.registerPlugin(MotionPathPlugin);
+
+  function init() {
+    const svg = document.getElementById('ds-diagram');
+    if (!svg) return;
+
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReduced) return;
+
+    const packetA = svg.querySelector('#ds-packetA');
+    const packetB = svg.querySelector('#ds-packetB');
+    const packetC = svg.querySelector('#ds-packetC');
+    const packetReroute = svg.querySelector('#ds-packetReroute');
+    const serviceCDanger = svg.querySelector('#ds-serviceC-danger');
+    const badge = svg.querySelector('#ds-badge');
+
+    const anims: gsap.core.Animation[] = [];
+
+    anims.push(
+      gsap.to(packetA, { motionPath: { path: '#ds-pathA' }, duration: 3.2, ease: 'none', repeat: -1 }),
+    );
+    anims.push(
+      gsap.to(packetB, { motionPath: { path: '#ds-pathB' }, duration: 2.6, ease: 'none', repeat: -1, delay: 0.3 }),
+    );
+    anims.push(
+      gsap.to(packetC, { motionPath: { path: '#ds-pathC' }, duration: 3.4, ease: 'none', repeat: -1, delay: 0.6 }),
+    );
+    anims.push(
+      gsap.to(packetReroute, { motionPath: { path: '#ds-pathB' }, duration: 2.6, ease: 'none', repeat: -1, delay: 0.3 }),
+    );
+
+    const incident = gsap.timeline({ repeat: -1 });
+    incident
+      .to({}, { duration: 6.8 })
+      .to(serviceCDanger, { opacity: 1, duration: 0.3 })
+      .to(badge, { opacity: 1, duration: 0.3 }, '<')
+      .to(packetC, { opacity: 0, duration: 0.2 }, '<')
+      .to(packetReroute, { opacity: 1, duration: 0.2 }, '<')
+      .to({}, { duration: 1.4 })
+      .to(serviceCDanger, { opacity: 0, duration: 0.3 })
+      .to(badge, { opacity: 0, duration: 0.3 }, '<')
+      .to(packetC, { opacity: 1, duration: 0.2 }, '<')
+      .to(packetReroute, { opacity: 0, duration: 0.2 }, '<')
+      .to({}, { duration: 1.2 });
+    anims.push(incident);
+
+    anims.forEach((a) => a.pause());
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          for (const a of anims) {
+            entry.isIntersecting ? a.play() : a.pause();
+          }
+        }
+      },
+      { threshold: 0.2 },
+    );
+    io.observe(svg);
+  }
+
+  init();
+</script>

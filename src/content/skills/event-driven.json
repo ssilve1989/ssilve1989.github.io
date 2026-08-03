@@ -1,0 +1,12 @@
+{
+	"category": "Event-Driven & Asynchronous Systems",
+	"slug": "event-driven",
+	"summary": "Decoupling producers from consumers so each can fail, scale, and deploy independently — message buses and pub-sub over direct, synchronous calls.",
+	"concepts": [
+		"Message / event buses",
+		"Pub-sub patterns",
+		"Reactive streams (RxJS)",
+		"Eventual consistency",
+		"Decoupled communication"
+	]
+}

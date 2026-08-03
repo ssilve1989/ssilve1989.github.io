@@ -23,14 +23,9 @@ const skillsCollection = defineCollection({
 	loader: glob({ pattern: "**/*.json", base: "./src/content/skills" }),
 	schema: z.object({
 		category: z.string(),
-		skills: z.array(
-			z.object({
-				name: z.string(),
-				level: z.number().min(1).max(100),
-				years: z.number().optional(),
-				description: z.string().optional(),
-			}),
-		),
+		slug: z.string(),
+		summary: z.string(),
+		concepts: z.array(z.string()),
 	}),
 });
 

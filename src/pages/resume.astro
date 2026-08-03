@@ -10,6 +10,18 @@ const sortedExperiences = experiences.sort((a, b) => {
   return new Date(b.data.startDate).getTime() - new Date(a.data.startDate).getTime();
 });
 
+// Same narrative order as the homepage Skills section
+const CATEGORY_ORDER = [
+  'distributed-systems',
+  'event-driven',
+  'deployment-delivery',
+  'data-architecture',
+  'ai-augmented-engineering',
+];
+const orderedSkills = CATEGORY_ORDER.map((slug) =>
+  skillsData.find((entry) => entry.data.slug === slug),
+).filter((entry) => entry !== undefined);
+
 // Personal information
 const personalInfo = {
   name: "Steven Silvestri",
@@ -206,17 +218,27 @@ const personalInfo = {
       margin-bottom: 0.5rem;
     }
     
-    .skill-name {
-      font-size: 0.9rem;
-      color: #374151;
+    .skill-summary {
+      font-size: 0.85rem;
+      color: #4b5563;
+      line-height: 1.5;
+      margin-bottom: 0.5rem;
     }
-    
-    .skill-level {
-      font-size: 0.8rem;
-      color: #6b7280;
-      font-weight: 600;
+
+    .skill-concepts {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.375rem;
     }
-    
+
+    .skill-concept-tag {
+      font-size: 0.75rem;
+      color: #4b5563;
+      background: #f3f4f6;
+      border-radius: 999px;
+      padding: 0.15rem 0.6rem;
+    }
+
     /* Print styles */
     @media print {
       body {
@@ -355,19 +377,19 @@ const personalInfo = {
       })}
     </section>
 
-    <!-- Technical Skills -->
+    <!-- Architecture & Systems Thinking -->
     <section class="section">
-      <h2 class="section-title">Technical Skills</h2>
+      <h2 class="section-title">Architecture &amp; Systems Thinking</h2>
       <div class="skills-grid">
-        {skillsData.map((category) => (
+        {orderedSkills.map((category) => (
           <div class="skill-category">
             <h3 class="skill-category-title">{category.data.category}</h3>
-            {category.data.skills.map((skill) => (
-              <div class="skill-item">
-                <span class="skill-name">{skill.name}</span>
-                <span class="skill-level">{skill.level}%</span>
-              </div>
-            ))}
+            <p class="skill-summary">{category.data.summary}</p>
+            <div class="skill-concepts">
+              {category.data.concepts.map((concept) => (
+                <span class="skill-concept-tag">{concept}</span>
+              ))}
+            </div>
           </div>
         ))}
       </div>

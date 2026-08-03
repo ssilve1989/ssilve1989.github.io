@@ -1,0 +1,94 @@
+---
+---
+
+<div class="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-5 flex items-center justify-center">
+  <svg
+    id="da-diagram"
+    viewBox="0 0 600 260"
+    class="w-full h-auto"
+    role="img"
+    aria-label="A write fans out to both a cache and a durable store. Reads alternate between a fast cache hit and a slower store lookup that repopulates the cache."
+  >
+    <path id="da-writeCachePath" d="M60,130 L280,60" class="fill-none stroke-gray-300 dark:stroke-gray-600" stroke-width="2" />
+    <path id="da-writeStorePath" d="M60,130 L280,200" class="fill-none stroke-gray-300 dark:stroke-gray-600" stroke-width="2" />
+    <path id="da-hitPath" d="M60,130 L280,60 L520,130" class="fill-none stroke-gray-300 dark:stroke-gray-600" stroke-width="2" />
+    <path id="da-missPath" d="M60,130 L280,200 L520,130" class="fill-none stroke-gray-300 dark:stroke-gray-600" stroke-width="2" />
+    <path id="da-repopPath" d="M280,200 L280,60" class="fill-none stroke-gray-300 dark:stroke-gray-600" stroke-width="2" stroke-dasharray="4 4" />
+
+    <circle id="da-request" cx="60" cy="130" r="21" class="fill-white dark:fill-gray-800 stroke-purple-500 dark:stroke-purple-400" stroke-width="2" />
+    <text x="60" y="134" text-anchor="middle" class="fill-gray-700 dark:fill-gray-200" font-size="9">Request</text>
+
+    <rect id="da-cache" x="240" y="40" width="80" height="40" rx="8" class="fill-white dark:fill-gray-800 stroke-purple-500 dark:stroke-purple-400" stroke-width="2" />
+    <text x="280" y="64" text-anchor="middle" class="fill-gray-700 dark:fill-gray-200" font-size="11">Cache</text>
+
+    <rect id="da-store" x="240" y="180" width="80" height="40" rx="8" class="fill-white dark:fill-gray-800 stroke-purple-500 dark:stroke-purple-400" stroke-width="2" />
+    <text x="280" y="204" text-anchor="middle" class="fill-gray-700 dark:fill-gray-200" font-size="11">Store</text>
+
+    <circle id="da-response" cx="520" cy="130" r="24" class="fill-white dark:fill-gray-800 stroke-purple-500 dark:stroke-purple-400" stroke-width="2" />
+    <text x="520" y="134" text-anchor="middle" class="fill-gray-700 dark:fill-gray-200" font-size="9">Response</text>
+
+    <circle id="da-writeCache" r="4.5" class="fill-blue-500 dark:fill-blue-400" opacity="0" />
+    <circle id="da-writeStore" r="4.5" class="fill-blue-500 dark:fill-blue-400" opacity="0" />
+    <circle id="da-readHit" r="4.5" class="fill-emerald-500" opacity="0" />
+    <circle id="da-readMiss" r="4.5" class="fill-amber-500" opacity="0" />
+    <circle id="da-repopulate" r="4.5" class="fill-amber-500" opacity="0" />
+  </svg>
+</div>
+
+<script>
+  import { gsap } from 'gsap';
+  import { MotionPathPlugin } from 'gsap/MotionPathPlugin';
+
+  gsap.registerPlugin(MotionPathPlugin);
+
+  function init() {
+    const svg = document.getElementById('da-diagram');
+    if (!svg) return;
+
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReduced) return;
+
+    const writeCache = svg.querySelector('#da-writeCache');
+    const writeStore = svg.querySelector('#da-writeStore');
+    const readHit = svg.querySelector('#da-readHit');
+    const readMiss = svg.querySelector('#da-readMiss');
+    const repopulate = svg.querySelector('#da-repopulate');
+    const cache = svg.querySelector('#da-cache');
+    const store = svg.querySelector('#da-store');
+
+    const tl = gsap.timeline({ repeat: -1 });
+
+    tl.to(writeCache, { opacity: 1, motionPath: { path: '#da-writeCachePath' }, duration: 2, ease: 'power1.out' }, 0)
+      .to(writeStore, { opacity: 1, motionPath: { path: '#da-writeStorePath' }, duration: 2, ease: 'power1.out' }, 0)
+      .to(writeCache, { opacity: 0, duration: 0.2 }, 1.9)
+      .to(writeStore, { opacity: 0, duration: 0.2 }, 1.9)
+      .to(cache, { attr: { rx: 14 }, duration: 0.2 }, 1.9)
+      .to(cache, { attr: { rx: 8 }, duration: 0.3 }, 2.1)
+      .to(store, { attr: { rx: 14 }, duration: 0.2 }, 1.9)
+      .to(store, { attr: { rx: 8 }, duration: 0.3 }, 2.1);
+
+    tl.to(readHit, { opacity: 1, motionPath: { path: '#da-hitPath' }, duration: 1.6, ease: 'power1.inOut' }, 2.5)
+      .to(readHit, { opacity: 0, duration: 0.2 }, 4.1);
+
+    tl.to(readMiss, { opacity: 1, motionPath: { path: '#da-missPath' }, duration: 1.8, ease: 'power1.inOut' }, 7.5)
+      .to(readMiss, { opacity: 0, duration: 0.2 }, 9.3)
+      .to(repopulate, { opacity: 1, motionPath: { path: '#da-repopPath' }, duration: 1, ease: 'power1.out' }, 9.5)
+      .to(repopulate, { opacity: 0, duration: 0.2 }, 10.5);
+
+    tl.to({}, { duration: 12 }, 0);
+
+    tl.pause();
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          entry.isIntersecting ? tl.play() : tl.pause();
+        }
+      },
+      { threshold: 0.2 },
+    );
+    io.observe(svg);
+  }
+
+  init();
+</script>

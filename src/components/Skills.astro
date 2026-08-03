@@ -1,80 +1,76 @@
 ---
 import { getCollection } from 'astro:content';
+import DistributedSystems from './diagrams/DistributedSystems.astro';
+import EventDriven from './diagrams/EventDriven.astro';
+import DeploymentDelivery from './diagrams/DeploymentDelivery.astro';
+import DataArchitecture from './diagrams/DataArchitecture.astro';
+import AiAugmentedEngineering from './diagrams/AiAugmentedEngineering.astro';
 
 const skillsData = await getCollection('skills');
+
+// Ordered narrative: systems, then how they talk to each other, then how
+// they ship, then how they persist data, then the skill that ties directing
+// AI-generated code back into all of the above.
+const CATEGORY_ORDER = [
+  'distributed-systems',
+  'event-driven',
+  'deployment-delivery',
+  'data-architecture',
+  'ai-augmented-engineering',
+] as const;
+
+const DIAGRAMS: Record<(typeof CATEGORY_ORDER)[number], typeof DistributedSystems> = {
+  'distributed-systems': DistributedSystems,
+  'event-driven': EventDriven,
+  'deployment-delivery': DeploymentDelivery,
+  'data-architecture': DataArchitecture,
+  'ai-augmented-engineering': AiAugmentedEngineering,
+};
+
+const orderedSkills = CATEGORY_ORDER.map((slug) =>
+  skillsData.find((entry) => entry.data.slug === slug),
+).filter((entry) => entry !== undefined);
 ---
 
 <div class="max-w-6xl mx-auto">
   <div class="text-center mb-16">
     <h2 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-      Technical Skills
+      Architecture &amp; Systems Thinking
     </h2>
-    <p class="text-xl text-gray-600 dark:text-gray-300">
-      Technologies and tools I work with
+    <p class="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+      As AI writes more of the code itself, what matters is understanding the systems it runs in
     </p>
   </div>
 
-  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 justify-items-center max-w-5xl mx-auto">
-    {skillsData.map((skillCategory) => (
-      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 p-8 w-full">
-        <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">
-          {skillCategory.data.category}
-        </h3>
-        
-        <div class="space-y-6">
-          {skillCategory.data.skills.map((skill) => (
-            <div class="skill-item">
-              <div class="flex justify-between items-center mb-2">
-                <span class="text-lg font-medium text-gray-900 dark:text-white">
-                  {skill.name}
-                </span>
-                <span class="text-sm text-gray-500 dark:text-gray-400">
-                  {skill.level}%
-                </span>
-              </div>
-              
-              <!-- Progress Bar -->
-              <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3">
-                <div 
-                  class="bg-gradient-to-r from-blue-500 to-purple-600 h-3 rounded-full transition-all duration-1000 ease-out"
-                  style={`width: ${skill.level}%`}
-                ></div>
-              </div>
-              
-              {skill.description && (
-                <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">
-                  {skill.description}
-                </p>
-              )}
+  <div class="flex flex-col">
+    {orderedSkills.map((entry, index) => {
+      const Diagram = DIAGRAMS[entry.data.slug as (typeof CATEGORY_ORDER)[number]];
+      const reverse = index % 2 === 1;
+      return (
+        <div class:list={['grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center py-10 border-t border-gray-200 dark:border-gray-700', { 'border-b': index === orderedSkills.length - 1 }]}>
+          <div class:list={['order-1', reverse ? 'md:order-2' : 'md:order-1']}>
+            <Diagram />
+          </div>
+          <div class:list={['order-2', reverse ? 'md:order-1' : 'md:order-2']}>
+            <div class="text-xs font-semibold uppercase tracking-wider bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent mb-2">
+              {String(index + 1).padStart(2, '0')} — Systems Architecture
             </div>
-          ))}
+            <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-3">
+              {entry.data.category}
+            </h3>
+            <p class="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+              {entry.data.summary}
+            </p>
+            <div class="flex flex-wrap gap-2">
+              {entry.data.concepts.map((concept) => (
+                <span class="text-xs text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded-full px-3 py-1">
+                  {concept}
+                </span>
+              ))}
+            </div>
+          </div>
         </div>
-      </div>
-    ))}
+      );
+    })}
   </div>
 </div>
-
-<style>
-  .skill-item {
-    opacity: 0;
-    animation: fadeInUp 0.6s ease-out forwards;
-  }
-  
-  .skill-item:nth-child(1) { animation-delay: 0.1s; }
-  .skill-item:nth-child(2) { animation-delay: 0.2s; }
-  .skill-item:nth-child(3) { animation-delay: 0.3s; }
-  .skill-item:nth-child(4) { animation-delay: 0.4s; }
-  .skill-item:nth-child(5) { animation-delay: 0.5s; }
-  .skill-item:nth-child(6) { animation-delay: 0.6s; }
-
-  @keyframes fadeInUp {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-</style> 

@@ -20,87 +20,99 @@ const sortedExperiences = experiences.sort((a, b) => {
     </p>
   </div>
 
-  <div class="space-y-8">
-    {sortedExperiences.map((experience) => (
-      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-xl transition-shadow duration-300">
-        <div class="p-8">
-          <!-- Company and Position -->
-          <div class="flex flex-col md:flex-row md:items-start md:justify-between mb-4">
-            <div>
-              <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-                {experience.data.position}
-              </h3>
-              <div class="flex items-center gap-2 text-lg text-blue-600 dark:text-blue-400 mb-2">
-                {experience.data.website ? (
-                  <a 
-                    href={experience.data.website} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    class="hover:underline"
-                  >
-                    {experience.data.company}
-                  </a>
-                ) : (
-                  <span>{experience.data.company}</span>
-                )}
-                <span class="text-gray-400">•</span>
-                <span class="text-gray-600 dark:text-gray-400">{experience.data.location}</span>
+  <div class="relative" id="experience-list">
+    <svg id="path-svg" class="absolute left-0 top-0 w-[60px] sm:w-[90px] h-full overflow-visible pointer-events-none" preserveAspectRatio="none">
+      <path id="path-track" class="fill-none stroke-gray-300 dark:stroke-gray-700" stroke-width="3" />
+      <path id="path-draw" class="fill-none stroke-purple-500 dark:stroke-purple-400" stroke-width="3" stroke-linecap="round" />
+      <circle id="marker-ring" r="9" class="fill-none stroke-blue-500 dark:stroke-blue-400" stroke-width="2" opacity="0.35" />
+      <circle id="marker" r="5" class="fill-blue-500 dark:fill-blue-400" />
+    </svg>
+
+    <div class="space-y-8">
+      {sortedExperiences.map((experience) => (
+        <div class="job-row relative pl-[76px] sm:pl-[110px]">
+          <div class="node-dot absolute left-[15px] sm:left-[27px] top-8 w-[18px] h-[18px] rounded-full bg-white dark:bg-gray-800 border-[2.5px] border-gray-300 dark:border-gray-600 transition-[border-color,transform,box-shadow] duration-300"></div>
+          <div class="job-card bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden transition-[opacity,transform,border-color] duration-300">
+            <div class="p-8">
+              <!-- Company and Position -->
+              <div class="flex flex-col md:flex-row md:items-start md:justify-between mb-4">
+                <div>
+                  <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+                    {experience.data.position}
+                  </h3>
+                  <div class="flex items-center gap-2 text-lg text-blue-600 dark:text-blue-400 mb-2">
+                    {experience.data.website ? (
+                      <a
+                        href={experience.data.website}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="hover:underline"
+                      >
+                        {experience.data.company}
+                      </a>
+                    ) : (
+                      <span>{experience.data.company}</span>
+                    )}
+                    <span class="text-gray-400">•</span>
+                    <span class="text-gray-600 dark:text-gray-400">{experience.data.location}</span>
+                  </div>
+                </div>
+
+                <!-- Date Range -->
+                <div class="text-sm text-gray-500 dark:text-gray-400 md:text-right">
+                  <div class="bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full">
+                    {experience.data.startDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric', timeZone: 'UTC' })}
+                    {' - '}
+                    {experience.data.current
+                      ? 'Present'
+                      : experience.data.endDate?.toLocaleDateString('en-US', { month: 'short', year: 'numeric', timeZone: 'UTC' }) || 'Present'
+                    }
+                  </div>
+                </div>
               </div>
-            </div>
-            
-            <!-- Date Range -->
-            <div class="text-sm text-gray-500 dark:text-gray-400 md:text-right">
-              <div class="bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full">
-                {experience.data.startDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric', timeZone: 'UTC' })}
-                {' - '}
-                {experience.data.current 
-                  ? 'Present' 
-                  : experience.data.endDate?.toLocaleDateString('en-US', { month: 'short', year: 'numeric', timeZone: 'UTC' }) || 'Present'
-                }
+
+              <!-- Description -->
+              <p class="text-gray-700 dark:text-gray-300 mb-6 leading-relaxed">
+                {experience.data.description}
+              </p>
+
+              <!-- Achievements -->
+              {experience.data.achievements && experience.data.achievements.length > 0 && (
+                <div class="mb-6">
+                  <h4 class="text-lg font-semibold text-gray-900 dark:text-white mb-3">Key Achievements</h4>
+                  <ul class="space-y-2">
+                    {experience.data.achievements.map((achievement) => (
+                      <li class="flex items-start gap-3">
+                        <div class="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
+                        <span class="text-gray-700 dark:text-gray-300">{achievement}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              <!-- Technologies -->
+              <div>
+                <h4 class="text-lg font-semibold text-gray-900 dark:text-white mb-3">Technologies Used</h4>
+                <div class="flex flex-wrap gap-2">
+                  {experience.data.technologies.map((tech) => (
+                    <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium">
+                      {tech}
+                    </span>
+                  ))}
+                </div>
               </div>
-            </div>
-          </div>
-
-          <!-- Description -->
-          <p class="text-gray-700 dark:text-gray-300 mb-6 leading-relaxed">
-            {experience.data.description}
-          </p>
-
-          <!-- Achievements -->
-          {experience.data.achievements && experience.data.achievements.length > 0 && (
-            <div class="mb-6">
-              <h4 class="text-lg font-semibold text-gray-900 dark:text-white mb-3">Key Achievements</h4>
-              <ul class="space-y-2">
-                {experience.data.achievements.map((achievement) => (
-                  <li class="flex items-start gap-3">
-                    <div class="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
-                    <span class="text-gray-700 dark:text-gray-300">{achievement}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-
-          <!-- Technologies -->
-          <div>
-            <h4 class="text-lg font-semibold text-gray-900 dark:text-white mb-3">Technologies Used</h4>
-            <div class="flex flex-wrap gap-2">
-              {experience.data.technologies.map((tech) => (
-                <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium">
-                  {tech}
-                </span>
-              ))}
             </div>
           </div>
         </div>
-      </div>
-    ))}
+      ))}
+    </div>
   </div>
-  
+
   <!-- View Full Timeline -->
   <div class="text-center mt-12">
-    <a 
-      href="/career" 
+    <a
+      href="/career"
       class="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors"
     >
       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -112,70 +124,157 @@ const sortedExperiences = experiences.sort((a, b) => {
 </div>
 
 <style>
-  .experience {
-    display: flex;
-    flex-flow: column;
-    align-items: center;
-    color: hsla(0, 0%, 100%, 0.7);
-    padding: 1em;
+  .node-dot.current {
+    border-color: #a855f7;
+    transform: scale(1.15);
+    box-shadow: 0 0 0 4px color-mix(in srgb, #a855f7 18%, transparent);
+  }
+  :global(.dark) .node-dot.current {
+    border-color: #c084fc;
+    box-shadow: 0 0 0 4px color-mix(in srgb, #c084fc 18%, transparent);
+  }
+  .node-dot.passed {
+    border-color: #a855f7;
+    background-color: #a855f7;
+  }
+  :global(.dark) .node-dot.passed {
+    border-color: #c084fc;
+    background-color: #c084fc;
+  }
+  .job-card.active { border-color: #a855f7; }
+  :global(.dark) .job-card.active { border-color: #c084fc; }
+</style>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  function init() {
+    const list = document.getElementById('experience-list');
+    const svg = document.getElementById('path-svg') as unknown as SVGSVGElement;
+    const pathTrack = document.getElementById('path-track') as unknown as SVGPathElement;
+    const pathDraw = document.getElementById('path-draw') as unknown as SVGPathElement;
+    const marker = document.getElementById('marker');
+    const markerRing = document.getElementById('marker-ring');
+    if (!list || !svg || !pathTrack || !pathDraw || !marker || !markerRing) return;
+
+    const rows = Array.from(document.querySelectorAll<HTMLElement>('.job-row'));
+    if (rows.length === 0) return;
+
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    let nodeYs: number[] = [];
+    let pathLength = 0;
+    const PASS_BAND = 18;
+
+    function measure() {
+      const listRect = list!.getBoundingClientRect();
+      const width = list!.offsetWidth;
+      const height = list!.offsetHeight;
+
+      // Measure the node's actual rendered center — don't guess it from breakpoint
+      // pixel values, which drift out of sync with the Tailwind classes on the dot.
+      const nodeCenterX = rows[0]!.querySelector('.node-dot')!.getBoundingClientRect();
+      const x = nodeCenterX.left + nodeCenterX.width / 2 - listRect.left;
+
+      nodeYs = rows.map((row) => {
+        const nodeRect = row.querySelector('.node-dot')!.getBoundingClientRect();
+        return nodeRect.top + nodeRect.height / 2 - listRect.top;
+      });
+
+      // Explicit pixel size + a 1:1 viewBox means no scaling ambiguity between
+      // SVG user-space coordinates and actual on-screen position, regardless of
+      // how tall the list grows or whether percentage-height CSS resolves.
+      svg.style.width = `${width}px`;
+      svg.style.height = `${height}px`;
+      svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
+
+      let d = `M ${x} ${nodeYs[0]}`;
+      for (let i = 1; i < nodeYs.length; i++) {
+        const midY = (nodeYs[i - 1] + nodeYs[i]) / 2;
+        d += ` C ${x} ${midY} ${x} ${midY} ${x} ${nodeYs[i]}`;
+      }
+      pathTrack.setAttribute('d', d);
+      pathDraw.setAttribute('d', d);
+      pathLength = pathDraw.getTotalLength();
+      pathDraw.style.strokeDasharray = String(pathLength);
+    }
+
+    function applyProgress(progress: number) {
+      pathDraw.style.strokeDashoffset = String(pathLength * (1 - progress));
+
+      const pt = pathDraw.getPointAtLength(progress * pathLength);
+      marker!.setAttribute('cx', String(pt.x));
+      marker!.setAttribute('cy', String(pt.y));
+      markerRing!.setAttribute('cx', String(pt.x));
+      markerRing!.setAttribute('cy', String(pt.y));
+
+      rows.forEach((row, i) => {
+        const node = row.querySelector('.node-dot')!;
+        const card = row.querySelector('.job-card')!;
+        const nodeY = nodeYs[i];
+
+        if (pt.y < nodeY - PASS_BAND) {
+          // Upcoming: not yet reached.
+          node.classList.remove('current', 'passed');
+          card.classList.remove('active', 'opacity-75');
+          card.classList.add('opacity-50');
+        } else if (pt.y <= nodeY + PASS_BAND) {
+          // Current: the marker is passing directly through this node right now.
+          node.classList.add('current');
+          node.classList.remove('passed');
+          card.classList.add('active');
+          card.classList.remove('opacity-50', 'opacity-75');
+        } else {
+          // Passed: marker has moved on — fill the bubble in.
+          node.classList.remove('current');
+          node.classList.add('passed');
+          card.classList.remove('active', 'opacity-50');
+          card.classList.add('opacity-75');
+        }
+      });
+    }
+
+    if (reduced) {
+      // Static state: path drawn to the first (most recent) role, no scroll-linked motion.
+      measure();
+      applyProgress(0);
+      return;
+    }
+
+    measure();
+    applyProgress(0);
+
+    // Tie start/end to the first and last NODE positions directly, not the list
+    // container's outer edges — the last card is tall (achievements + tech tags),
+    // so "list bottom" lands well past where the last node is actually readable.
+    function getStartY() {
+      const listTop = list!.getBoundingClientRect().top + window.scrollY;
+      return listTop + nodeYs[0] - window.innerHeight * 0.75;
+    }
+    function getEndY() {
+      const listTop = list!.getBoundingClientRect().top + window.scrollY;
+      return listTop + nodeYs[nodeYs.length - 1] - window.innerHeight * 0.3;
+    }
+
+    ScrollTrigger.create({
+      trigger: list,
+      start: getStartY,
+      end: getEndY,
+      scrub: 0.15,
+      onUpdate: (self) => applyProgress(self.progress),
+      onRefresh: () => {
+        measure();
+      },
+    });
+
+    window.addEventListener('resize', () => {
+      measure();
+      ScrollTrigger.refresh();
+    });
   }
 
-  .experience h1 {
-    color: #ffffff;
-  }
-
-  .experience ul li a {
-    display: block;
-    font-size: 18px;
-    color: #ffffff;
-  }
-
-  .career-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  .career-list li {
-    margin-bottom: 1.5em;
-    text-align: center;
-  }
-
-  .career-list li small {
-    display: block;
-    margin-bottom: 0.5em;
-    color: var(--gray);
-  }
-
-  .career-list li a {
-    text-decoration: none;
-    font-weight: bold;
-    margin-bottom: 0.25em;
-  }
-
-  .career-list li a:hover {
-    opacity: 0.8;
-  }
-
-  .career-list li p {
-    margin: 0.25em 0 0 0;
-    font-style: italic;
-  }
-
-  .career-list li:last-child {
-    margin-top: 2em;
-  }
-
-  .career-list li:last-child a {
-    color: var(--gray);
-    transition: color 0.3s ease;
-  }
-
-  .career-list li:last-child a:hover {
-    color: #ffffff;
-  }
-
-  .text-uppercase {
-    text-transform: uppercase;
-  }
-</style> 
+  init();
+</script>

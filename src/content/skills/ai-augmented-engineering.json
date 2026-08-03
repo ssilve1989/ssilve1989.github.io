@@ -1,0 +1,11 @@
+{
+	"category": "AI-Augmented Systems Engineering",
+	"slug": "ai-augmented-engineering",
+	"summary": "Directing multiple AI agents inside real architectural constraints, and reviewing what they produce for runtime correctness — not syntax. As AI writes more of the code itself, this is the skill that decides whether what it writes actually holds up in production.",
+	"concepts": [
+		"Agent orchestration",
+		"Architectural review of generated code",
+		"Prompt & context engineering",
+		"Runtime reasoning over syntax"
+	]
+}

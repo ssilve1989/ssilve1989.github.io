@@ -2,7 +2,7 @@
 // About component - modern redesign
 ---
 
-<div class="max-w-4xl mx-auto text-center">
+<div class="max-w-4xl mx-auto text-center" id="about-root">
   <div class="mb-16">
     <h2 class="text-4xl font-bold text-gray-900 dark:text-white mb-6">
       About Me
@@ -20,9 +20,9 @@
   </div>
 
   <!-- Core Values/Qualities -->
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-    <div class="group">
-      <div class="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center group-hover:from-blue-600 group-hover:to-blue-700 transition-all duration-300">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-8" id="about-values">
+    <div class="value-card group">
+      <div class="w-16 h-16 mx-auto mb-4 bg-blue-600 rounded-full flex items-center justify-center group-hover:bg-blue-700 transition-colors duration-300">
         <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
         </svg>
@@ -33,8 +33,8 @@
       </p>
     </div>
 
-    <div class="group">
-      <div class="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-purple-500 to-purple-600 rounded-full flex items-center justify-center group-hover:from-purple-600 group-hover:to-purple-700 transition-all duration-300">
+    <div class="value-card group">
+      <div class="w-16 h-16 mx-auto mb-4 bg-indigo-600 rounded-full flex items-center justify-center group-hover:bg-indigo-700 transition-colors duration-300">
         <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
         </svg>
@@ -45,8 +45,8 @@
       </p>
     </div>
 
-    <div class="group">
-      <div class="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-green-500 to-green-600 rounded-full flex items-center justify-center group-hover:from-green-600 group-hover:to-green-700 transition-all duration-300">
+    <div class="value-card group">
+      <div class="w-16 h-16 mx-auto mb-4 bg-slate-600 rounded-full flex items-center justify-center group-hover:bg-slate-700 transition-colors duration-300">
         <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
         </svg>
@@ -57,4 +57,38 @@
       </p>
     </div>
   </div>
-</div> 
+</div>
+
+<script>
+  import { gsap } from 'gsap';
+
+  function init() {
+    const values = document.getElementById('about-values');
+    if (!values) return;
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    gsap.set(values.children, { opacity: 0, y: 16 });
+
+    const io = new IntersectionObserver(
+      (entries, observer) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          gsap.to(values.children, {
+            opacity: 1,
+            y: 0,
+            duration: 0.4,
+            stagger: 0.08,
+            ease: 'power2.out',
+          });
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.2 },
+    );
+    io.observe(values);
+  }
+
+  init();
+</script>
+

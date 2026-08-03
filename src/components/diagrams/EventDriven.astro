@@ -1,0 +1,100 @@
+---
+---
+
+<div class="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-5 flex items-center justify-center">
+  <svg
+    id="ev-diagram"
+    viewBox="0 0 600 260"
+    class="w-full h-auto"
+    role="img"
+    aria-label="A publisher emits an event into a central event bus, and three subscribers each receive it independently at staggered times rather than all at once."
+  >
+    <path id="ev-pubPath" d="M60,130 L250,130" class="fill-none stroke-gray-300 dark:stroke-gray-600" stroke-width="2" />
+    <path id="ev-sub1Path" d="M350,130 L500,50" class="fill-none stroke-gray-300 dark:stroke-gray-600" stroke-width="2" />
+    <path id="ev-sub2Path" d="M350,130 L500,130" class="fill-none stroke-gray-300 dark:stroke-gray-600" stroke-width="2" />
+    <path id="ev-sub3Path" d="M350,130 L500,210" class="fill-none stroke-gray-300 dark:stroke-gray-600" stroke-width="2" />
+
+    <circle id="ev-publisher" cx="60" cy="130" r="24" class="fill-white dark:fill-gray-800 stroke-purple-500 dark:stroke-purple-400" stroke-width="2" />
+    <text x="60" y="134" text-anchor="middle" class="fill-gray-700 dark:fill-gray-200" font-size="9">Publisher</text>
+
+    <rect id="ev-bus" x="250" y="100" width="100" height="60" rx="10" class="fill-white dark:fill-gray-800 stroke-purple-500 dark:stroke-purple-400" stroke-width="2" />
+    <text x="300" y="134" text-anchor="middle" class="fill-gray-700 dark:fill-gray-200" font-size="11">Event Bus</text>
+
+    <circle id="ev-sub1" cx="500" cy="50" r="18" class="fill-white dark:fill-gray-800 stroke-purple-500 dark:stroke-purple-400" stroke-width="2" />
+    <text x="500" y="54" text-anchor="middle" class="fill-gray-700 dark:fill-gray-200" font-size="10">Sub</text>
+
+    <circle id="ev-sub2" cx="500" cy="130" r="18" class="fill-white dark:fill-gray-800 stroke-purple-500 dark:stroke-purple-400" stroke-width="2" />
+    <text x="500" y="134" text-anchor="middle" class="fill-gray-700 dark:fill-gray-200" font-size="10">Sub</text>
+
+    <circle id="ev-sub3" cx="500" cy="210" r="18" class="fill-white dark:fill-gray-800 stroke-purple-500 dark:stroke-purple-400" stroke-width="2" />
+    <text x="500" y="214" text-anchor="middle" class="fill-gray-700 dark:fill-gray-200" font-size="10">Sub</text>
+
+    <circle id="ev-publish-packet" r="4.5" class="fill-blue-500 dark:fill-blue-400" opacity="0" />
+    <circle id="ev-deliver1" r="4.5" class="fill-blue-500 dark:fill-blue-400" opacity="0" />
+    <circle id="ev-deliver2" r="4.5" class="fill-blue-500 dark:fill-blue-400" opacity="0" />
+    <circle id="ev-deliver3" r="4.5" class="fill-blue-500 dark:fill-blue-400" opacity="0" />
+  </svg>
+</div>
+
+<script>
+  import { gsap } from 'gsap';
+  import { MotionPathPlugin } from 'gsap/MotionPathPlugin';
+
+  gsap.registerPlugin(MotionPathPlugin);
+
+  function init() {
+    const svg = document.getElementById('ev-diagram');
+    if (!svg) return;
+
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReduced) return;
+
+    const bus = svg.querySelector('#ev-bus');
+    const publishPacket = svg.querySelector('#ev-publish-packet');
+    const deliver1 = svg.querySelector('#ev-deliver1');
+    const deliver2 = svg.querySelector('#ev-deliver2');
+    const deliver3 = svg.querySelector('#ev-deliver3');
+    const sub1 = svg.querySelector('#ev-sub1');
+    const sub2 = svg.querySelector('#ev-sub2');
+    const sub3 = svg.querySelector('#ev-sub3');
+
+    const tl = gsap.timeline({ repeat: -1 });
+
+    tl.set(publishPacket, { opacity: 1 })
+      .to(publishPacket, { motionPath: { path: '#ev-pubPath' }, duration: 1.2, ease: 'power1.inOut' }, 0)
+      .to(bus, { attr: { rx: 14 }, duration: 0.25 }, 1.0)
+      .to(bus, { attr: { rx: 10 }, duration: 0.25 }, 1.25)
+      .to(publishPacket, { opacity: 0, duration: 0.2 }, 1.1);
+
+    tl.to(deliver1, { opacity: 1, motionPath: { path: '#ev-sub1Path' }, duration: 1, ease: 'power1.out' }, 1.0)
+      .to(deliver1, { opacity: 0, duration: 0.2 }, 2.0)
+      .to(sub1, { attr: { r: 21 }, duration: 0.2 }, 1.9)
+      .to(sub1, { attr: { r: 18 }, duration: 0.3 }, 2.1);
+
+    tl.to(deliver2, { opacity: 1, motionPath: { path: '#ev-sub2Path' }, duration: 1, ease: 'power1.out' }, 2.5)
+      .to(deliver2, { opacity: 0, duration: 0.2 }, 3.5)
+      .to(sub2, { attr: { r: 21 }, duration: 0.2 }, 3.4)
+      .to(sub2, { attr: { r: 18 }, duration: 0.3 }, 3.6);
+
+    tl.to(deliver3, { opacity: 1, motionPath: { path: '#ev-sub3Path' }, duration: 1, ease: 'power1.out' }, 4.5)
+      .to(deliver3, { opacity: 0, duration: 0.2 }, 5.5)
+      .to(sub3, { attr: { r: 21 }, duration: 0.2 }, 5.4)
+      .to(sub3, { attr: { r: 18 }, duration: 0.3 }, 5.6);
+
+    tl.to({}, { duration: 8 }, 0);
+
+    tl.pause();
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          entry.isIntersecting ? tl.play() : tl.pause();
+        }
+      },
+      { threshold: 0.2 },
+    );
+    io.observe(svg);
+  }
+
+  init();
+</script>

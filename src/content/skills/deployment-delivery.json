@@ -1,0 +1,12 @@
+{
+	"category": "Deployment & Delivery Architecture",
+	"slug": "deployment-delivery",
+	"summary": "Getting code from commit to running safely, repeatedly, without hand-holding — pipelines and gates that actually gate, not just green checkmarks.",
+	"concepts": [
+		"CI/CD pipelines",
+		"Containerization & orchestration",
+		"Infrastructure as code",
+		"Build systems",
+		"Automated release gates"
+	]
+}

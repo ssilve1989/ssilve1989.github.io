@@ -1,0 +1,12 @@
+{
+	"category": "Data Architecture & Storage",
+	"slug": "data-architecture",
+	"summary": "Choosing what's fast, what's durable, and how they stay consistent with each other — schema, caching, and read/write tradeoffs, not just which database.",
+	"concepts": [
+		"Schema design",
+		"Caching strategy",
+		"Data pipelines / ETL",
+		"Read/write path tradeoffs",
+		"Polyglot persistence"
+	]
+}
