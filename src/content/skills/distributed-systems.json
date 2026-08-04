@@ -1,7 +1,7 @@
 {
 	"category": "Distributed Systems & Service Architecture",
 	"slug": "distributed-systems",
-	"summary": "Designing how independent services find each other, communicate, and keep working when one of them doesn't — service decomposition, gateways, and failover, not which RPC framework you typed.",
+	"summary": "Designing how independent services find each other, communicate, and keep working when one of them goes down — decomposition, gateways, and failover, not just the RPC framework underneath.",
 	"concepts": [
 		"Service decomposition",
 		"API gateways",
