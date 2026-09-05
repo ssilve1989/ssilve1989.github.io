@@ -2,7 +2,7 @@
 	"name": "ssilve1989.github.io",
 	"type": "module",
 	"version": "0.0.1",
-	"packageManager": "pnpm@11.9.0",
+	"packageManager": "pnpm@11.25.0",
 	"scripts": {
 		"astro": "astro",
 		"build": "astro build",
@@ -12,17 +12,17 @@
 		"preview": "astro preview"
 	},
 	"dependencies": {
-		"@astrojs/sitemap": "^3.7.3",
+		"@astrojs/sitemap": "^3.7.4",
 		"@fontsource/dosis": "^5.3.0",
 		"@fontsource/roboto": "^5.3.0",
 		"@tailwindcss/vite": "^4.3.3",
-		"astro": "^7.1.6",
+		"astro": "^7.3.1",
 		"gsap": "^3.15.0",
 		"tailwindcss": "^4.3.3",
-		"zod": "^4.4.3"
+		"zod": "^4.5.4"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "^2.5.6",
+		"@biomejs/biome": "^2.5.12",
 		"typescript": "^7.0.2"
 	}
 }
