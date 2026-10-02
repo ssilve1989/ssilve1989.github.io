@@ -1,34 +1,37 @@
 ---
-import { getCollection } from 'astro:content';
-import DistributedSystems from './diagrams/DistributedSystems.astro';
-import EventDriven from './diagrams/EventDriven.astro';
-import DeploymentDelivery from './diagrams/DeploymentDelivery.astro';
-import DataArchitecture from './diagrams/DataArchitecture.astro';
-import AiAugmentedEngineering from './diagrams/AiAugmentedEngineering.astro';
+import { getCollection } from "astro:content";
+import AiAugmentedEngineering from "./diagrams/AiAugmentedEngineering.astro";
+import DataArchitecture from "./diagrams/DataArchitecture.astro";
+import DeploymentDelivery from "./diagrams/DeploymentDelivery.astro";
+import DistributedSystems from "./diagrams/DistributedSystems.astro";
+import EventDriven from "./diagrams/EventDriven.astro";
 
-const skillsData = await getCollection('skills');
+const skillsData = await getCollection("skills");
 
 // Ordered narrative: systems, then how they talk to each other, then how
 // they ship, then how they persist data, then the skill that ties directing
 // AI-generated code back into all of the above.
 const CATEGORY_ORDER = [
-  'distributed-systems',
-  'event-driven',
-  'deployment-delivery',
-  'data-architecture',
-  'ai-augmented-engineering',
+	"distributed-systems",
+	"event-driven",
+	"deployment-delivery",
+	"data-architecture",
+	"ai-augmented-engineering",
 ] as const;
 
-const DIAGRAMS: Record<(typeof CATEGORY_ORDER)[number], typeof DistributedSystems> = {
-  'distributed-systems': DistributedSystems,
-  'event-driven': EventDriven,
-  'deployment-delivery': DeploymentDelivery,
-  'data-architecture': DataArchitecture,
-  'ai-augmented-engineering': AiAugmentedEngineering,
+const DIAGRAMS: Record<
+	(typeof CATEGORY_ORDER)[number],
+	typeof DistributedSystems
+> = {
+	"distributed-systems": DistributedSystems,
+	"event-driven": EventDriven,
+	"deployment-delivery": DeploymentDelivery,
+	"data-architecture": DataArchitecture,
+	"ai-augmented-engineering": AiAugmentedEngineering,
 };
 
 const orderedSkills = CATEGORY_ORDER.map((slug) =>
-  skillsData.find((entry) => entry.data.slug === slug),
+	skillsData.find((entry) => entry.data.slug === slug),
 ).filter((entry) => entry !== undefined);
 ---
 

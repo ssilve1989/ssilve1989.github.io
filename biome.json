@@ -7,7 +7,7 @@
 	},
 	"files": {
 		"ignoreUnknown": false,
-		"includes": ["**", "!**/*.astro"]
+		"includes": ["**", "!docs"]
 	},
 	"formatter": {
 		"enabled": true,
@@ -23,7 +23,7 @@
 	"linter": {
 		"enabled": true,
 		"rules": {
-			"recommended": true,
+			"preset": "recommended",
 			"correctness": {},
 			"performance": {}
 		}
@@ -40,9 +40,23 @@
 	},
 	"overrides": [
 		{
+			"includes": ["**/kscene.css"],
+			"linter": {
+				"rules": {
+					"style": {
+						"noDescendingSpecificity": "off"
+					}
+				}
+			}
+		},
+		{
 			"includes": ["**/*.astro"],
 			"linter": {
 				"rules": {
+					"correctness": {
+						"noUnusedImports": "off",
+						"noUnusedVariables": "off"
+					},
 					"style": {
 						"useConst": "off",
 						"useImportType": "off"

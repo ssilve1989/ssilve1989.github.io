@@ -1,14 +1,18 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection } from "astro:content";
 
-const allProjects = await getCollection('projects');
-const openSourceProjects = allProjects.filter((project) => project.data.type === 'opensource');
-const otherProjects = allProjects.filter((project) => project.data.type !== 'opensource');
+const allProjects = await getCollection("projects");
+const openSourceProjects = allProjects.filter(
+	(project) => project.data.type === "opensource",
+);
+const otherProjects = allProjects.filter(
+	(project) => project.data.type !== "opensource",
+);
 
 const projects = [...openSourceProjects, ...otherProjects].sort((a, b) => {
-  const aHasImage = a.data.image ? 1 : 0;
-  const bHasImage = b.data.image ? 1 : 0;
-  return bHasImage - aHasImage;
+	const aHasImage = a.data.image ? 1 : 0;
+	const bHasImage = b.data.image ? 1 : 0;
+	return bHasImage - aHasImage;
 });
 ---
 

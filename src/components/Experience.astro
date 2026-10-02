@@ -1,12 +1,12 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection } from "astro:content";
 
-const experiences = await getCollection('experience');
+const experiences = await getCollection("experience");
 // Sort by start date, most recent first
 const sortedExperiences = experiences.sort((a, b) => {
-  const dateA = a.data.startDate;
-  const dateB = b.data.startDate;
-  return dateB.getTime() - dateA.getTime();
+	const dateA = a.data.startDate;
+	const dateB = b.data.startDate;
+	return dateB.getTime() - dateA.getTime();
 });
 ---
 

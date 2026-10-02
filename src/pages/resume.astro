@@ -1,35 +1,37 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection } from "astro:content";
 
 // Get all data from content collections
-const experiences = await getCollection('experience');
-const skillsData = await getCollection('skills');
+const experiences = await getCollection("experience");
+const skillsData = await getCollection("skills");
 
 // Sort experiences by start date (most recent first)
 const sortedExperiences = experiences.sort((a, b) => {
-  return new Date(b.data.startDate).getTime() - new Date(a.data.startDate).getTime();
+	return (
+		new Date(b.data.startDate).getTime() - new Date(a.data.startDate).getTime()
+	);
 });
 
 // Same narrative order as the homepage Skills section
 const CATEGORY_ORDER = [
-  'distributed-systems',
-  'event-driven',
-  'deployment-delivery',
-  'data-architecture',
-  'ai-augmented-engineering',
+	"distributed-systems",
+	"event-driven",
+	"deployment-delivery",
+	"data-architecture",
+	"ai-augmented-engineering",
 ];
 const orderedSkills = CATEGORY_ORDER.map((slug) =>
-  skillsData.find((entry) => entry.data.slug === slug),
+	skillsData.find((entry) => entry.data.slug === slug),
 ).filter((entry) => entry !== undefined);
 
 // Personal information
 const personalInfo = {
-  name: "Steven Silvestri",
-  title: "Principal Software Engineer",
-  email: "ssilve1989@gmail.com",
-  linkedin: "https://www.linkedin.com/in/steven-silvestri-65734780/",
-  github: "https://github.com/ssilve1989",
-  website: "https://ssilve1989.github.io"
+	name: "Steven Silvestri",
+	title: "Principal Software Engineer",
+	email: "ssilve1989@gmail.com",
+	linkedin: "https://www.linkedin.com/in/steven-silvestri-65734780/",
+	github: "https://github.com/ssilve1989",
+	website: "https://ssilve1989.github.io",
 };
 ---
 
