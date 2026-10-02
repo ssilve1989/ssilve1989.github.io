@@ -1,0 +1,389 @@
+/* Theme tokens for the animated Kafka scenes. Palette and fonts follow the site:
+   Tailwind grays, blue accent, Inter for text and the system mono for code-like labels.
+   Dark mode follows the site's .dark class. */
+.kscene {
+	--ks-surface: #ffffff;
+	--ks-surface-2: #f3f4f6;
+	--ks-ink: #111827;
+	--ks-ink-2: #4b5563;
+	--ks-ink-3: #6b7280;
+	--ks-line: #d1d5db;
+	--ks-accent: #2563eb;
+	--ks-i: #c2410c;
+	--ks-u: #2563eb;
+	--ks-d: #15803d;
+	--ks-t: #4f46e5;
+	--ks-bad: #dc2626;
+	--ks-bad-bg: rgba(220, 38, 38, 0.1);
+	--ks-mono: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, monospace);
+}
+
+.dark .kscene {
+	--ks-surface: #1f2937;
+	--ks-surface-2: #374151;
+	--ks-ink: #f3f4f6;
+	--ks-ink-2: #d1d5db;
+	--ks-ink-3: #9ca3af;
+	--ks-line: #4b5563;
+	--ks-accent: #60a5fa;
+	--ks-i: #ea580c;
+	--ks-u: #3b82f6;
+	--ks-d: #16a34a;
+	--ks-t: #6366f1;
+	--ks-bad: #f87171;
+	--ks-bad-bg: rgba(248, 113, 113, 0.16);
+}
+
+/* Full-width scenes break out of the article column; compact ones stay inside it. */
+.kscene {
+	margin-block: 2rem;
+}
+.kscene.wide {
+	position: relative;
+	left: 50%;
+	width: min(1000px, calc(100vw - 3rem));
+	transform: translateX(-50%);
+}
+.kscene.compact {
+	max-width: 480px;
+}
+
+.kscene figure {
+	margin: 0;
+	background: var(--ks-surface);
+	border: 1px solid var(--ks-line);
+	border-radius: 8px;
+	padding: 12px;
+	overflow-x: auto;
+}
+.kscene figure svg {
+	display: block;
+	width: 100%;
+	height: auto;
+}
+.kscene.wide figure svg {
+	min-width: 760px;
+}
+.kscene.compact figure svg {
+	min-width: 400px;
+}
+
+.kscene .controls {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 12px;
+	margin-top: 12px;
+	font-size: 14px;
+	color: var(--ks-ink-2);
+}
+.kscene output {
+	font-family: var(--ks-mono);
+	min-width: 2ch;
+}
+.kscene button.replay {
+	font: inherit;
+	font-size: 14px;
+	font-weight: 500;
+	color: var(--ks-ink-2);
+	background: transparent;
+	border: 1px solid var(--ks-line);
+	border-radius: 6px;
+	padding: 6px 16px;
+	cursor: pointer;
+	transition:
+		border-color 0.2s,
+		color 0.2s;
+}
+.kscene button.replay:hover {
+	border-color: var(--ks-accent);
+	color: var(--ks-accent);
+}
+.kscene button.replay:focus-visible,
+.kscene input[type="range"]:focus-visible {
+	outline: 2px solid var(--ks-accent);
+	outline-offset: 2px;
+}
+.kscene input[type="range"] {
+	accent-color: var(--ks-accent);
+	width: min(360px, 100%);
+}
+
+/* Key legend */
+.kscene-legend {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px 18px;
+	font-size: 14px;
+	color: var(--ks-ink-2);
+}
+.kscene-legend span::before {
+	content: "";
+	display: inline-block;
+	width: 12px;
+	height: 12px;
+	border-radius: 3px;
+	margin-right: 6px;
+	vertical-align: -1px;
+	background: var(--sw);
+}
+
+/* SVG grammar */
+.kscene svg text {
+	font-family: inherit;
+	font-size: 12px;
+	fill: var(--ks-ink-2);
+	font-variant-numeric: tabular-nums;
+}
+.kscene svg text.topic {
+	fill: var(--ks-ink-3);
+}
+.kscene svg text.seg {
+	font-family: var(--ks-mono);
+	font-size: 11px;
+	fill: var(--ks-ink-3);
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+}
+.kscene svg text.offset {
+	font-family: var(--ks-mono);
+	font-size: 10px;
+	fill: var(--ks-ink-3);
+}
+.kscene svg text.svc-title {
+	font-size: 13px;
+	font-weight: 600;
+	fill: var(--ks-ink);
+}
+.kscene svg text.svc-sub {
+	font-size: 10px;
+	fill: var(--ks-ink-3);
+}
+.kscene svg text.small {
+	font-size: 11px;
+	fill: var(--ks-ink-3);
+}
+.kscene svg text.req {
+	font-family: var(--ks-mono);
+	fill: var(--ks-ink);
+}
+.kscene svg text.bad-label {
+	fill: var(--ks-bad);
+	font-weight: 500;
+}
+.kscene svg text.ok-label {
+	fill: var(--ks-ink);
+	font-weight: 500;
+}
+.kscene svg text.big {
+	font-family: inherit;
+	letter-spacing: -0.025em;
+	font-size: 30px;
+	font-weight: 700;
+	fill: var(--ks-ink);
+}
+.kscene svg text.question {
+	font-family: inherit;
+	letter-spacing: -0.025em;
+	font-size: 34px;
+	font-weight: 700;
+	fill: var(--ks-bad);
+}
+.kscene svg text.face {
+	font-family:
+		"Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+	font-size: 26px;
+}
+.kscene svg text.pressure {
+	fill: var(--ks-bad);
+	font-size: 11px;
+	font-weight: 600;
+}
+
+.kscene svg .kscene-ah {
+	fill: var(--ks-ink-2);
+}
+.kscene svg .svc rect {
+	fill: var(--ks-surface-2);
+	stroke: var(--ks-line);
+}
+.kscene svg .svc.sick rect {
+	stroke: var(--ks-bad);
+	fill: var(--ks-bad-bg);
+}
+.kscene svg .svc.sick text.svc-title {
+	fill: var(--ks-bad);
+}
+.kscene svg .svc.healthy rect {
+	stroke: var(--ks-d);
+}
+.kscene svg .svc.dead rect {
+	stroke: var(--ks-bad);
+	stroke-dasharray: 4 3;
+	fill: var(--ks-bad-bg);
+}
+.kscene svg .svc.dead text {
+	fill: var(--ks-bad);
+}
+.kscene svg .store path,
+.kscene svg .store ellipse {
+	fill: var(--ks-surface-2);
+	stroke: var(--ks-ink-2);
+	stroke-width: 1.2;
+}
+.kscene svg .store.dead path,
+.kscene svg .store.dead ellipse {
+	stroke: var(--ks-bad);
+	stroke-dasharray: 4 3;
+	fill: var(--ks-bad-bg);
+}
+.kscene svg .arrow {
+	stroke: var(--ks-ink-2);
+	stroke-width: 1.5;
+}
+.kscene svg .req-line {
+	stroke: var(--ks-ink-2);
+	stroke-width: 1.2;
+	stroke-dasharray: 3 3;
+}
+.kscene svg .push {
+	stroke: var(--ks-i);
+	stroke-width: 2;
+}
+.kscene svg .cursor {
+	stroke: var(--ks-ink);
+	stroke-width: 2;
+}
+.kscene svg .cleaner {
+	stroke: var(--ks-ink);
+	stroke-width: 1.5;
+	stroke-dasharray: 5 4;
+}
+.kscene svg .noindex {
+	fill: none;
+	stroke: var(--ks-bad);
+	stroke-width: 1.5;
+	stroke-dasharray: 5 4;
+}
+.kscene svg .limit {
+	stroke: var(--ks-bad);
+	stroke-width: 1.5;
+	stroke-dasharray: 5 4;
+}
+.kscene svg .part rect.lane {
+	fill: var(--ks-surface-2);
+	stroke: var(--ks-line);
+}
+
+.kscene svg .bar-bg {
+	fill: var(--ks-surface-2);
+}
+.kscene svg .bar-fill {
+	fill: var(--ks-ink-2);
+}
+.kscene svg .bar-bad {
+	fill: var(--ks-bad);
+}
+.kscene svg .bar-ok {
+	fill: var(--ks-d);
+}
+
+.kscene svg .cell {
+	fill: var(--ks-surface-2);
+}
+.kscene svg .cell.on {
+	fill: var(--ks-ink-2);
+}
+.kscene svg .cell.on.warn {
+	fill: var(--ks-bad);
+	opacity: 0.55;
+}
+.kscene svg .cell.on.over {
+	fill: var(--ks-bad);
+}
+
+.kscene svg .rec rect {
+	fill: var(--ks-ink-3);
+}
+.kscene svg .rec text {
+	font-family: var(--ks-mono);
+	fill: #fff;
+	font-weight: 600;
+	font-size: 11px;
+}
+.kscene svg .k-I rect {
+	fill: var(--ks-i);
+}
+.kscene svg .k-U rect {
+	fill: var(--ks-u);
+}
+.kscene svg .k-D rect {
+	fill: var(--ks-d);
+}
+.kscene svg .k-T rect {
+	fill: var(--ks-t);
+}
+.kscene svg .rec.active rect {
+	stroke: var(--ks-ink);
+	stroke-width: 2;
+}
+.kscene svg .rec.ghost rect {
+	fill: none;
+	stroke: var(--ks-ink-3);
+	stroke-dasharray: 3 3;
+}
+.kscene svg .rec.ghost text {
+	fill: var(--ks-ink-3);
+	font-weight: 400;
+}
+.kscene svg .rec.tossed rect {
+	fill: var(--ks-bad-bg);
+	stroke: var(--ks-bad);
+}
+.kscene svg .rec.tossed text {
+	fill: var(--ks-bad);
+}
+
+.kscene svg .slot rect {
+	fill: none;
+	stroke: var(--ks-line);
+	stroke-dasharray: 3 3;
+}
+.kscene svg .slot text {
+	font-family: var(--ks-mono);
+	fill: #fff;
+	font-weight: 600;
+	font-size: 11px;
+}
+.kscene svg .slot.filled rect {
+	stroke: none;
+	stroke-dasharray: none;
+}
+.kscene svg .slot.filled.k-I rect {
+	fill: var(--ks-i);
+}
+.kscene svg .slot.filled.k-U rect {
+	fill: var(--ks-u);
+}
+.kscene svg .slot.filled.k-D rect {
+	fill: var(--ks-d);
+}
+.kscene svg .slot.filled.k-T rect {
+	fill: var(--ks-t);
+}
+.kscene svg .slot.flash rect {
+	stroke: var(--ks-ink);
+	stroke-width: 2;
+	stroke-dasharray: none;
+}
+.kscene svg .slot.missing rect {
+	stroke: var(--ks-bad);
+	stroke-width: 1.5;
+	fill: var(--ks-bad-bg);
+}
+.kscene svg .slot.missing text {
+	fill: var(--ks-bad);
+}
+.kscene svg .slot.stale rect {
+	opacity: 0.35;
+}

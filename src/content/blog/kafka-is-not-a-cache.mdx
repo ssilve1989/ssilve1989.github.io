@@ -1,0 +1,112 @@
+---
+title: "Kafka Is Not A Cache"
+description: "What it costs to hydrate an in-memory map from a topic in every service, why compaction and start offsets don't help, and what a keyed store changes."
+pubDate: 2026-10-02
+tags: ["kafka", "distributed-systems", "architecture"]
+---
+
+import AnimatedScene from "../../components/kafka-cache/AnimatedScene.astro";
+import KeyLegend from "../../components/kafka-cache/KeyLegend.astro";
+
+A common pattern: a service needs reference data (users, discounts, tax rates, stock levels), the data already flows through a Kafka topic, so each service reads the topic into an in-memory map at startup and looks things up locally. It works, and it scales badly. This post covers what it costs, why the usual fixes don't help, and what a keyed store changes.
+
+The examples below use four kinds of records. A label like `I7` means "version 7 of an I record".
+
+<KeyLegend />
+
+## You want one record by key
+
+A log has offsets, not keys. The only way to find one record in Kafka is to read the log. Ask for `get(sku = 88123)` and the best a topic can do is scan offsets until it finds the right one. A keyed store answers the same call directly: one request, one record.
+
+<AnimatedScene name="lookup" />
+
+## So every consumer rebuilds the whole index
+
+The usual implementation reads the topic from offset 0 into an in-memory map, then buffers incoming updates until it has caught up to the end of the log. Only then is the cache ready to serve.
+
+Take a topic of 20 records and four services that all need it. Every service reads all 20, so the cluster does 80 record reads for 20 records of data, and holds four identical copies of the same map in the memory of four processes. The work and the memory both scale with the number of consumers, and every restart or deploy pays the bill again.
+
+<AnimatedScene name="fanout" />
+
+## Compaction doesn't fix it
+
+Compaction works per key, not per position. Say a topic has 24 records over four distinct keys, and the cleaner last ran up to offset 16. Inside that cleaned range only the latest record per key survives: `I7` is removed because a later `I` exists in the range, while `U2` stays because it is the last `U`. That takes the 24 records down to 12.
+
+But a consumer starting from the beginning still reads all 12 to end up with 4 keys, and 8 of those reads are thrown away: 2 of every 3. What it can't avoid reading:
+
+- the **head of the log**: everything written since the cleaner last ran
+- the **active segment**, which is never cleaned
+
+For a topic with a few hot keys that churn constantly, that uncleaned region can dwarf the number of distinct keys.
+
+<AnimatedScene name="compaction" />
+
+## Partitioning by key doesn't fix it
+
+To isolate one SKU's updates, you'd give it a partition of its own. Reading `get(88123)` then touches one partition and a handful of records, which does work, for exactly one SKU per partition.
+
+Do that for 50,000 SKUs and you have 50,000 partitions: more than ten times the per-broker guidance (commonly cited as around 4,000 partitions per broker and 20,000 per cluster), and with three replicas, 150,000 partition replicas to keep. You would also need an SKU-to-partition table in every service, which is exactly the index you were trying not to build.
+
+<AnimatedScene name="partitions" />
+
+## Offsets don't fix it either
+
+Use the same 24-record topic and ask a consumer to start somewhere other than offset 0:
+
+- **Start later** and the cold keys never arrive. Starting at offset 12 reads 12 records, but the only `U` record sits at offset 9, so `U` is missing from the map entirely, and 9 of the 12 records read are still discarded.
+- **Start earlier** and you replay the hot churn. Starting at offset 0 gives a complete map of 4 keys, but costs 24 reads and throws away 20.
+
+No start offset gives you both a complete map and zero waste. Drag the slider to try it.
+
+<AnimatedScene name="offsets" />
+
+## A keyed store gives you the record
+
+Put the data in a keyed store such as NATS JetStream KV or Redis. One write lands once. Each service asks for a key when it needs it, uses the record, and doesn't keep it. Nothing is hydrated at startup and nothing is replicated per service, so service memory stays flat. When the publisher writes `I19`, every service sees `I19` on its next lookup, with no fan-out work.
+
+<AnimatedScene name="keyed" />
+
+## KV FAQ: stale data, restarts, TTLs
+
+A keyed store doesn't remove staleness. It makes staleness visible and puts it in one place. The topic stays the log of record, a single projector writes it into the store, and every entry carries a revision and a timestamp.
+
+### The projector crashed. Is the store stale?
+
+<AnimatedScene name="heartbeat" />
+
+Yes, exactly as a Kafka-hydrated map would be, but now it's visible. Every entry carries a revision and a timestamp, the projector writes a heartbeat key (say, every 500 ms), and each reader compares the heartbeat's age against its own tolerance instead of guessing. Readers still get answers while the projector is down, and can see how old they are. When the projector restarts it resumes from its committed offset and catches up once, in one place.
+
+### Can a restarted publisher write old data over new?
+
+<AnimatedScene name="cas" />
+
+No. Writes are compare-and-set. NATS `kv.Update(key, value, revision)` and a Redis `WATCH` or Lua check refuse a write whose expected revision is behind. If the live projector has moved `I` from revision 7 to 8 with `I19`, a restarted publisher still holding `I18` at revision 7 is rejected, so a stale snapshot can't roll the store back. The publisher reloads and retries.
+
+### How are TTLs handled?
+
+<AnimatedScene name="ttl" />
+
+Reference data gets no TTL; it is stale only when the heartbeat says so. Derived data gets a TTL per bucket in NATS KV (per key from server 2.11) or per key in Redis (`SET … EX`), and every put restarts the clock. A session key with a 30 s TTL that is written again after 3 s has 30 s left again. A stock-reservation key with a 10 s TTL that nobody refreshes expires and leaves a tombstone.
+
+### I need change events, not just lookups
+
+<AnimatedScene name="watch" />
+
+Watch a key or a wildcard such as `inventory.>` and the store pushes only those changes, delivering current values on subscribe with history available. Redis offers keyspace notifications. A service watching `inventory.88123` gets the two updates to that key and nothing for the writes to other keys. No service hydrates the whole set to hear about one key.
+
+### What if the store itself is lost?
+
+<AnimatedScene name="replicas" />
+
+The bucket is a replicated JetStream stream (R3), or a Sentinel-managed Redis. Lose a replica and reads continue from the other two. Lose the whole bucket and reads fail until the projector replays the topic into a new one, once, in one place. The topic remains the log of record.
+
+## Side by side
+
+|  | Kafka-hydrated map | NATS KV / Redis |
+| --- | --- | --- |
+| copies of the data | one per service (N×) | one |
+| work at startup | read the whole topic, per service | none |
+| lookup by key | only after hydration, from local memory | `get(key)`, any time |
+| hot-key churn | every version read, then discarded, in every service | last write wins, in one place |
+| compaction / start offset | trade waste for missing keys | not needed |
+| partition per SKU | 50,000 partitions and an SKU→partition table per service | not needed |

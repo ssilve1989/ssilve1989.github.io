@@ -1,3 +1,108 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 @custom-variant dark (&:where(.dark, .dark *));
+
+/* Native form controls, scrollbars and overscroll follow the theme */
+:root {
+	color-scheme: light;
+}
+:root.dark {
+	color-scheme: dark;
+}
+
+/* Blog prose in the site's voice: Inter body, Tailwind grays, blue accents.
+   Both themes are defined here, so there is no prose-invert. */
+.prose-site {
+	--tw-prose-body: var(--color-gray-600);
+	--tw-prose-lead: var(--color-gray-600);
+	--tw-prose-headings: var(--color-gray-900);
+	--tw-prose-bold: var(--color-gray-900);
+	--tw-prose-links: var(--color-blue-600);
+	--tw-prose-counters: var(--color-gray-500);
+	--tw-prose-bullets: var(--color-gray-400);
+	--tw-prose-hr: var(--color-gray-200);
+	--tw-prose-quotes: var(--color-gray-900);
+	--tw-prose-quote-borders: var(--color-blue-600);
+	--tw-prose-captions: var(--color-gray-500);
+	--tw-prose-code: var(--color-gray-900);
+	--tw-prose-th-borders: var(--color-gray-300);
+	--tw-prose-td-borders: var(--color-gray-200);
+}
+.dark .prose-site {
+	--tw-prose-body: var(--color-gray-300);
+	--tw-prose-lead: var(--color-gray-300);
+	--tw-prose-headings: white;
+	--tw-prose-bold: white;
+	--tw-prose-links: var(--color-blue-400);
+	--tw-prose-counters: var(--color-gray-400);
+	--tw-prose-bullets: var(--color-gray-500);
+	--tw-prose-hr: var(--color-gray-700);
+	--tw-prose-quotes: white;
+	--tw-prose-quote-borders: var(--color-blue-400);
+	--tw-prose-captions: var(--color-gray-400);
+	--tw-prose-code: var(--color-gray-100);
+	--tw-prose-th-borders: var(--color-gray-600);
+	--tw-prose-td-borders: var(--color-gray-700);
+}
+
+/* Headings: bold and tight, like the site's section titles */
+.prose-site :where(h1, h2, h3, h4) {
+	letter-spacing: -0.025em;
+}
+.prose-site :where(h2) {
+	font-weight: 700;
+}
+.prose-site :where(h3, h4) {
+	font-weight: 600;
+}
+.prose-site :where(p, li) {
+	line-height: 1.75;
+}
+
+/* Links: quiet underline, accent color */
+.prose-site :where(a) {
+	font-weight: 500;
+	text-decoration-thickness: 1px;
+	text-underline-offset: 3px;
+}
+
+/* Inline code: the site's pill look, system mono, no backticks */
+.prose-site :where(code):not(:where(pre *)) {
+	font-family: var(--font-mono);
+	font-size: 0.875em;
+	font-weight: 500;
+	padding: 0.15em 0.4em;
+	border-radius: 0.375rem;
+	background: var(--color-gray-100);
+}
+.dark .prose-site :where(code):not(:where(pre *)) {
+	background: var(--color-gray-800);
+}
+.prose-site :where(code):not(:where(pre *))::before,
+.prose-site :where(code):not(:where(pre *))::after {
+	content: none;
+}
+
+/* Code blocks */
+.prose-site :where(pre) {
+	border: 1px solid var(--color-gray-200);
+	border-radius: 0.5rem;
+	font-size: 0.875rem;
+}
+.dark .prose-site :where(pre) {
+	border-color: var(--color-gray-700);
+}
+.prose-site :where(pre code) {
+	font-family: var(--font-mono);
+}
+
+/* Shiki dual-theme: switch to the dark palette with the site's .dark class.
+   !important is required to override Shiki's inline styles. */
+.dark .astro-code,
+.dark .astro-code span {
+	/* biome-ignore lint/complexity/noImportantStyles: overrides Shiki inline styles */
+	color: var(--shiki-dark) !important;
+	/* biome-ignore lint/complexity/noImportantStyles: overrides Shiki inline styles */
+	background-color: var(--shiki-dark-bg) !important;
+}

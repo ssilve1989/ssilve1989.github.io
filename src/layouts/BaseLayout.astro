@@ -1,19 +1,20 @@
 ---
 export interface Props {
-  title: string;
-  description?: string;
-  image?: string;
-  canonical?: string;
+	title: string;
+	description?: string;
+	image?: string;
+	canonical?: string;
 }
 
-const { 
-  title, 
-  description = "Steven Silvestri - Principal Software Engineer specializing in React, TypeScript, and cloud technologies",
-  image = "/og-image.jpg",
-  canonical 
+const {
+	title,
+	description = "Steven Silvestri - Principal Software Engineer specializing in React, TypeScript, and cloud technologies",
+	image = "/og-image.jpg",
+	canonical,
 } = Astro.props;
 
 const canonicalURL = canonical || new URL(Astro.url.pathname, Astro.site);
+
 import "../global.css";
 ---
 
@@ -21,11 +22,30 @@ import "../global.css";
 <html lang="en" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
+
+    {/*
+      Theme: must run synchronously in <head>, before the first style pass.
+      A deferred/module script applies the class after the first (light) frame,
+      and the body's color transition then animates light -> dark on every load.
+    */}
+    <script is:inline>
+      (() => {
+        let stored = null;
+        try {
+          stored = localStorage.getItem("theme");
+        } catch {}
+        const dark = stored
+          ? stored === "dark"
+          : window.matchMedia("(prefers-color-scheme: dark)").matches;
+        document.documentElement.classList.toggle("dark", dark);
+      })();
+    </script>
     <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <link rel="canonical" href={canonicalURL} />
+    <link rel="alternate" type="application/rss+xml" title="Steven Silvestri - Blog" href="/rss.xml" />
 
     <!-- Google tag (gtag.js) -->
     <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-JSSSP2CP2L"></script>
@@ -83,28 +103,6 @@ import "../global.css";
     <main id="main-content" class="min-h-screen">
       <slot />
     </main>
-
-    <!-- Theme toggle script -->
-    <script>
-      // Theme detection and toggle
-      const theme = (() => {
-        if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
-          return localStorage.getItem('theme');
-        }
-        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-          return 'dark';
-        }
-        return 'light';
-      })();
-      
-      if (theme === 'light') {
-        document.documentElement.classList.remove('dark');
-      } else {
-        document.documentElement.classList.add('dark');
-      }
-      
-      window.localStorage.setItem('theme', theme!);
-    </script>
 
     <!-- Service Worker cleanup script -->
     <script>

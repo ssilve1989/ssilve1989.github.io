@@ -1,0 +1,110 @@
+---
+import TagLink from "../../components/TagLink.astro";
+import ThemeToggle from "../../components/ThemeToggle.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import {
+	BLOG_DESCRIPTION,
+	formatPostDate,
+	getSortedPosts,
+} from "../../lib/blog";
+
+const posts = await getSortedPosts();
+---
+
+<BaseLayout title="Blog - Steven Silvestri" description={BLOG_DESCRIPTION}>
+  <ThemeToggle />
+  <div class="min-h-screen bg-white dark:bg-gray-900">
+    <div class="py-20">
+      <div class="container mx-auto px-6 max-w-3xl">
+        <nav class="flex items-center justify-between font-mono text-sm text-gray-500 dark:text-gray-400">
+          <a href="/" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">&larr; Home</a>
+          <a
+            href="/rss.xml"
+            class="inline-flex items-center gap-1.5 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+          >
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="5" cy="19" r="2"></circle>
+              <path d="M3 10v3a8 8 0 0 1 8 8h3A11 11 0 0 0 3 10Zm0-7v3a15 15 0 0 1 15 15h3A18 18 0 0 0 3 3Z"></path>
+            </svg>
+            RSS
+          </a>
+        </nav>
+
+        <header class="mt-8 mb-6">
+          <p class="font-mono text-sm text-blue-600 dark:text-blue-400 tracking-wide">Writing</p>
+          <h1 class="mt-3 text-5xl md:text-7xl font-bold tracking-tight text-gray-900 dark:text-white">Blog</h1>
+        </header>
+
+        <!-- Shown by the script below when the URL has ?tag=… -->
+        <div id="tag-filter" hidden class="mb-2 flex flex-wrap items-center gap-3 text-gray-600 dark:text-gray-300">
+          <span>Posts tagged</span>
+          <span id="tag-filter-name" class="px-2 py-1 bg-blue-600 dark:bg-blue-500 text-white rounded-full text-sm font-medium"></span>
+          <a href="/blog/" class="font-mono text-sm text-blue-600 dark:text-blue-400 hover:underline underline-offset-4">clear filter</a>
+        </div>
+
+        {posts.length === 0 && <p class="text-xl text-gray-600 dark:text-gray-300">No posts yet.</p>}
+
+        <ul>
+          {posts.map((post) => (
+            <li
+              data-post
+              data-tags={JSON.stringify(post.data.tags)}
+              class="py-10 border-gray-200 dark:border-gray-800 [li:not([hidden])~&]:border-t"
+            >
+              <a href={`/blog/${post.id}`} class="group block">
+                <time
+                  datetime={post.data.pubDate.toISOString()}
+                  class="font-mono text-sm text-blue-600 dark:text-blue-400 tracking-wide"
+                >
+                  {formatPostDate(post.data.pubDate)}
+                </time>
+                <h2 class="mt-2 text-2xl md:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                  {post.data.title}
+                </h2>
+                <p class="mt-3 text-lg text-gray-600 dark:text-gray-300 leading-relaxed">{post.data.description}</p>
+              </a>
+              {post.data.tags.length > 0 && (
+                <ul class="mt-4 flex flex-wrap gap-2">
+                  {post.data.tags.map((tag) => (
+                    <li><TagLink tag={tag} /></li>
+                  ))}
+                </ul>
+              )}
+            </li>
+          ))}
+        </ul>
+
+        <p id="no-matches" hidden class="py-10 text-xl text-gray-600 dark:text-gray-300">
+          No posts with that tag yet.
+        </p>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<script>
+  // The site is static, so the tag filter runs in the browser. Without JS every post is listed.
+  const tag = new URLSearchParams(location.search).get("tag");
+
+  if (tag) {
+    let shown = 0;
+    for (const post of document.querySelectorAll<HTMLElement>("[data-post]")) {
+      const tags: unknown = JSON.parse(post.dataset.tags ?? "[]");
+      const match = Array.isArray(tags) && tags.includes(tag);
+      post.hidden = !match;
+      if (match) shown++;
+    }
+
+    for (const link of document.querySelectorAll<HTMLAnchorElement>("[data-tag-link]")) {
+      if (link.dataset.tagLink === tag) link.setAttribute("aria-current", "true");
+    }
+
+    const filter = document.getElementById("tag-filter");
+    const name = document.getElementById("tag-filter-name");
+    const none = document.getElementById("no-matches");
+    if (filter) filter.hidden = false;
+    if (name) name.textContent = tag;
+    if (none) none.hidden = shown > 0;
+    document.title = `Posts tagged “${tag}” - Steven Silvestri`;
+  }
+</script>

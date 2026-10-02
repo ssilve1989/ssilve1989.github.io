@@ -1,0 +1,48 @@
+---
+import "./kscene.css";
+import {
+	isSceneName,
+	SCENE_META,
+	type SceneMeta,
+	type SceneName,
+} from "./meta";
+
+export interface Props {
+	name: SceneName;
+}
+
+const { name } = Astro.props;
+// MDX props aren't type-checked, so fail the build with a useful message on a typo.
+if (!isSceneName(name)) throw new Error(`Unknown animated scene "${name}"`);
+const meta: SceneMeta = SCENE_META[name];
+const markerId = `ah-${name}`;
+const sliderId = `${name}-start`;
+---
+
+<div class:list={["kscene not-prose", meta.compact ? "compact" : "wide"]} data-scene={name}>
+  <figure>
+    <svg viewBox={meta.viewBox} role="img" aria-label={meta.label}>
+      <defs>
+        <marker id={markerId} markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="userSpaceOnUse">
+          <path class="kscene-ah" d="M0 0 L8 4 L0 8 z"></path>
+        </marker>
+      </defs>
+    </svg>
+  </figure>
+  <div class="controls">
+    <button class="replay" type="button">replay</button>
+    {meta.slider && (
+      <>
+        <label for={sliderId}>start offset</label>
+        <input type="range" id={sliderId} min="0" max="23" value="12" step="1" />
+        <output for={sliderId}>12</output>
+      </>
+    )}
+  </div>
+</div>
+
+<script>
+  import { initScenes } from "./init";
+
+  initScenes();
+</script>
