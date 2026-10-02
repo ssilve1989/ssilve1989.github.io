@@ -16,6 +16,7 @@ const {
 const canonicalURL = canonical || new URL(Astro.url.pathname, Astro.site);
 
 import "../global.css";
+import Footer from "../components/Footer.astro";
 ---
 
 <!doctype html>
@@ -103,6 +104,8 @@ import "../global.css";
     <main id="main-content" class="min-h-screen">
       <slot />
     </main>
+
+    <Footer />
 
     <!-- Service Worker cleanup script -->
     <script>

@@ -1,0 +1,34 @@
+---
+const year = new Date().getFullYear();
+
+const links = [
+	{ label: "GitHub", href: "https://github.com/ssilve1989", external: true },
+	{
+		label: "LinkedIn",
+		href: "https://www.linkedin.com/in/steven-silvestri-65734780/",
+		external: true,
+	},
+	{ label: "RSS", href: "/rss.xml", external: false },
+];
+---
+
+<footer class="border-t border-gray-200 dark:border-gray-800 py-8 px-4">
+  <div class="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-gray-600 dark:text-gray-400">
+    <p>&copy; {year} Steven Silvestri</p>
+    <nav aria-label="Footer">
+      <ul class="flex items-center gap-6">
+        {links.map(({ label, href, external }) => (
+          <li>
+            <a
+              href={href}
+              class="hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
+              {...(external && { target: "_blank", rel: "noopener noreferrer" })}
+            >
+              {label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+</footer>
