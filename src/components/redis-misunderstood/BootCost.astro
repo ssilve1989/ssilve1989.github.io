@@ -1,0 +1,127 @@
+---
+// Interactive model: boot work for an in-process cache hydrated from a source
+// versus a shared Redis cache. Both inputs are user-controlled assumptions.
+---
+
+<figure class="bootcost not-prose" data-bootcost>
+  <figcaption class="head">
+    <span class="eyebrow">Boot cost model</span>
+  </figcaption>
+
+  <div class="controls">
+    <label for="bc-records">Records in the dataset</label>
+    <input id="bc-records" type="range" min="4" max="8" step="0.05" value="6" data-records />
+    <output for="bc-records" data-records-out>1,000,000</output>
+
+    <label for="bc-rate">Records loaded per second, per service</label>
+    <input id="bc-rate" type="range" min="3" max="6" step="0.05" value="4.7" data-rate />
+    <output for="bc-rate" data-rate-out>50,000</output>
+  </div>
+
+  <div class="rows" aria-live="polite">
+    <div class="row">
+      <div class="label">In-process cache, hydrated on every boot</div>
+      <div class="track"><div class="bar hydrate" data-hydrate-bar></div></div>
+      <div class="value" data-hydrate-out></div>
+    </div>
+    <div class="row">
+      <div class="label">Shared Redis cache</div>
+      <div class="track"><div class="bar redis"></div></div>
+      <div class="value">0 s of boot work</div>
+    </div>
+  </div>
+</figure>
+
+<script>
+  const root = document.querySelector<HTMLElement>("[data-bootcost]");
+  if (root) {
+    const records = root.querySelector<HTMLInputElement>("[data-records]");
+    const rate = root.querySelector<HTMLInputElement>("[data-rate]");
+    const recordsOut = root.querySelector<HTMLOutputElement>("[data-records-out]");
+    const rateOut = root.querySelector<HTMLOutputElement>("[data-rate-out]");
+    const bar = root.querySelector<HTMLElement>("[data-hydrate-bar]");
+    const hydrateOut = root.querySelector<HTMLElement>("[data-hydrate-out]");
+
+    // Slider values are exponents, so one control spans several orders of magnitude.
+    const fmt = new Intl.NumberFormat("en-US");
+    const MAX_SECONDS = 10 ** 5; // 1e8 records at 1e3 records/s
+
+    const duration = (s: number) => {
+      if (s < 1) return `${(s * 1000).toFixed(0)} ms`;
+      if (s < 120) return `${s.toFixed(1)} s`;
+      if (s < 7200) return `${(s / 60).toFixed(1)} min`;
+      return `${(s / 3600).toFixed(1)} h`;
+    };
+
+    const update = () => {
+      if (!(records && rate && recordsOut && rateOut && bar && hydrateOut)) return;
+      const n = Math.round(10 ** Number(records.value));
+      const perSecond = Math.round(10 ** Number(rate.value));
+      const seconds = n / perSecond;
+      recordsOut.value = fmt.format(n);
+      rateOut.value = fmt.format(perSecond);
+      hydrateOut.textContent = duration(seconds);
+      // Log scale keeps small and large datasets both visible.
+      const pct = Math.max(2, (Math.log10(Math.max(seconds, 0.01) / 0.01) / Math.log10(MAX_SECONDS / 0.01)) * 100);
+      bar.style.width = `${pct}%`;
+    };
+
+    records?.addEventListener("input", update);
+    rate?.addEventListener("input", update);
+    update();
+  }
+</script>
+
+<style>
+  .bootcost {
+    --b-surface: #ffffff;
+    --b-surface-2: #f3f4f6;
+    --b-ink: #111827;
+    --b-ink-2: #4b5563;
+    --b-line: #d1d5db;
+    --b-accent: #2563eb;
+    --b-bad: #dc2626;
+    --b-ok: #15803d;
+    margin-block: 2rem;
+    padding: 1.25rem;
+    border: 1px solid var(--b-line);
+    border-radius: 0.75rem;
+    background: var(--b-surface);
+    color: var(--b-ink);
+  }
+  :global(.dark) .bootcost {
+    --b-surface: #1f2937;
+    --b-surface-2: #374151;
+    --b-ink: #f3f4f6;
+    --b-ink-2: #d1d5db;
+    --b-line: #4b5563;
+    --b-accent: #60a5fa;
+    --b-bad: #f87171;
+    --b-ok: #4ade80;
+  }
+  .head { display: flex; flex-wrap: wrap; gap: 0.25rem 1rem; justify-content: space-between; margin-bottom: 1rem; }
+  .eyebrow { font-family: var(--font-mono, ui-monospace, monospace); font-size: 0.8rem; letter-spacing: 0.04em; color: var(--b-accent); }
+  .controls {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr) 8.5rem;
+    gap: 0.5rem 0.75rem;
+    align-items: center;
+    font-size: 0.9rem;
+  }
+  .controls output { font-family: var(--font-mono, ui-monospace, monospace); text-align: right; }
+  input[type="range"] { width: 100%; accent-color: var(--b-accent); }
+  .rows { display: grid; gap: 0.9rem; margin-top: 1.25rem; }
+  .row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr) 8.5rem; gap: 0.75rem; align-items: center; font-size: 0.9rem; }
+  .track { height: 0.9rem; border-radius: 999px; background: var(--b-surface-2); overflow: hidden; }
+  .bar { height: 100%; border-radius: 999px; transition: width 0.25s ease-out; }
+  .bar.hydrate { background: var(--b-bad); }
+  .bar.redis { width: 2%; background: var(--b-ok); }
+  .value { font-family: var(--font-mono, ui-monospace, monospace); text-align: right; }
+  @media (max-width: 40rem) {
+    .controls, .row { grid-template-columns: 1fr; }
+    .controls output, .value { text-align: left; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .bar { transition: none; }
+  }
+</style>

@@ -1,0 +1,94 @@
+---
+title: "Why Is Redis Misunderstood?"
+description: "The usual objections to Redis are a network hop and one more thing to run. The alternatives, hydrating every service on boot or reading an event log as a store, cost more."
+pubDate: 2026-10-03
+tags: ["redis", "caching", "architecture", "distributed-systems"]
+---
+
+import BootCost from "../../components/redis-misunderstood/BootCost.astro";
+import Callout from "../../components/Callout.astro";
+
+Redis has TTLs built in, pipelining, pub/sub and two persistence modes, and it answers in well under a millisecond on a decent network. Teams still skip it for an in-process map that each service fills at boot.
+
+Reference data lives in process memory, and each service seeds it from some external source at boot. That is a data migration on every start. Startup time gets longer as the data grows and varies with whatever load the source is under that minute. The worse version points the seed at an event log such as Kafka and treats the log as a store, which [the previous post](/blog/kafka-is-not-a-cache) argues against in detail.
+
+This post covers what Redis does and doesn't promise, takes the two common objections seriously, and then looks at what you end up with if you skip it.
+
+## What the docs actually promise
+
+- **TTLs.** [`EXPIRE`](https://redis.io/docs/latest/commands/expire/) sets a time to live in seconds, and the key is deleted after that many seconds.
+- **Pipelining.** [Pipelining](https://redis.io/docs/latest/develop/using-commands/pipelining/) sends many commands without waiting for each reply and reads the replies in one step. The docs' own run over a loopback interface went from 1.185238 seconds to 0.250783 seconds, a factor of five.
+- **Persistence.** [RDB snapshots and an append-only file (AOF)](https://redis.io/docs/latest/operate/oss_and_stack/management/persistence/) can be used alone or together. The AOF is replayed at startup to rebuild the dataset.
+- **Pub/Sub.** [Delivery is at-most-once](https://redis.io/docs/latest/develop/pubsub/). A message goes out once if at all, and if a subscriber is disconnected it is lost. For stronger guarantees the docs point to Streams.
+
+<Callout type="warning" title="Durable has fine print">
+With the default AOF policy of `fsync` every second you can lose one second of writes, and RDB alone can lose a few minutes. The docs say that matching what PostgreSQL provides takes [both persistence modes together](https://redis.io/docs/latest/operate/oss_and_stack/management/persistence/). Replication is asynchronous, so [acknowledged writes can be lost during a failover](https://redis.io/docs/latest/operate/oss_and_stack/management/replication/). For a cache that is fine, because the source of truth can refill it. Don't make it your system of record without reading those pages first.
+</Callout>
+
+## Objection one: the network call costs too much
+
+A lookup costs one round trip. The Redis docs put a [typical 1 Gbit/s network at about 200 µs](https://redis.io/docs/latest/operate/oss_and_stack/management/optimization/latency/), and a Unix domain socket at about 30 µs.
+
+| Path to Redis | Typical latency | Source |
+| --- | --- | --- |
+| Unix domain socket, same host | as low as 30 µs | [Latency docs](https://redis.io/docs/latest/operate/oss_and_stack/management/optimization/latency/) |
+| 1 Gbit/s network | about 200 µs | [Latency docs](https://redis.io/docs/latest/operate/oss_and_stack/management/optimization/latency/) |
+| Very slow link over the internet | 250 ms (docs' example) | [Pipelining docs](https://redis.io/docs/latest/develop/using-commands/pipelining/) |
+
+The last row is why round trips matter. At 250 ms per trip a server that can process 100,000 requests per second tops out at four requests per second, no matter how fast it is. The remedy is in the same docs: keep connections long-lived, send [`MGET`/`MSET`](https://redis.io/docs/latest/operate/oss_and_stack/management/optimization/latency/) or pipeline instead of looping, and use a Unix domain socket when client and server share a host.
+
+Do that and a lookup costs a fraction of a millisecond. If your latency budget really is measured in microseconds, local memory wins and you should use it.
+
+## Objection two: it is one more thing that can fail
+
+That is true of every dependency. It argues for running Redis well. The Amazon Builders' Library is blunt about the cost, though. An [external cache fleet](https://aws.amazon.com/builders-library/caching-challenges-and-strategies/) adds a fleet to monitor and scale, and it "can often be less available" than the service in front of it. Their teams add code for cache unavailability and node failure. Falling back to the dependent service during a long outage can overwhelm it, so they prefer an in-memory fallback or load shedding, and they test with caching disabled.
+
+Redis gives you building blocks for the failure path:
+
+- [Sentinel](https://redis.io/docs/latest/operate/oss_and_stack/management/sentinel/) monitors instances and promotes a replica when a primary stops working. It does not guarantee that acknowledged writes survive, because replication is asynchronous.
+- For several regions, [Active-Active databases](https://redis.io/docs/latest/operate/rs/databases/active-active/) in Redis Software accept writes in more than one place and merge them with CRDTs. That is a feature of the commercial product, and it trades strong consistency for strong eventual consistency.
+
+<Callout type="tip" title="Design the failure path first">
+Decide what a service does when Redis is gone: serve a stale local copy, shed load, or fail the request. Then test it by turning the cache off. Multi-region failover is a later question, and it only matters once the first one has an answer.
+</Callout>
+
+## The alternatives are worse
+
+Skip the shared cache and the data still has to live somewhere, and it ends up in one of three places.
+
+**Each service hydrates its own copy at boot.** The Builders' Library lists the downsides of in-process caches directly. Data is [inconsistent from server to server](https://aws.amazon.com/builders-library/caching-challenges-and-strategies/), so repeated calls can return newer data and then older data depending on which instance answers. Load on the source grows with the size of the fleet. And a new server launches with an empty cache, a "cold start" that bites hardest during deployments. An external cache avoids all three, because it stays populated while the services behind it restart.
+
+Move the sliders to see the boot cost. The red bar is records divided by records per second. It repeats on every deploy and restart, once per service. The Redis row stays at zero because the data is already there. Each request pays one round trip instead.
+
+<BootCost />
+
+**The seed is an event log.** Then every service reads the topic from the beginning to build the same map, and the work and memory scale with the number of consumers. The previous post walks through why compaction, partitioning and start offsets don't change that.
+
+**Each instance refreshes its own TTL copy.** This trades the boot cost for staleness that differs per instance. Two requests a second apart can see different answers.
+
+| Approach | Boot work | Copies of the data | What goes wrong |
+| --- | --- | --- | --- |
+| In-process, seeded at boot | grows with the dataset | one per instance | cold starts, cross-instance drift, source load scales with fleet size |
+| Event log as the store | full replay per service | one per consumer | replay cost and memory scale with consumers |
+| Per-instance TTL refresh | none | one per instance | different instances serve different versions |
+| Shared Redis | none | one | extra fleet to run, a network hop, and a failure path to design |
+
+Only the last row has costs you can name in advance and plan for. The others fail in ways that depend on traffic, deploy timing and dataset size on a given day.
+
+## When local memory is still right
+
+The Builders' Library also says in-process caches [have no additional operational overhead](https://aws.amazon.com/builders-library/caching-challenges-and-strategies/) and are fairly low-risk to add. For a small, slow-moving dataset that every instance can load in a blink, that is a fair trade. The argument here is against seeding large or fast-changing data into every process, and against pretending that choice is free.
+
+## Sources
+
+All accessed 2026-10-03.
+
+- [Redis persistence](https://redis.io/docs/latest/operate/oss_and_stack/management/persistence/), Redis documentation.
+- [Redis pipelining](https://redis.io/docs/latest/develop/using-commands/pipelining/), Redis documentation.
+- [Diagnosing latency issues](https://redis.io/docs/latest/operate/oss_and_stack/management/optimization/latency/), Redis documentation.
+- [Redis Pub/Sub](https://redis.io/docs/latest/develop/pubsub/), Redis documentation.
+- [EXPIRE](https://redis.io/docs/latest/commands/expire/), Redis documentation.
+- [Redis replication](https://redis.io/docs/latest/operate/oss_and_stack/management/replication/), Redis documentation.
+- [High availability with Redis Sentinel](https://redis.io/docs/latest/operate/oss_and_stack/management/sentinel/), Redis documentation.
+- [Active-Active geo-distributed Redis](https://redis.io/docs/latest/operate/rs/databases/active-active/), Redis documentation.
+- [Caching challenges and strategies](https://aws.amazon.com/builders-library/caching-challenges-and-strategies/), Matt Brinkley and Jas Chhabra, Amazon Builders' Library. No publication date shown on the page.

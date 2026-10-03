@@ -1,0 +1,68 @@
+---
+const TYPES = ["note", "tip", "warning", "danger"] as const;
+type CalloutType = (typeof TYPES)[number];
+
+export interface Props {
+	type?: CalloutType;
+	title?: string;
+}
+
+const { type = "note", title } = Astro.props;
+// MDX props aren't type-checked, so fail the build with a useful message on a typo.
+if (!TYPES.includes(type)) {
+	throw new Error(`Unknown callout type "${type}"`);
+}
+
+const ICONS: Record<CalloutType, string> = {
+	note: "M12 8v5m0 3h.01M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Z",
+	tip: "M9 18h6m-5 3h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3Z",
+	warning:
+		"M12 9v4m0 3h.01M10.3 3.9 2.4 17.5A2 2 0 0 0 4.1 20.5h15.8a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z",
+	danger: "M12 8v5m0 3h.01M8.3 3h7.4L21 8.3v7.4L15.7 21H8.3L3 15.7V8.3L8.3 3Z",
+};
+---
+
+<aside class:list={["callout not-prose", type]} role="note">
+  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d={ICONS[type]}></path>
+  </svg>
+  <div class="body">
+    {title && <p class="title">{title}</p>}
+    <div class="content"><slot /></div>
+  </div>
+</aside>
+
+<style>
+  .callout {
+    --c-accent: #2563eb;
+    --c-bg: rgba(37, 99, 235, 0.08);
+    display: flex;
+    gap: 0.75rem;
+    margin-block: 1.75rem;
+    padding: 1rem 1.125rem;
+    border: 1px solid var(--c-accent);
+    border-left-width: 4px;
+    border-radius: 0.5rem;
+    background: var(--c-bg);
+    color: #374151;
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+  .callout.tip { --c-accent: #15803d; --c-bg: rgba(21, 128, 61, 0.08); }
+  .callout.warning { --c-accent: #b45309; --c-bg: rgba(180, 83, 9, 0.09); }
+  .callout.danger { --c-accent: #dc2626; --c-bg: rgba(220, 38, 38, 0.08); }
+  :global(.dark) .callout { color: #d1d5db; }
+  :global(.dark) .callout { --c-accent: #60a5fa; --c-bg: rgba(96, 165, 250, 0.12); }
+  :global(.dark) .callout.tip { --c-accent: #4ade80; --c-bg: rgba(74, 222, 128, 0.1); }
+  :global(.dark) .callout.warning { --c-accent: #fbbf24; --c-bg: rgba(251, 191, 36, 0.1); }
+  :global(.dark) .callout.danger { --c-accent: #f87171; --c-bg: rgba(248, 113, 113, 0.14); }
+  svg { flex: none; margin-top: 0.2rem; color: var(--c-accent); }
+  .body { min-width: 0; }
+  .title { margin: 0 0 0.25rem; font-weight: 700; color: var(--c-accent); }
+  .content :global(p) { margin: 0; }
+  .content :global(p + p) { margin-top: 0.5rem; }
+  .content :global(code) {
+    font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, monospace);
+    font-size: 0.875em;
+  }
+</style>
