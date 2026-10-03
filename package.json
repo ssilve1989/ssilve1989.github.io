@@ -1,16 +1,4 @@
 {
-	"name": "ssilve1989.github.io",
-	"type": "module",
-	"version": "0.0.1",
-	"packageManager": "pnpm@12.4.0",
-	"scripts": {
-		"astro": "astro",
-		"build": "astro build",
-		"dev": "astro dev",
-		"lint:ci": "biome ci --diagnostic-level error",
-		"lint": "biome check --fix",
-		"preview": "astro preview"
-	},
 	"dependencies": {
 		"@astrojs/mdx": "^8.0.2",
 		"@astrojs/rss": "^4.0.19",
@@ -26,6 +14,23 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.5.14",
+		"@commitlint/cli": "^21.2.3",
+		"@commitlint/config-conventional": "^21.2.3",
+		"commitlint": "^21.2.3",
+		"lefthook": "^2.1.16",
 		"typescript": "^7.0.2"
-	}
+	},
+	"name": "ssilve1989.github.io",
+	"packageManager": "pnpm@12.4.0",
+	"scripts": {
+		"astro": "astro",
+		"build": "astro build",
+		"dev": "astro dev",
+		"lint": "biome check --fix",
+		"lint:ci": "biome ci --diagnostic-level error",
+		"prepare": "node scripts/install-hooks.js",
+		"preview": "astro preview"
+	},
+	"type": "module",
+	"version": "0.0.1"
 }
