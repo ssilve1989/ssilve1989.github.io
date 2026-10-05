@@ -9,12 +9,14 @@ const SITE = "https://ssilve1989.github.io";
 const BLOG_DIR = new URL("../src/content/blog/", import.meta.url);
 const API = "https://dev.to/api";
 const MAX_TAGS = 4;
+const AI_DISCLOSURE_TAG = "abotwrotethis";
 
 const frontmatterSchema = z.object({
 	title: z.string(),
 	description: z.string(),
 	tags: z.array(z.string()).default([]),
 	devto: z.boolean().default(false),
+	aiAssisted: z.boolean().default(true),
 });
 
 const articleSchema = z.object({
@@ -81,11 +83,13 @@ function toDevtoMarkdown(body: string, canonicalUrl: string) {
 	return `${converted.trim()}${note}`;
 }
 
-function toDevtoTags(tags: string[]) {
+/** The disclosure tag goes first so the 4-tag cap never drops it. */
+function toDevtoTags(tags: string[], aiAssisted: boolean) {
 	const cleaned = tags
 		.map((tag) => tag.toLowerCase().replace(/[^a-z0-9]/g, ""))
 		.filter(Boolean);
-	return [...new Set(cleaned)].slice(0, MAX_TAGS);
+	const all = aiAssisted ? [AI_DISCLOSURE_TAG, ...cleaned] : cleaned;
+	return [...new Set(all)].slice(0, MAX_TAGS);
 }
 
 async function loadPosts() {
@@ -113,7 +117,7 @@ async function loadPosts() {
 			slug,
 			title: parsed.data.title,
 			description: parsed.data.description,
-			tags: toDevtoTags(parsed.data.tags),
+			tags: toDevtoTags(parsed.data.tags, parsed.data.aiAssisted),
 			body: toDevtoMarkdown(split.body, canonicalUrl),
 			canonicalUrl,
 		});

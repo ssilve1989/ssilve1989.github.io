@@ -54,6 +54,7 @@ const blogCollection = defineCollection({
 		updatedDate: z.coerce.date().optional(),
 		tags: z.array(z.string()).default([]),
 		devto: z.boolean().default(false),
+		aiAssisted: z.boolean().default(true),
 	}),
 });
 
