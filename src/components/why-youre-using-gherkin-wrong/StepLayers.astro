@@ -1,0 +1,78 @@
+---
+// Static diagram: one scenario and one set of steps sit on top of
+// interchangeable drivers. Labels only; the explanation lives in the post.
+export interface Props {
+	scenario: string;
+	steps: string;
+	drivers: string[];
+}
+
+const { scenario, steps, drivers } = Astro.props;
+// MDX props aren't type-checked, so fail the build with a useful message on bad input.
+if (!Array.isArray(drivers) || drivers.length < 2 || drivers.length > 4) {
+	throw new Error("StepLayers needs between 2 and 4 drivers");
+}
+
+const W = 640;
+const H = 322;
+const GAP = 16;
+const boxW = (W - GAP * (drivers.length - 1)) / drivers.length;
+const centers = drivers.map((_, i) => i * (boxW + GAP) + boxW / 2);
+const label = `A scenario titled "${scenario}" calls step definitions, which call one of ${drivers.length} drivers: ${drivers.join(", ")}.`;
+---
+
+<figure class="layers not-prose">
+  <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label={label}>
+    <rect class="box stable" x="0" y="0" width={W} height="64" rx="10"></rect>
+    <text class="tag" x="16" y="22">Scenario</text>
+    <text class="main" x={W / 2} y="46" text-anchor="middle">{scenario}</text>
+
+    <rect class="box stable" x="0" y="116" width={W} height="64" rx="10"></rect>
+    <text class="tag" x="16" y="138">Step definitions</text>
+    <text class="main" x={W / 2} y="162" text-anchor="middle">{steps}</text>
+
+    <line class="link" x1={W / 2} y1="64" x2={W / 2} y2="116"></line>
+    {centers.map((cx) => <line class="link" x1={W / 2} y1="180" x2={cx} y2="236"></line>)}
+
+    {drivers.map((name, i) => (
+      <>
+        <rect class="box swap" x={i * (boxW + GAP)} y="236" width={boxW} height="52" rx="10"></rect>
+        <text class="main" x={centers[i]} y="268" text-anchor="middle">{name}</text>
+      </>
+    ))}
+
+    <text class="tag" x={W} y="104" text-anchor="end">Changes only when the behavior changes</text>
+    <text class="tag" x={W} y="314" text-anchor="end">Changes when the implementation changes</text>
+  </svg>
+</figure>
+
+<style>
+  .layers {
+    --l-stable-bg: rgba(37, 99, 235, 0.08);
+    --l-stable-line: #2563eb;
+    --l-swap-bg: #f3f4f6;
+    --l-swap-line: #9ca3af;
+    --l-ink: #111827;
+    --l-ink-2: #4b5563;
+    margin-block: 2rem;
+  }
+  :global(.dark) .layers {
+    --l-stable-bg: rgba(96, 165, 250, 0.12);
+    --l-stable-line: #60a5fa;
+    --l-swap-bg: #374151;
+    --l-swap-line: #6b7280;
+    --l-ink: #f3f4f6;
+    --l-ink-2: #d1d5db;
+  }
+  svg { display: block; width: 100%; height: auto; }
+  .box { stroke-width: 1.5; }
+  .box.stable { fill: var(--l-stable-bg); stroke: var(--l-stable-line); }
+  .box.swap { fill: var(--l-swap-bg); stroke: var(--l-swap-line); stroke-dasharray: 5 4; }
+  .link { stroke: var(--l-swap-line); stroke-width: 1.5; }
+  .tag { fill: var(--l-ink-2); font: 500 12px var(--font-mono, ui-monospace, SFMono-Regular, Menlo, monospace); }
+  .main { fill: var(--l-ink); font: 600 15px var(--font-mono, ui-monospace, SFMono-Regular, Menlo, monospace); }
+  @media (max-width: 40rem) {
+    .main { font-size: 17px; }
+    .tag { font-size: 14px; }
+  }
+</style>

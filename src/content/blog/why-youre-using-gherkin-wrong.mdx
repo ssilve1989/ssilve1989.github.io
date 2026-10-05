@@ -1,0 +1,204 @@
+---
+title: "Why You're Using Gherkin Wrong"
+description: "Your Gherkin is bad and you should feel bad."
+pubDate: 2026-10-05
+tags: ["bdd", "cucumber", "gherkin", "testing"]
+devto: false
+---
+
+import Callout from "../../components/Callout.astro";
+import StepLayers from "../../components/why-youre-using-gherkin-wrong/StepLayers.astro";
+
+If your feature files say `When a POST request is sent to "/orders"` and `Then the orders table contains a row with status "PAID"`, you wrote a test script and painted Given/When/Then on top. Engineers hear "behavior", think "system behavior", and miss the point. That's wrong, and it kills the reason you picked BDD.
+
+You picked BDD to get specs the business can actually read. Cucumber says so itself: BDD [closes the gap between business people and technical people](https://cucumber.io/docs/bdd/). Status codes and table names leave the gap right where it was. Now the file is also welded to one implementation, so the first refactor breaks your specs even though nothing a user can see changed. That's a tax, and you're paying it for nothing.
+
+The whole idea is to hide the technical detail so you aren't tied to it. Behavior stays put. Implementation moves. Here's one scenario three ways, then where the technical stuff goes.
+
+## What the scenarios are for
+
+Cucumber splits BDD into discovery, formulation and automation. Discovery is first for a reason. It's a conversation built around [real-world examples of the system from the users' perspective](https://cucumber.io/docs/bdd/). Formulation writes them down so people and computers can both read them. Automation wires each one to the system as a test. Jump straight to the last one and what you've got is a test suite.
+
+The Gherkin file is the record of that conversation. If it's full of HTTP verbs, nobody had the conversation.
+
+Dan North and Chris Matts came up with Given/When/Then. North's 2006 article: [a story's behaviour is simply its acceptance criteria](https://dannorth.net/blog/introducing-bdd/). The system meets them or it doesn't. His own example was already at the user's level:
+
+```gherkin
+Scenario: Account is in credit
+  Given the account is in credit
+  And the card is valid
+  And the dispenser contains cash
+  When the customer requests cash
+  Then ensure the account is debited
+  And ensure cash is dispensed
+  And ensure the card is returned
+```
+
+Nothing about how the card reader talks to the bank. That was 2006. We still screw this up.
+
+## One scenario, three ways
+
+Free shipping on orders of $50 or more. Version one, against the browser:
+
+```gherkin
+Scenario: Large orders ship free
+  Given I am logged in as "priya@example.com"
+  And I open the "Trail Kettle" page
+  When I click "Add to cart"
+  And I click the cart icon
+  And I click "Checkout"
+  And I click "Place order"
+  Then I see "Shipping: $0.00"
+  And I see "Order confirmed"
+```
+
+Version two, system behavior. Lots of engineers call this correct. They're wrong:
+
+```gherkin
+Scenario: Large orders ship free
+  Given an authenticated session for customer 4821
+  And a cart with line items totaling 6000 cents
+  When a POST request is sent to "/orders"
+  Then the response status is 201
+  And the "shipping_cents" field of the response is 0
+  And the orders table contains a row with status "PAID"
+  And an "order.paid" event is published to the "orders" topic
+```
+
+Version three, for the user:
+
+```gherkin
+Scenario: Large orders ship free
+  Given Priya has $60 of items in her cart
+  When Priya checks out
+  Then Priya is not charged for shipping
+  And Priya receives an order confirmation
+```
+
+Same rule, three files. Only the last one lets Priya, a product owner and a support agent each say "yes, that's right". It also survives a rewrite. Mobile app instead of a checkout page? GraphQL instead of REST? The file doesn't change.
+
+## Two questions that catch a leaky step
+
+Cucumber gives you a test: [will this wording need to change if the implementation does?](https://cucumber.io/docs/bdd/better-gherkin/) If yes, fix the step. The Gherkin reference has a better one for `When` steps: [imagine it's 1922](https://cucumber.io/docs/gherkin/reference/). No computers. Most software does something people could do by hand, just slower, so write examples that assume no tech and no UI.
+
+Run version two through both. "A POST request is sent to /orders" fails the first, since GraphQL changes it. Fails the second, since a clerk in 1922 can't take a POST. Every leak and the fix:
+
+| Leaky step | What leaked | Rewrite |
+| --- | --- | --- |
+| `I click "Place order"` | UI mechanics | `Priya checks out` |
+| `a POST request is sent to "/orders"` | protocol and route | `Priya checks out` |
+| `the response status is 201` | status code | `Priya receives an order confirmation` |
+| `a cart with line items totaling 6000 cents` | data model and units | `Priya has $60 of items in her cart` |
+| `the orders table contains a row with status "PAID"` | storage | `Priya sees the order in her order history` |
+| `an "order.paid" event is published` | messaging plumbing | `the warehouse is asked to pack Priya's order` |
+
+Storage gets its own rule. The Gherkin reference says a `Then` checks an [observable output](https://cucumber.io/docs/gherkin/reference/): a report, a screen, a message. It names the temptation, `Then` steps that go look in the database, and says resist it.
+
+Who is the user? The same page says `Given` sets up the system before [the user (or external system)](https://cucumber.io/docs/gherkin/reference/) starts interacting with it. A warehouse system receiving the order is an external user, so it gets its own vocabulary. "Asked to pack the order" is behavior. The topic name is a detail.
+
+## Backgrounds make it worse
+
+Here's a Background. Ten steps before the first scenario even starts:
+
+```gherkin
+Background:
+  Given catalog item "item"
+  And account "buyer-co"
+    | isAllowBulkOrders | true |
+  And ops user "coordinator"
+    | isOrderAssist | true |
+  And "buyer-co" has purchaser "purchaser" with sufficient credit limit
+  And clearance engine state is set
+    | isClearanceEnabled | name         | windowSeconds |
+    | true               | CLEAR-WINDOW |           900 |
+  And clearance jobs are running
+    | itemKey | isClearanceEnabled | basePrice |
+    | item    | true               |       100 |
+  And "Assisted Ordering" feature switch is enabled for "coordinator"
+  And "coordinator" places a bulk order
+    | orderKey | itemKey | type | quantity | price | onBehalfOfUserKey |
+    | order    | item    | BUY  |      500 |   100 | purchaser         |
+  And "coordinator" is logged into the "Assisted Ordering" app
+  And user filters the clearance queue by searching user "purchaser"
+```
+
+Count what a reader has to know to follow that. Feature switches. Internal engine state. Background jobs that have to be running. Boolean flags on accounts. Database keys in table columns. Which app someone is logged into and how they filtered a list. None of it is what the coordinator is trying to do, which is place an order for a purchaser.
+
+The Gherkin reference says to [keep a Background short and not use it for complicated state](https://cucumber.io/docs/gherkin/reference/) unless the client needs to know about that state. If it runs past four lines, consider moving some of the irrelevant details into higher-level steps. This one is ten steps and most of them are plumbing.
+
+Same setup at the user's level:
+
+```gherkin
+Background:
+  Given Dana is a coordinator who can place orders for buyers
+  And Acme Supply has a purchaser, Pat, with enough credit for a 500-unit order
+  And Dana has placed that order on Pat's behalf
+  And Dana is looking at Pat's order in the assisted ordering queue
+```
+
+Four lines. The feature switch, the engine state and the running jobs didn't disappear. They live in step definitions, or in suite setup if they're environment config. The reader doesn't have to care.
+
+## A step can do a lot
+
+User-level steps can be expensive. "Steve logs in to the system" can fetch a token, seed an account and set a cookie. Fine. All that matters is Steve ends up logged in. That's why Cucumber says [implementation details belong in the step definitions](https://cucumber.io/docs/gherkin/reference/), the automation code behind each step.
+
+<StepLayers
+  scenario="Priya checks out"
+  steps="checks out → shopper.checkOut()"
+  drivers={["Browser UI", "HTTP API", "Service call"]}
+/>
+
+Scenario and steps know a small interface. Which driver sits behind it is the test suite's problem. The feature file never finds out. Here's the TypeScript, run against `@cucumber/cucumber` 13.2.1:
+
+```ts
+// features/support/shop.ts
+export interface Receipt {
+	shippingCents: number;
+	confirmationSent: boolean;
+}
+
+export interface Shopper {
+	fillCart(dollars: number): Promise<void>;
+	checkOut(): Promise<Receipt>;
+}
+```
+
+```ts
+// features/support/steps.ts
+Given(
+	/^(\w+) has \$(\d+) of items in (?:her|their) cart$/,
+	async function (this: ShopWorld, _customer: string, dollars: string) {
+		await this.shopper.fillCart(Number(dollars));
+	},
+);
+
+When("{word} checks out", async function (this: ShopWorld, _customer: string) {
+	this.receipt = await this.shopper.checkOut();
+});
+
+Then("{word} is not charged for shipping", function (this: ShopWorld, _customer: string) {
+	assert.ok(this.receipt, "checkout did not run");
+	assert.equal(this.receipt.shippingCents, 0);
+});
+```
+
+`ShopWorld` holds the `Shopper` and the last `Receipt`. My in-memory `Shopper` is a few lines. A browser version would drive Playwright, an API version would call `fetch`. Swap drivers and one file under `features/support/` changes. The scenarios don't.
+
+<Callout type="tip" title="Keep the mechanics in one place">
+Selector, route or column name in a step? Move it to a driver. Steps call a method with a domain name. The driver does the clicking or the requests.
+</Callout>
+
+## When detail is the point
+
+Imperative has its place. The docs say [imperative tests communicate details, and in some contexts this style of test is appropriate](https://cucumber.io/docs/bdd/better-gherkin/). Testing the login form itself? Is the exact error copy the requirement? Then the clicks and strings are the behavior. You'll pay for it, though. Every UI change means editing the scenario.
+
+Default to the user's level. Skim the feature file and you should know what the product does. How it's built shouldn't show up.
+
+## Sources
+
+All accessed 2026-10-05.
+
+- [Writing better Gherkin](https://cucumber.io/docs/bdd/better-gherkin/), Cucumber documentation, last updated 4 Oct 2026.
+- [Gherkin reference](https://cucumber.io/docs/gherkin/reference/), Cucumber documentation.
+- [Behaviour-Driven Development](https://cucumber.io/docs/bdd/), Cucumber documentation, last updated 4 Oct 2026.
+- [Introducing BDD](https://dannorth.net/blog/introducing-bdd/), Dan North, 20 Sep 2006.
