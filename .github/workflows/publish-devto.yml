@@ -1,0 +1,35 @@
+name: Publish to dev.to
+
+on:
+  # Run once the site is live so canonical URLs resolve
+  workflow_run:
+    workflows: ["Deploy to GitHub Pages"]
+    types: [completed]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: publish-devto
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    # workflow_run fires on failures too; manual runs always proceed
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Publish opted-in posts
+        run: pnpm publish:devto
+        env:
+          DOTENV_PRIVATE_KEY: ${{ secrets.DOTENV_PRIVATE_KEY }}
