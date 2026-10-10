@@ -15,30 +15,30 @@ AI writes changes faster than people can read them, so review is now the queue. 
 
 Then a human, or a reviewer prompted slightly differently, spots something obvious that all ten rounds walked past. This post covers why that happens and how to read a review result without over-trusting it.
 
-## A reviewer always has something to say
+## A reviewer usually has something to say
 
-Ask a model for findings and you get findings, whether or not the change has a defect. The SWR-Bench authors measured this directly. Their benchmark has 500 "Clean-PRs" that were filtered for known defects, so any comment on one [counts as a false positive](https://arxiv.org/html/2509.01494v2). The best tool and model pairing scored an F1 of 19.38%. Some pairings averaged more than 7 false positives per pull request, and four other techniques all had precision below 10%.
+Ask a model for findings and you get findings, whether or not the change has a defect. The SWR-Bench authors measured this directly. Their benchmark has 500 "Clean-PRs" that were filtered for known defects, so any comment on one [counts as a false positive](https://arxiv.org/html/2509.01494v2). The best single-pass pairing, PR-Review with Gemini-2.5-Pro, scored an F1 of 19.38%. Of the seven approaches tested, only PR-Review averaged precision above 10%. Hybrid-Review with DeepSeek-R1 averaged 7.6 false positives per pull request.
 
-A separate paper found that LLMs [frequently misclassify correct code](https://arxiv.org/abs/2508.12358) as not meeting its requirements or as containing defects. Adding explanations and suggested fixes to the prompt made the misjudgment rate worse.
+A separate paper tested LLMs on checking code against natural-language requirements. They [frequently misclassified correct code](https://arxiv.org/abs/2508.12358) as not meeting its requirements or as containing defects, and more elaborate prompts with explanations and proposed fixes raised the misjudgment rate.
 
 ## Missing context turns tradeoffs into bugs
 
-The SWR-Bench authors read 100 false positives sampled from 1,101. The largest bucket was a lack of contextual understanding at 48%, and a lack of domain knowledge came next at 13%.
+The SWR-Bench authors read 100 functional false positives sampled from the 1,101 that PR-Review with Gemini-2.5-Pro produced. The largest bucket was a lack of contextual understanding at 48%, and a lack of domain knowledge came next at 13%.
 
-| Failure | Example from the paper | What it looks like in your repo |
-| --- | --- | --- |
-| Missing context | Tool warned that `*result` could raise a `TypeError`. The same commit had built `result` as a tuple. | "Possible null here" on a value validated three lines up in a file the reviewer never opened. |
-| Missing domain knowledge | Tool flagged `is S.true` in sympy, the library's standard way to check symbolic booleans. | A project idiom or accepted tradeoff the reviewer has no way to know about. |
+| Failure | Example from the paper |
+| --- | --- |
+| Missing context | Tool warned that `*result` could raise a `TypeError`. The same commit had built `result` as a tuple. |
+| Missing domain knowledge | Tool flagged `is S.true` in sympy, the library's standard way to check symbolic booleans. |
 
-An accepted tradeoff is the second row. The decision lives in a meeting, a ticket, or your head, and the reviewer only sees the diff. It will call the choice incorrect every round until the reason sits where it reads.
+An accepted tradeoff is a project decision like the second row. It lives in a meeting, a ticket, or your head, and the reviewer only sees the diff. It will call the choice incorrect every round until the reason sits where it reads.
 
 ## A clean round is one sample
 
 Models are not deterministic, and temperature 0 does not fix that. Thinking Machines found that LLM APIs [are still not deterministic in practice](https://thinkingmachines.ai/blog/defeating-nondeterminism-in-llm-inference/) at temperature 0. Their explanation: kernels are not batch-invariant, so the server's load changes the batch size, and the batch size changes each request's result.
 
-SWR-Bench measured what that does to review. Over five independent runs of the same LLM, [only 27 of the successfully identified change-actions overlapped](https://arxiv.org/html/2509.01494v2). Each run caught things the others missed. The authors then aggregated 10 runs of Gemini-2.5-Flash with an extra LLM call and got F1 up 43.67% and recall up 118.83%.
+SWR-Bench measured how much review results vary, without tracing the variance to a cause. Across five independent runs of the same LLM, [only 27 of the successfully identified change-actions overlapped](https://arxiv.org/html/2509.01494v2). The authors then aggregated 10 runs of Gemini-2.5-Flash with an extra LLM call and got F1 up 43.67% and recall up 118.83%.
 
-One run is one draw. In that experiment a single run recalled under half of what ten runs found together, so one clean result says little about what the next run would flag.
+One run is one draw. Aggregating ten runs more than doubled recall, so a single run leaves findings on the table and one clean result says little about what the next run would flag.
 
 ## Disagreement points at the change
 
@@ -52,7 +52,7 @@ What I watch for is a loop that will not settle.
   escalate="Rounds never settle or reviewers conflict: read the change"
 />
 
-If reviewers keep contradicting each other, or every round turns up new findings, the reviewers are rarely the problem. The change is usually too large, too vague about its intent, or missing the context anyone would need to judge it. Re-rolling the review hides that. Splitting the change, writing down the intent, or reading it yourself addresses it.
+If reviewers keep contradicting each other, or every round turns up new findings, I take that as a sign something went wrong in the change process. The suspects are a change that is too large, vague about its intent, or missing the context anyone would need to judge it. Re-rolling the review hides that. Splitting the change, writing down the intent, or reading it yourself addresses it.
 
 <Callout type="tip" title="Triage every finding">
 Each finding gets one of three outcomes: fixed, accepted with a written reason, or rejected with a written reason. The reasons go where the next reviewer will see them, in the PR description or a comment at the call site.
@@ -74,5 +74,5 @@ I used Claude to research the sources and draft this post. I reviewed the claims
 All accessed 2026-10-09.
 
 - [SWR-Bench: Assessing LLM Performance in Real-World Code Review Comment Generation](https://arxiv.org/abs/2509.01494), Zeng et al., arXiv, v2 revised 5 Jun 2026.
-- [Uncovering Systematic Failures of LLMs in Verifying Code Against Natural Language Specifications](https://arxiv.org/abs/2508.12358), arXiv, 17 Aug 2025.
+- [Uncovering Systematic Failures of LLMs in Verifying Code Against Natural Language Specifications](https://arxiv.org/abs/2508.12358), Haolin Jin and Huaming Chen, arXiv, 17 Aug 2025.
 - [Defeating Nondeterminism in LLM Inference](https://thinkingmachines.ai/blog/defeating-nondeterminism-in-llm-inference/), Horace He and others, Thinking Machines Lab, 10 Sep 2025.
