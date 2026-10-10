@@ -14,6 +14,8 @@ const projects = [
 		.map((tech) => tech.toLowerCase())
 		.join(" · "),
 	href: data.link ?? data.github,
+	image: data.image,
+	spotlight: data.spotlight,
 	status:
 		data.type === "opensource"
 			? "open source"
@@ -21,6 +23,8 @@ const projects = [
 				? "live site"
 				: "private",
 }));
+const spotlights = projects.filter((project) => project.spotlight);
+const rows = projects.filter((project) => !project.spotlight);
 
 const rowClass =
 	"grid gap-1 md:grid-cols-[220px_minmax(0,1fr)_200px_100px_16px] md:gap-6 md:items-baseline px-3 py-5 border-b border-rule";
@@ -42,8 +46,37 @@ const rowClass =
     </a>
   </div>
 
+  {spotlights.map((project) => (
+    <a
+      href={project.href}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="group mb-10 grid items-center gap-8 rounded-[10px] border border-rule bg-surface p-6 md:p-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,600px)] hover:border-signal transition-colors"
+    >
+      <div class="flex flex-col gap-3">
+        <p class="font-mono text-[13px] text-signal">spotlight · {project.status}</p>
+        <h3 class="font-display font-bold text-2xl md:text-[32px] tracking-[-0.025em] text-ink group-hover:text-signal transition-colors">
+          {project.title}
+        </h3>
+        <p class="text-[17px] leading-[1.65] text-ink-soft">{project.description}</p>
+        <p class="font-mono text-xs text-muted">{project.stack}</p>
+        <span class="font-mono text-[13px] text-signal">view on GitHub →</span>
+      </div>
+      {project.image && (
+        <img
+          src={project.image}
+          alt=""
+          width="600"
+          height="74"
+          loading="lazy"
+          class="w-full h-auto [image-rendering:pixelated]"
+        />
+      )}
+    </a>
+  ))}
+
   <ul class="border-t border-rule">
-    {projects.map((project) => {
+    {rows.map((project) => {
       const cells = (
         <>
           <span class="font-display font-bold text-xl text-ink">{project.title}</span>
