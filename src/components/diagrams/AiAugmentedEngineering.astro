@@ -1,7 +1,7 @@
 ---
 ---
 
-<div class="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-5 flex items-center justify-center">
+<div class="rounded-xl border border-rule bg-surface p-5 flex items-center justify-center">
   <svg
     id="ai-diagram"
     viewBox="0 0 600 340"
@@ -9,35 +9,35 @@
     role="img"
     aria-label="An architect directs three AI agents producing code, which passes through a review gate before reaching the production system; one fragment is shown being rejected at review."
   >
-    <path d="M300,40 L140,150" class="fill-none stroke-gray-300 dark:stroke-gray-600" stroke-width="2" />
-    <path d="M300,40 L300,150" class="fill-none stroke-gray-300 dark:stroke-gray-600" stroke-width="2" />
-    <path d="M300,40 L460,150" class="fill-none stroke-gray-300 dark:stroke-gray-600" stroke-width="2" />
-    <path id="ai-path1" d="M140,150 L230,222" class="fill-none stroke-gray-300 dark:stroke-gray-600" stroke-width="2" />
-    <path id="ai-path2" d="M300,150 L300,222" class="fill-none stroke-gray-300 dark:stroke-gray-600" stroke-width="2" />
-    <path id="ai-path3" d="M460,150 L370,222" class="fill-none stroke-gray-300 dark:stroke-gray-600" stroke-width="2" />
-    <path id="ai-pathSystem" d="M300,258 L300,292" class="fill-none stroke-gray-300 dark:stroke-gray-600" stroke-width="2" />
+    <path d="M300,40 L140,150" class="fill-none stroke-line" stroke-width="2" />
+    <path d="M300,40 L300,150" class="fill-none stroke-line" stroke-width="2" />
+    <path d="M300,40 L460,150" class="fill-none stroke-line" stroke-width="2" />
+    <path id="ai-path1" d="M140,150 L230,222" class="fill-none stroke-line" stroke-width="2" />
+    <path id="ai-path2" d="M300,150 L300,222" class="fill-none stroke-line" stroke-width="2" />
+    <path id="ai-path3" d="M460,150 L370,222" class="fill-none stroke-line" stroke-width="2" />
+    <path id="ai-pathSystem" d="M300,258 L300,292" class="fill-none stroke-line" stroke-width="2" />
 
     <g id="ai-architect">
-      <circle cx="300" cy="40" r="22" class="fill-white dark:fill-gray-800 stroke-purple-500 dark:stroke-purple-400" stroke-width="2" />
-      <text x="300" y="44" text-anchor="middle" class="fill-gray-700 dark:fill-gray-200" font-size="11">You</text>
+      <circle cx="300" cy="40" r="22" class="fill-surface stroke-signal" stroke-width="2" />
+      <text x="300" y="44" text-anchor="middle" class="fill-ink-soft" font-size="11">You</text>
     </g>
 
-    <circle cx="140" cy="150" r="21" class="fill-white dark:fill-gray-800 stroke-purple-500 dark:stroke-purple-400" stroke-width="2" />
-    <text x="140" y="154" text-anchor="middle" class="fill-gray-700 dark:fill-gray-200" font-size="8.5">AI Agent</text>
-    <circle cx="300" cy="150" r="21" class="fill-white dark:fill-gray-800 stroke-purple-500 dark:stroke-purple-400" stroke-width="2" />
-    <text x="300" y="154" text-anchor="middle" class="fill-gray-700 dark:fill-gray-200" font-size="8.5">AI Agent</text>
-    <circle cx="460" cy="150" r="21" class="fill-white dark:fill-gray-800 stroke-purple-500 dark:stroke-purple-400" stroke-width="2" />
-    <text x="460" y="154" text-anchor="middle" class="fill-gray-700 dark:fill-gray-200" font-size="8.5">AI Agent</text>
+    <circle cx="140" cy="150" r="21" class="fill-surface stroke-signal" stroke-width="2" />
+    <text x="140" y="154" text-anchor="middle" class="fill-ink-soft" font-size="8.5">AI Agent</text>
+    <circle cx="300" cy="150" r="21" class="fill-surface stroke-signal" stroke-width="2" />
+    <text x="300" y="154" text-anchor="middle" class="fill-ink-soft" font-size="8.5">AI Agent</text>
+    <circle cx="460" cy="150" r="21" class="fill-surface stroke-signal" stroke-width="2" />
+    <text x="460" y="154" text-anchor="middle" class="fill-ink-soft" font-size="8.5">AI Agent</text>
 
-    <rect x="230" y="218" width="140" height="40" rx="8" class="fill-white dark:fill-gray-800 stroke-purple-500 dark:stroke-purple-400" stroke-width="2" />
-    <text x="300" y="242" text-anchor="middle" class="fill-gray-700 dark:fill-gray-200" font-size="11">Review</text>
+    <rect x="230" y="218" width="140" height="40" rx="8" class="fill-surface stroke-signal" stroke-width="2" />
+    <text x="300" y="242" text-anchor="middle" class="fill-ink-soft" font-size="11">Review</text>
 
-    <rect x="220" y="292" width="160" height="40" rx="8" class="fill-white dark:fill-gray-800 stroke-purple-500 dark:stroke-purple-400" stroke-width="2" />
-    <text x="300" y="316" text-anchor="middle" class="fill-gray-700 dark:fill-gray-200" font-size="11">Production System</text>
+    <rect x="220" y="292" width="160" height="40" rx="8" class="fill-surface stroke-signal" stroke-width="2" />
+    <text x="300" y="316" text-anchor="middle" class="fill-ink-soft" font-size="11">Production System</text>
 
-    <rect id="ai-frag1" width="8" height="8" x="-4" y="-4" class="fill-blue-500 dark:fill-blue-400" opacity="0" />
-    <rect id="ai-frag2" width="8" height="8" x="-4" y="-4" class="fill-blue-500 dark:fill-blue-400" opacity="0" />
-    <rect id="ai-frag3" width="8" height="8" x="-4" y="-4" class="fill-blue-500 dark:fill-blue-400" opacity="0" />
+    <rect id="ai-frag1" width="8" height="8" x="-4" y="-4" class="fill-signal" opacity="0" />
+    <rect id="ai-frag2" width="8" height="8" x="-4" y="-4" class="fill-signal" opacity="0" />
+    <rect id="ai-frag3" width="8" height="8" x="-4" y="-4" class="fill-signal" opacity="0" />
     <circle id="ai-toSystem1" r="4.5" class="fill-emerald-500" opacity="0" />
     <circle id="ai-toSystem3" r="4.5" class="fill-emerald-500" opacity="0" />
   </svg>
@@ -94,7 +94,7 @@
 
     const cycle2Reject = gsap.timeline({ repeat: -1 });
     cycle2Reject
-      .set(frag2, { attr: { x: 296, y: 146 }, opacity: 1, fill: '#3b82f6' })
+      .set(frag2, { attr: { x: 296, y: 146 }, opacity: 1, clearProps: 'fill' })
       .to(frag2, { attr: { y: 190 }, duration: 1.3, ease: 'power1.in' }, 0)
       .to(frag2, { fill: '#ef4444', duration: 0.2 }, 1.2)
       .to(frag2, { attr: { y: 166 }, duration: 0.5, ease: 'power1.out' }, 1.4)

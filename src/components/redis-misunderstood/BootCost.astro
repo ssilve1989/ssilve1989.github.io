@@ -74,12 +74,12 @@
 
 <style>
   .bootcost {
-    --b-surface: #ffffff;
-    --b-surface-2: #f3f4f6;
-    --b-ink: #111827;
-    --b-ink-2: #4b5563;
-    --b-line: #d1d5db;
-    --b-accent: #2563eb;
+    --b-surface: var(--surface);
+    --b-surface-2: var(--ground);
+    --b-ink: var(--ink);
+    --b-ink-2: var(--ink-soft);
+    --b-line: var(--line);
+    --b-accent: var(--signal);
     --b-bad: #dc2626;
     --b-ok: #15803d;
     margin-block: 2rem;
@@ -90,12 +90,6 @@
     color: var(--b-ink);
   }
   :global(.dark) .bootcost {
-    --b-surface: #1f2937;
-    --b-surface-2: #374151;
-    --b-ink: #f3f4f6;
-    --b-ink-2: #d1d5db;
-    --b-line: #4b5563;
-    --b-accent: #60a5fa;
     --b-bad: #f87171;
     --b-ok: #4ade80;
   }

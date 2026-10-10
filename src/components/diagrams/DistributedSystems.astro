@@ -1,7 +1,7 @@
 ---
 ---
 
-<div class="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-5 flex items-center justify-center">
+<div class="rounded-xl border border-rule bg-surface p-5 flex items-center justify-center">
   <svg
     id="ds-diagram"
     viewBox="0 0 600 300"
@@ -9,33 +9,33 @@
     role="img"
     aria-label="A client request passes through a gateway to three services and a shared data layer; when one service goes down, traffic reroutes to a healthy service."
   >
-    <path id="ds-pathA" d="M60,150 L220,150 L420,72 L558,150" class="fill-none stroke-gray-300 dark:stroke-gray-600" stroke-width="2" />
-    <path id="ds-pathB" d="M60,150 L220,150 L420,150 L558,150" class="fill-none stroke-gray-300 dark:stroke-gray-600" stroke-width="2" />
-    <path id="ds-pathC" d="M60,150 L220,150 L420,228 L558,150" class="fill-none stroke-gray-300 dark:stroke-gray-600" stroke-width="2" />
+    <path id="ds-pathA" d="M60,150 L220,150 L420,72 L558,150" class="fill-none stroke-line" stroke-width="2" />
+    <path id="ds-pathB" d="M60,150 L220,150 L420,150 L558,150" class="fill-none stroke-line" stroke-width="2" />
+    <path id="ds-pathC" d="M60,150 L220,150 L420,228 L558,150" class="fill-none stroke-line" stroke-width="2" />
 
-    <circle id="ds-client" cx="60" cy="150" r="22" class="fill-white dark:fill-gray-800 stroke-purple-500 dark:stroke-purple-400" stroke-width="2" />
-    <text x="60" y="154" text-anchor="middle" class="fill-gray-700 dark:fill-gray-200" font-size="11">Client</text>
+    <circle id="ds-client" cx="60" cy="150" r="22" class="fill-surface stroke-signal" stroke-width="2" />
+    <text x="60" y="154" text-anchor="middle" class="fill-ink-soft" font-size="11">Client</text>
 
-    <circle id="ds-gateway" cx="220" cy="150" r="22" class="fill-white dark:fill-gray-800 stroke-purple-500 dark:stroke-purple-400" stroke-width="2" />
-    <text x="220" y="154" text-anchor="middle" class="fill-gray-700 dark:fill-gray-200" font-size="9">Gateway</text>
+    <circle id="ds-gateway" cx="220" cy="150" r="22" class="fill-surface stroke-signal" stroke-width="2" />
+    <text x="220" y="154" text-anchor="middle" class="fill-ink-soft" font-size="9">Gateway</text>
 
-    <circle cx="420" cy="72" r="24" class="fill-white dark:fill-gray-800 stroke-purple-500 dark:stroke-purple-400" stroke-width="2" />
-    <text x="420" y="76" text-anchor="middle" class="fill-gray-700 dark:fill-gray-200" font-size="9">Service A</text>
+    <circle cx="420" cy="72" r="24" class="fill-surface stroke-signal" stroke-width="2" />
+    <text x="420" y="76" text-anchor="middle" class="fill-ink-soft" font-size="9">Service A</text>
 
-    <circle cx="420" cy="150" r="24" class="fill-white dark:fill-gray-800 stroke-purple-500 dark:stroke-purple-400" stroke-width="2" />
-    <text x="420" y="154" text-anchor="middle" class="fill-gray-700 dark:fill-gray-200" font-size="9">Service B</text>
+    <circle cx="420" cy="150" r="24" class="fill-surface stroke-signal" stroke-width="2" />
+    <text x="420" y="154" text-anchor="middle" class="fill-ink-soft" font-size="9">Service B</text>
 
-    <circle id="ds-serviceC" cx="420" cy="228" r="24" class="fill-white dark:fill-gray-800 stroke-purple-500 dark:stroke-purple-400" stroke-width="2" />
+    <circle id="ds-serviceC" cx="420" cy="228" r="24" class="fill-surface stroke-signal" stroke-width="2" />
     <circle id="ds-serviceC-danger" cx="420" cy="228" r="24" class="fill-none stroke-red-500" stroke-width="2" opacity="0" />
-    <text x="420" y="232" text-anchor="middle" class="fill-gray-700 dark:fill-gray-200" font-size="9">Service C</text>
+    <text x="420" y="232" text-anchor="middle" class="fill-ink-soft" font-size="9">Service C</text>
     <text id="ds-badge" x="420" y="196" text-anchor="middle" class="fill-red-500" font-size="10" opacity="0">⚠ down</text>
 
-    <rect x="528" y="130" width="60" height="40" rx="8" class="fill-white dark:fill-gray-800 stroke-purple-500 dark:stroke-purple-400" stroke-width="2" />
-    <text x="558" y="154" text-anchor="middle" class="fill-gray-700 dark:fill-gray-200" font-size="11">Data</text>
+    <rect x="528" y="130" width="60" height="40" rx="8" class="fill-surface stroke-signal" stroke-width="2" />
+    <text x="558" y="154" text-anchor="middle" class="fill-ink-soft" font-size="11">Data</text>
 
-    <circle id="ds-packetA" r="4.5" class="fill-blue-500 dark:fill-blue-400" />
-    <circle id="ds-packetB" r="4.5" class="fill-blue-500 dark:fill-blue-400" />
-    <circle id="ds-packetC" r="4.5" class="fill-blue-500 dark:fill-blue-400" />
+    <circle id="ds-packetA" r="4.5" class="fill-signal" />
+    <circle id="ds-packetB" r="4.5" class="fill-signal" />
+    <circle id="ds-packetC" r="4.5" class="fill-signal" />
     <circle id="ds-packetReroute" r="4.5" class="fill-amber-500" opacity="0" />
   </svg>
 </div>

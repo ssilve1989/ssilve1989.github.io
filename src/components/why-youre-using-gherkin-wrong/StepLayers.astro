@@ -48,21 +48,13 @@ const label = `A scenario titled "${scenario}" calls step definitions, which cal
 
 <style>
   .layers {
-    --l-stable-bg: rgba(37, 99, 235, 0.08);
-    --l-stable-line: #2563eb;
-    --l-swap-bg: #f3f4f6;
-    --l-swap-line: #9ca3af;
-    --l-ink: #111827;
-    --l-ink-2: #4b5563;
+    --l-stable-bg: color-mix(in srgb, var(--signal) 9%, transparent);
+    --l-stable-line: var(--signal);
+    --l-swap-bg: var(--ground);
+    --l-swap-line: var(--line);
+    --l-ink: var(--ink);
+    --l-ink-2: var(--ink-soft);
     margin-block: 2rem;
-  }
-  :global(.dark) .layers {
-    --l-stable-bg: rgba(96, 165, 250, 0.12);
-    --l-stable-line: #60a5fa;
-    --l-swap-bg: #374151;
-    --l-swap-line: #6b7280;
-    --l-ink: #f3f4f6;
-    --l-ink-2: #d1d5db;
   }
   svg { display: block; width: 100%; height: auto; }
   .box { stroke-width: 1.5; }
