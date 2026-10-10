@@ -1,0 +1,87 @@
+---
+// Static diagram: a review loop with an exit when it stops converging.
+// Labels only; the explanation lives in the post.
+export interface Props {
+	stages: string[];
+	loop: string;
+	escalate: string;
+}
+
+const { stages, loop, escalate } = Astro.props;
+// MDX props aren't type-checked, so fail the build with a useful message on bad input.
+if (!Array.isArray(stages) || stages.length !== 4) {
+	throw new Error("ReviewLoop needs exactly 4 stages");
+}
+
+const W = 640;
+const H = 214;
+const GAP = 32;
+const boxW = (W - GAP * 3) / 4;
+const xs = stages.map((_, i) => i * (boxW + GAP));
+const centers = xs.map((x) => x + boxW / 2);
+const [, reviewX, triageX] = centers;
+const mid = (reviewX + triageX) / 2;
+const label = `Flow: ${stages.join(", then ")}. Triage loops back to review (${loop}). When rounds stop converging: ${escalate}.`;
+---
+
+<figure class="loop not-prose">
+  <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label={label}>
+    <defs>
+      <marker id="rl-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path class="head" d="M0 0 L10 5 L0 10 z"></path>
+      </marker>
+    </defs>
+
+    {stages.map((name, i) => (
+      <>
+        <rect class="box" x={xs[i]} y="0" width={boxW} height="56" rx="10"></rect>
+        <text class="main" x={centers[i]} y="33" text-anchor="middle">{name}</text>
+      </>
+    ))}
+
+    {xs.slice(0, -1).map((x, i) => (
+      <line class="link" x1={x + boxW} y1="28" x2={xs[i + 1] - 2} y2="28" marker-end="url(#rl-arrow)"></line>
+    ))}
+
+    <path class="link" d={`M${triageX} 56 V100 H${reviewX} V58`} fill="none" marker-end="url(#rl-arrow)"></path>
+    <text class="tag" x={mid} y="92" text-anchor="middle">{loop}</text>
+
+    <line class="link warn-line" x1={mid} y1="100" x2={mid} y2="146" marker-end="url(#rl-arrow)"></line>
+    <rect class="box warn" x="64" y="148" width={W - 128} height="56" rx="10"></rect>
+    <text class="main" x={W / 2} y="181" text-anchor="middle">{escalate}</text>
+  </svg>
+</figure>
+
+<style>
+  .loop {
+    --l-box-bg: rgba(37, 99, 235, 0.08);
+    --l-box-line: #2563eb;
+    --l-warn-bg: rgba(180, 83, 9, 0.09);
+    --l-warn-line: #b45309;
+    --l-link: #6b7280;
+    --l-ink: #111827;
+    --l-ink-2: #4b5563;
+    margin-block: 2rem;
+  }
+  :global(.dark) .loop {
+    --l-box-bg: rgba(96, 165, 250, 0.12);
+    --l-box-line: #60a5fa;
+    --l-warn-bg: rgba(251, 191, 36, 0.1);
+    --l-warn-line: #fbbf24;
+    --l-link: #9ca3af;
+    --l-ink: #f3f4f6;
+    --l-ink-2: #d1d5db;
+  }
+  svg { display: block; width: 100%; height: auto; }
+  .box { fill: var(--l-box-bg); stroke: var(--l-box-line); stroke-width: 1.5; }
+  .box.warn { fill: var(--l-warn-bg); stroke: var(--l-warn-line); }
+  .link { stroke: var(--l-link); stroke-width: 1.5; }
+  .warn-line { stroke: var(--l-warn-line); }
+  .head { fill: var(--l-link); }
+  .tag { fill: var(--l-ink-2); font: 500 12px var(--font-mono, ui-monospace, SFMono-Regular, Menlo, monospace); }
+  .main { fill: var(--l-ink); font: 600 14px var(--font-mono, ui-monospace, SFMono-Regular, Menlo, monospace); }
+  @media (max-width: 40rem) {
+    .main { font-size: 17px; }
+    .tag { font-size: 14px; }
+  }
+</style>
