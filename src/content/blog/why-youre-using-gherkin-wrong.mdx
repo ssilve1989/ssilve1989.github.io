@@ -21,7 +21,7 @@ Cucumber splits BDD into discovery, formulation and automation. Discovery is fir
 
 The Gherkin file is the record of that conversation. If it's full of HTTP verbs, nobody had the conversation.
 
-Dan North and Chris Matts came up with Given/When/Then. North's 2006 article: [a story's behaviour is simply its acceptance criteria](https://dannorth.net/blog/introducing-bdd/). The system meets them or it doesn't. His own example was already at the user's level:
+Dan North and Chris Matts created the Given/When/Then template. North's 2006 article: [a story's behaviour is simply its acceptance criteria](https://dannorth.net/blog/introducing-bdd/). The system meets them or it doesn't. His own example was already at the user's level:
 
 ```gherkin
 Scenario: Account is in credit
@@ -92,7 +92,7 @@ Run version two through both. "A POST request is sent to /orders" fails the firs
 | `the orders table contains a row with status "PAID"` | storage | `Priya sees the order in her order history` |
 | `an "order.paid" event is published` | messaging plumbing | `the warehouse is asked to pack Priya's order` |
 
-Storage gets its own rule. The Gherkin reference says a `Then` checks an [observable output](https://cucumber.io/docs/gherkin/reference/): a report, a screen, a message. It names the temptation, `Then` steps that go look in the database, and says resist it.
+Storage gets its own rule. The Gherkin reference says a `Then` checks an [observable output](https://cucumber.io/docs/gherkin/reference/): a report, user interface or message. It names the temptation, `Then` steps that go look in the database, and says resist it.
 
 Who is the user? The same page says `Given` sets up the system before [the user (or external system)](https://cucumber.io/docs/gherkin/reference/) starts interacting with it. A warehouse system receiving the order is an external user, so it gets its own vocabulary. "Asked to pack the order" is behavior. The topic name is a detail.
 
@@ -124,7 +124,7 @@ Background:
 
 Count what a reader has to know to follow that. Feature switches. Internal engine state. Background jobs that have to be running. Boolean flags on accounts. Database keys in table columns. Which app someone is logged into and how they filtered a list. None of it is what the coordinator is trying to do, which is place an order for a purchaser.
 
-The Gherkin reference says to [keep a Background short and not use it for complicated state](https://cucumber.io/docs/gherkin/reference/) unless the client needs to know about that state. If it runs past four lines, consider moving some of the irrelevant details into higher-level steps. This one is ten steps and most of them are plumbing.
+The Gherkin reference says to [keep your Background section short](https://cucumber.io/docs/gherkin/reference/) and not to use it to set up complicated states unless the client needs to know about that state. If it's more than 4 lines long, consider moving some of the irrelevant details into higher-level steps. This one is ten steps and most of them are plumbing.
 
 Same setup at the user's level:
 
@@ -140,7 +140,7 @@ Four lines. The feature switch, the engine state and the running jobs didn't dis
 
 ## A step can do a lot
 
-User-level steps can be expensive. "Steve logs in to the system" can fetch a token, seed an account and set a cookie. Fine. All that matters is Steve ends up logged in. That's why Cucumber says [implementation details belong in the step definitions](https://cucumber.io/docs/gherkin/reference/), the automation code behind each step.
+User-level steps can be expensive. "Steve logs in to the system" can fetch a token, seed an account and set a cookie. Fine. All that matters is Steve ends up logged in. That's why Cucumber says [implementation details should be hidden in the step definitions](https://cucumber.io/docs/gherkin/reference/), the automation code behind each step.
 
 <StepLayers
   scenario="Priya checks out"
@@ -148,7 +148,7 @@ User-level steps can be expensive. "Steve logs in to the system" can fetch a tok
   drivers={["Browser UI", "HTTP API", "Service call"]}
 />
 
-Scenario and steps know a small interface. Which driver sits behind it is the test suite's problem. The feature file never finds out. Here's the TypeScript, run against `@cucumber/cucumber` 13.2.1:
+Scenario and steps know a small interface. Which driver sits behind it is the test suite's problem. The feature file never finds out. Here's the TypeScript, run against `@cucumber/cucumber` 13.3.0 on Node 26:
 
 ```ts
 // features/support/shop.ts
@@ -164,7 +164,24 @@ export interface Shopper {
 ```
 
 ```ts
+// features/support/world.ts
+import { setWorldConstructor } from "@cucumber/cucumber";
+import { InMemoryShopper, type Receipt, type Shopper } from "./shop.ts";
+
+export class ShopWorld {
+	shopper: Shopper = new InMemoryShopper();
+	receipt?: Receipt;
+}
+
+setWorldConstructor(ShopWorld);
+```
+
+```ts
 // features/support/steps.ts
+import assert from "node:assert/strict";
+import { Given, Then, When } from "@cucumber/cucumber";
+import type { ShopWorld } from "./world.ts";
+
 Given(
 	/^(\w+) has \$(\d+) of items in (?:her|their) cart$/,
 	async function (this: ShopWorld, _customer: string, dollars: string) {
@@ -196,9 +213,9 @@ Default to the user's level. Skim the feature file and you should know what the 
 
 ## Sources
 
-All accessed 2026-10-05.
+Accessed 2026-10-05, quotes re-checked 2026-10-09.
 
-- [Writing better Gherkin](https://cucumber.io/docs/bdd/better-gherkin/), Cucumber documentation, last updated 4 Oct 2026.
-- [Gherkin reference](https://cucumber.io/docs/gherkin/reference/), Cucumber documentation.
-- [Behaviour-Driven Development](https://cucumber.io/docs/bdd/), Cucumber documentation, last updated 4 Oct 2026.
-- [Introducing BDD](https://dannorth.net/blog/introducing-bdd/), Dan North, 20 Sep 2006.
+- [Writing better Gherkin](https://cucumber.io/docs/bdd/better-gherkin/), Cucumber documentation, last updated 8 Oct 2026.
+- [Gherkin reference](https://cucumber.io/docs/gherkin/reference/), Cucumber documentation, last updated 8 Oct 2026.
+- [Behaviour-Driven Development](https://cucumber.io/docs/bdd/), Cucumber documentation, last updated 8 Oct 2026.
+- [Introducing BDD](https://dannorth.net/blog/introducing-bdd/), Dan North, 20 Sep 2006 (first published in Better Software, March 2006).
