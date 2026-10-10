@@ -54,23 +54,18 @@ const label = `Flow: ${stages.join(", then ")}. Triage loops back to review (${l
 
 <style>
   .loop {
-    --l-box-bg: rgba(37, 99, 235, 0.08);
-    --l-box-line: #2563eb;
+    --l-box-bg: color-mix(in srgb, var(--signal) 9%, transparent);
+    --l-box-line: var(--signal);
     --l-warn-bg: rgba(180, 83, 9, 0.09);
     --l-warn-line: #b45309;
-    --l-link: #6b7280;
-    --l-ink: #111827;
-    --l-ink-2: #4b5563;
+    --l-link: var(--muted);
+    --l-ink: var(--ink);
+    --l-ink-2: var(--ink-soft);
     margin-block: 2rem;
   }
   :global(.dark) .loop {
-    --l-box-bg: rgba(96, 165, 250, 0.12);
-    --l-box-line: #60a5fa;
     --l-warn-bg: rgba(251, 191, 36, 0.1);
     --l-warn-line: #fbbf24;
-    --l-link: #9ca3af;
-    --l-ink: #f3f4f6;
-    --l-ink-2: #d1d5db;
   }
   svg { display: block; width: 100%; height: auto; }
   .box { fill: var(--l-box-bg); stroke: var(--l-box-line); stroke-width: 1.5; }

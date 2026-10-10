@@ -20,25 +20,25 @@ const recentExperiences = sortedExperiences.slice(0, 3);
 
   <div class="relative max-w-4xl mx-auto" id="experience-list">
     <svg id="path-svg" class="absolute left-0 top-0 w-[60px] sm:w-[90px] h-full overflow-visible pointer-events-none" preserveAspectRatio="none">
-      <path id="path-track" class="fill-none stroke-gray-300 dark:stroke-gray-700" stroke-width="3" />
-      <path id="path-draw" class="fill-none stroke-purple-500 dark:stroke-purple-400" stroke-width="3" stroke-linecap="round" />
-      <circle id="marker-ring" r="9" class="fill-none stroke-blue-500 dark:stroke-blue-400" stroke-width="2" opacity="0.35" />
-      <circle id="marker" r="5" class="fill-blue-500 dark:fill-blue-400" />
+      <path id="path-track" class="fill-none stroke-line" stroke-width="3" />
+      <path id="path-draw" class="fill-none stroke-signal" stroke-width="3" stroke-linecap="round" />
+      <circle id="marker-ring" r="9" class="fill-none stroke-signal" stroke-width="2" opacity="0.35" />
+      <circle id="marker" r="5" class="fill-signal" />
     </svg>
 
     <div class="space-y-8">
       {recentExperiences.map((experience) => (
         <div class="job-row relative pl-[76px] sm:pl-[110px]">
-          <div class="node-dot absolute left-[15px] sm:left-[27px] top-8 w-[18px] h-[18px] rounded-full bg-white dark:bg-gray-800 border-[2.5px] border-gray-300 dark:border-gray-600 transition-[border-color,transform,box-shadow] duration-300"></div>
-          <div class="job-card bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden transition-[opacity,transform,border-color] duration-300">
+          <div class="node-dot absolute left-[15px] sm:left-[27px] top-8 w-[18px] h-[18px] rounded-full bg-surface border-[2.5px] border-line transition-[border-color,transform,box-shadow] duration-300"></div>
+          <div class="job-card bg-surface rounded-[10px] border border-rule overflow-hidden transition-[opacity,transform,border-color] duration-300">
             <div class="p-8">
               <!-- Company and Position -->
               <div class="flex flex-col md:flex-row md:items-start md:justify-between mb-4">
                 <div>
-                  <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+                  <h3 class="mb-2 font-display text-2xl font-bold tracking-[-0.025em] text-ink">
                     {experience.data.position}
                   </h3>
-                  <div class="flex items-center gap-2 text-lg text-blue-600 dark:text-blue-400 mb-2">
+                  <div class="flex items-center gap-2 text-lg text-signal mb-2">
                     {experience.data.website ? (
                       <a
                         href={experience.data.website}
@@ -51,14 +51,14 @@ const recentExperiences = sortedExperiences.slice(0, 3);
                     ) : (
                       <span>{experience.data.company}</span>
                     )}
-                    <span class="text-gray-400">•</span>
-                    <span class="text-gray-600 dark:text-gray-400">{experience.data.location}</span>
+                    <span class="text-muted">•</span>
+                    <span class="text-ink-soft">{experience.data.location}</span>
                   </div>
                 </div>
 
                 <!-- Date Range -->
-                <div class="text-sm text-gray-500 dark:text-gray-400 md:text-right">
-                  <div class="bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full">
+                <div class="font-mono text-xs text-muted md:text-right">
+                  <div class="py-1">
                     {experience.data.startDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric', timeZone: 'UTC' })}
                     {' - '}
                     {experience.data.current
@@ -70,19 +70,19 @@ const recentExperiences = sortedExperiences.slice(0, 3);
               </div>
 
               <!-- Description -->
-              <p class="text-gray-700 dark:text-gray-300 mb-6 leading-relaxed">
+              <p class="text-ink-soft mb-6 leading-relaxed">
                 {experience.data.description}
               </p>
 
               <!-- Achievements -->
               {experience.data.achievements && experience.data.achievements.length > 0 && (
                 <div class="mb-6">
-                  <h4 class="text-lg font-semibold text-gray-900 dark:text-white mb-3">Key Achievements</h4>
+                  <h4 class="mb-3 font-mono text-xs text-muted">key achievements</h4>
                   <ul class="space-y-2">
                     {experience.data.achievements.map((achievement) => (
                       <li class="flex items-start gap-3">
-                        <div class="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
-                        <span class="text-gray-700 dark:text-gray-300">{achievement}</span>
+                        <div class="w-1.5 h-1.5 bg-signal rounded-full mt-2.5 flex-shrink-0"></div>
+                        <span class="text-ink-soft">{achievement}</span>
                       </li>
                     ))}
                   </ul>
@@ -91,10 +91,10 @@ const recentExperiences = sortedExperiences.slice(0, 3);
 
               <!-- Technologies -->
               <div>
-                <h4 class="text-lg font-semibold text-gray-900 dark:text-white mb-3">Technologies Used</h4>
+                <h4 class="mb-3 font-mono text-xs text-muted">technologies</h4>
                 <div class="flex flex-wrap gap-2">
                   {experience.data.technologies.map((tech) => (
-                    <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium">
+                    <span class="rounded border border-rule bg-surface px-2 py-1 font-mono text-xs text-ink-soft">
                       {tech}
                     </span>
                   ))}
@@ -108,39 +108,24 @@ const recentExperiences = sortedExperiences.slice(0, 3);
   </div>
 
   <!-- View Full Timeline -->
-  <div class="text-center mt-12">
-    <a
-      href="/career"
-      class="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors"
-    >
-      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-      </svg>
-      View Full Career Timeline
+  <div class="mt-12 max-w-4xl mx-auto pl-[76px] sm:pl-[110px]">
+    <a href="/career" class="font-mono text-[13px] text-signal hover:underline underline-offset-4">
+      full career timeline →
     </a>
   </div>
 </div>
 
 <style>
   .node-dot.current {
-    border-color: #a855f7;
+    border-color: var(--signal);
     transform: scale(1.15);
-    box-shadow: 0 0 0 4px color-mix(in srgb, #a855f7 18%, transparent);
-  }
-  :global(.dark) .node-dot.current {
-    border-color: #c084fc;
-    box-shadow: 0 0 0 4px color-mix(in srgb, #c084fc 18%, transparent);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--signal) 18%, transparent);
   }
   .node-dot.passed {
-    border-color: #a855f7;
-    background-color: #a855f7;
+    border-color: var(--signal);
+    background-color: var(--signal);
   }
-  :global(.dark) .node-dot.passed {
-    border-color: #c084fc;
-    background-color: #c084fc;
-  }
-  .job-card.active { border-color: #a855f7; }
-  :global(.dark) .job-card.active { border-color: #c084fc; }
+  .job-card.active { border-color: var(--signal); }
 </style>
 
 <script>

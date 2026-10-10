@@ -1,14 +1,14 @@
 /* Theme tokens for the animated Kafka scenes. Palette and fonts follow the site:
-   Tailwind grays, blue accent, Inter for text and the system mono for code-like labels.
+   neutrals and accent come from the site tokens; the key colors (I/U/D/T) and "bad" are their own.
    Dark mode follows the site's .dark class. */
 .kscene {
-	--ks-surface: #ffffff;
-	--ks-surface-2: #f3f4f6;
-	--ks-ink: #111827;
-	--ks-ink-2: #4b5563;
-	--ks-ink-3: #6b7280;
-	--ks-line: #d1d5db;
-	--ks-accent: #2563eb;
+	--ks-surface: var(--surface);
+	--ks-surface-2: var(--ground);
+	--ks-ink: var(--ink);
+	--ks-ink-2: var(--ink-soft);
+	--ks-ink-3: var(--muted);
+	--ks-line: var(--line);
+	--ks-accent: var(--signal);
 	--ks-i: #c2410c;
 	--ks-u: #2563eb;
 	--ks-d: #15803d;
@@ -19,13 +19,6 @@
 }
 
 .dark .kscene {
-	--ks-surface: #1f2937;
-	--ks-surface-2: #374151;
-	--ks-ink: #f3f4f6;
-	--ks-ink-2: #d1d5db;
-	--ks-ink-3: #9ca3af;
-	--ks-line: #4b5563;
-	--ks-accent: #60a5fa;
 	--ks-i: #ea580c;
 	--ks-u: #3b82f6;
 	--ks-d: #16a34a;

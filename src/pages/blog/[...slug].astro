@@ -17,27 +17,27 @@ const { title, description, pubDate, updatedDate, tags } = post.data;
 
 <BaseLayout title={`${title} - Steven Silvestri`} description={description}>
   <ThemeToggle />
-  <div class="min-h-screen bg-white dark:bg-gray-900">
+  <div class="min-h-screen bg-ground">
     <article class="py-20">
       <div class="container mx-auto px-6 max-w-3xl">
         <a
           href="/blog"
-          class="font-mono text-sm text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+          class="font-mono text-sm text-muted hover:text-signal transition-colors"
         >
           &larr; All posts
         </a>
 
         <header class="mt-8 mb-12">
-          <p class="font-mono text-sm text-blue-600 dark:text-blue-400 tracking-wide">
+          <p class="font-mono text-sm text-signal tracking-wide">
             <time datetime={pubDate.toISOString()}>{formatPostDate(pubDate)}</time>
             {updatedDate && (
               <span> · updated <time datetime={updatedDate.toISOString()}>{formatPostDate(updatedDate)}</time></span>
             )}
           </p>
-          <h1 class="mt-3 text-4xl md:text-6xl font-bold tracking-tight text-gray-900 dark:text-white">
+          <h1 class="mt-3 font-display text-4xl md:text-6xl font-bold tracking-[-0.035em] text-ink">
             {title}
           </h1>
-          <p class="mt-5 text-xl text-gray-600 dark:text-gray-300 leading-relaxed">{description}</p>
+          <p class="mt-5 text-xl text-ink-soft leading-relaxed">{description}</p>
           {tags.length > 0 && (
             <ul class="mt-6 flex flex-wrap gap-2">
               {tags.map((tag) => (

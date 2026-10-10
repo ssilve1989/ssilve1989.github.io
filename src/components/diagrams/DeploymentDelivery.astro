@@ -1,7 +1,7 @@
 ---
 ---
 
-<div class="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-5 flex items-center justify-center">
+<div class="rounded-xl border border-rule bg-surface p-5 flex items-center justify-center">
   <svg
     id="dd-diagram"
     viewBox="0 0 640 260"
@@ -9,30 +9,30 @@
     role="img"
     aria-label="A commit flows through build and test stages to deploy, scaling up a cluster of containers; occasionally a test failure sends it back to build instead, showing the release gate actually gates."
   >
-    <path id="dd-pathMain" d="M40,150 L170,150 L310,150 L450,150" class="fill-none stroke-gray-300 dark:stroke-gray-600" stroke-width="2" />
-    <path id="dd-pathReturn" d="M310,140 Q240,70 170,140" class="fill-none stroke-gray-300 dark:stroke-gray-600" stroke-width="2" />
-    <path id="dd-pathC1" d="M450,150 L575,90" class="fill-none stroke-gray-300 dark:stroke-gray-600" stroke-width="2" />
-    <path id="dd-pathC2" d="M450,150 L575,150" class="fill-none stroke-gray-300 dark:stroke-gray-600" stroke-width="2" />
-    <path id="dd-pathC3" d="M450,150 L575,210" class="fill-none stroke-gray-300 dark:stroke-gray-600" stroke-width="2" />
+    <path id="dd-pathMain" d="M40,150 L170,150 L310,150 L450,150" class="fill-none stroke-line" stroke-width="2" />
+    <path id="dd-pathReturn" d="M310,140 Q240,70 170,140" class="fill-none stroke-line" stroke-width="2" />
+    <path id="dd-pathC1" d="M450,150 L575,90" class="fill-none stroke-line" stroke-width="2" />
+    <path id="dd-pathC2" d="M450,150 L575,150" class="fill-none stroke-line" stroke-width="2" />
+    <path id="dd-pathC3" d="M450,150 L575,210" class="fill-none stroke-line" stroke-width="2" />
 
-    <circle id="dd-commit" cx="40" cy="150" r="18" class="fill-white dark:fill-gray-800 stroke-purple-500 dark:stroke-purple-400" stroke-width="2" />
-    <text x="40" y="180" text-anchor="middle" class="fill-gray-700 dark:fill-gray-200" font-size="11">Commit</text>
+    <circle id="dd-commit" cx="40" cy="150" r="18" class="fill-surface stroke-signal" stroke-width="2" />
+    <text x="40" y="180" text-anchor="middle" class="fill-ink-soft" font-size="11">Commit</text>
 
-    <rect id="dd-build" x="140" y="130" width="60" height="40" rx="8" class="fill-white dark:fill-gray-800 stroke-purple-500 dark:stroke-purple-400" stroke-width="2" />
-    <text x="170" y="154" text-anchor="middle" class="fill-gray-700 dark:fill-gray-200" font-size="10">Build</text>
+    <rect id="dd-build" x="140" y="130" width="60" height="40" rx="8" class="fill-surface stroke-signal" stroke-width="2" />
+    <text x="170" y="154" text-anchor="middle" class="fill-ink-soft" font-size="10">Build</text>
 
-    <rect id="dd-test" x="280" y="130" width="60" height="40" rx="8" class="fill-white dark:fill-gray-800 stroke-purple-500 dark:stroke-purple-400" stroke-width="2" />
-    <text x="310" y="154" text-anchor="middle" class="fill-gray-700 dark:fill-gray-200" font-size="10">Test</text>
+    <rect id="dd-test" x="280" y="130" width="60" height="40" rx="8" class="fill-surface stroke-signal" stroke-width="2" />
+    <text x="310" y="154" text-anchor="middle" class="fill-ink-soft" font-size="10">Test</text>
     <text id="dd-badge" x="310" y="118" text-anchor="middle" class="fill-red-500" font-size="10" opacity="0">✕ failed</text>
 
-    <rect id="dd-deploy" x="420" y="130" width="60" height="40" rx="8" class="fill-white dark:fill-gray-800 stroke-purple-500 dark:stroke-purple-400" stroke-width="2" />
-    <text x="450" y="154" text-anchor="middle" class="fill-gray-700 dark:fill-gray-200" font-size="10">Deploy</text>
+    <rect id="dd-deploy" x="420" y="130" width="60" height="40" rx="8" class="fill-surface stroke-signal" stroke-width="2" />
+    <text x="450" y="154" text-anchor="middle" class="fill-ink-soft" font-size="10">Deploy</text>
 
-    <circle id="dd-c1" cx="575" cy="90" r="14" class="fill-white dark:fill-gray-800 stroke-purple-500 dark:stroke-purple-400" stroke-width="2" />
-    <circle id="dd-c2" cx="575" cy="150" r="14" class="fill-white dark:fill-gray-800 stroke-purple-500 dark:stroke-purple-400" stroke-width="2" />
-    <circle id="dd-c3" cx="575" cy="210" r="14" class="fill-white dark:fill-gray-800 stroke-purple-500 dark:stroke-purple-400" stroke-width="2" />
+    <circle id="dd-c1" cx="575" cy="90" r="14" class="fill-surface stroke-signal" stroke-width="2" />
+    <circle id="dd-c2" cx="575" cy="150" r="14" class="fill-surface stroke-signal" stroke-width="2" />
+    <circle id="dd-c3" cx="575" cy="210" r="14" class="fill-surface stroke-signal" stroke-width="2" />
 
-    <circle id="dd-packetMain" r="4.5" class="fill-blue-500 dark:fill-blue-400" />
+    <circle id="dd-packetMain" r="4.5" class="fill-signal" />
     <circle id="dd-packetFail" r="4.5" class="fill-red-500" opacity="0" />
   </svg>
 </div>

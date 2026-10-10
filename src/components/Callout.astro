@@ -34,8 +34,8 @@ const ICONS: Record<CalloutType, string> = {
 
 <style>
   .callout {
-    --c-accent: #2563eb;
-    --c-bg: rgba(37, 99, 235, 0.08);
+    --c-accent: var(--signal);
+    --c-bg: color-mix(in srgb, var(--signal) 9%, transparent);
     display: flex;
     gap: 0.75rem;
     margin-block: 1.75rem;
@@ -44,15 +44,13 @@ const ICONS: Record<CalloutType, string> = {
     border-left-width: 4px;
     border-radius: 0.5rem;
     background: var(--c-bg);
-    color: #374151;
+    color: var(--ink-soft);
     font-size: 1rem;
     line-height: 1.7;
   }
   .callout.tip { --c-accent: #15803d; --c-bg: rgba(21, 128, 61, 0.08); }
   .callout.warning { --c-accent: #b45309; --c-bg: rgba(180, 83, 9, 0.09); }
   .callout.danger { --c-accent: #dc2626; --c-bg: rgba(220, 38, 38, 0.08); }
-  :global(.dark) .callout { color: #d1d5db; }
-  :global(.dark) .callout { --c-accent: #60a5fa; --c-bg: rgba(96, 165, 250, 0.12); }
   :global(.dark) .callout.tip { --c-accent: #4ade80; --c-bg: rgba(74, 222, 128, 0.1); }
   :global(.dark) .callout.warning { --c-accent: #fbbf24; --c-bg: rgba(251, 191, 36, 0.1); }
   :global(.dark) .callout.danger { --c-accent: #f87171; --c-bg: rgba(248, 113, 113, 0.14); }

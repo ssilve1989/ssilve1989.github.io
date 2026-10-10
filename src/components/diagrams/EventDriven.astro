@@ -1,7 +1,7 @@
 ---
 ---
 
-<div class="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-5 flex items-center justify-center">
+<div class="rounded-xl border border-rule bg-surface p-5 flex items-center justify-center">
   <svg
     id="ev-diagram"
     viewBox="0 0 600 260"
@@ -9,30 +9,30 @@
     role="img"
     aria-label="A publisher emits an event into a central event bus, and three subscribers each receive it independently at staggered times rather than all at once."
   >
-    <path id="ev-pubPath" d="M60,130 L250,130" class="fill-none stroke-gray-300 dark:stroke-gray-600" stroke-width="2" />
-    <path id="ev-sub1Path" d="M350,130 L500,50" class="fill-none stroke-gray-300 dark:stroke-gray-600" stroke-width="2" />
-    <path id="ev-sub2Path" d="M350,130 L500,130" class="fill-none stroke-gray-300 dark:stroke-gray-600" stroke-width="2" />
-    <path id="ev-sub3Path" d="M350,130 L500,210" class="fill-none stroke-gray-300 dark:stroke-gray-600" stroke-width="2" />
+    <path id="ev-pubPath" d="M60,130 L250,130" class="fill-none stroke-line" stroke-width="2" />
+    <path id="ev-sub1Path" d="M350,130 L500,50" class="fill-none stroke-line" stroke-width="2" />
+    <path id="ev-sub2Path" d="M350,130 L500,130" class="fill-none stroke-line" stroke-width="2" />
+    <path id="ev-sub3Path" d="M350,130 L500,210" class="fill-none stroke-line" stroke-width="2" />
 
-    <circle id="ev-publisher" cx="60" cy="130" r="24" class="fill-white dark:fill-gray-800 stroke-purple-500 dark:stroke-purple-400" stroke-width="2" />
-    <text x="60" y="134" text-anchor="middle" class="fill-gray-700 dark:fill-gray-200" font-size="9">Publisher</text>
+    <circle id="ev-publisher" cx="60" cy="130" r="24" class="fill-surface stroke-signal" stroke-width="2" />
+    <text x="60" y="134" text-anchor="middle" class="fill-ink-soft" font-size="9">Publisher</text>
 
-    <rect id="ev-bus" x="250" y="100" width="100" height="60" rx="10" class="fill-white dark:fill-gray-800 stroke-purple-500 dark:stroke-purple-400" stroke-width="2" />
-    <text x="300" y="134" text-anchor="middle" class="fill-gray-700 dark:fill-gray-200" font-size="11">Event Bus</text>
+    <rect id="ev-bus" x="250" y="100" width="100" height="60" rx="10" class="fill-surface stroke-signal" stroke-width="2" />
+    <text x="300" y="134" text-anchor="middle" class="fill-ink-soft" font-size="11">Event Bus</text>
 
-    <circle id="ev-sub1" cx="500" cy="50" r="18" class="fill-white dark:fill-gray-800 stroke-purple-500 dark:stroke-purple-400" stroke-width="2" />
-    <text x="500" y="54" text-anchor="middle" class="fill-gray-700 dark:fill-gray-200" font-size="10">Sub</text>
+    <circle id="ev-sub1" cx="500" cy="50" r="18" class="fill-surface stroke-signal" stroke-width="2" />
+    <text x="500" y="54" text-anchor="middle" class="fill-ink-soft" font-size="10">Sub</text>
 
-    <circle id="ev-sub2" cx="500" cy="130" r="18" class="fill-white dark:fill-gray-800 stroke-purple-500 dark:stroke-purple-400" stroke-width="2" />
-    <text x="500" y="134" text-anchor="middle" class="fill-gray-700 dark:fill-gray-200" font-size="10">Sub</text>
+    <circle id="ev-sub2" cx="500" cy="130" r="18" class="fill-surface stroke-signal" stroke-width="2" />
+    <text x="500" y="134" text-anchor="middle" class="fill-ink-soft" font-size="10">Sub</text>
 
-    <circle id="ev-sub3" cx="500" cy="210" r="18" class="fill-white dark:fill-gray-800 stroke-purple-500 dark:stroke-purple-400" stroke-width="2" />
-    <text x="500" y="214" text-anchor="middle" class="fill-gray-700 dark:fill-gray-200" font-size="10">Sub</text>
+    <circle id="ev-sub3" cx="500" cy="210" r="18" class="fill-surface stroke-signal" stroke-width="2" />
+    <text x="500" y="214" text-anchor="middle" class="fill-ink-soft" font-size="10">Sub</text>
 
-    <circle id="ev-publish-packet" r="4.5" class="fill-blue-500 dark:fill-blue-400" opacity="0" />
-    <circle id="ev-deliver1" r="4.5" class="fill-blue-500 dark:fill-blue-400" opacity="0" />
-    <circle id="ev-deliver2" r="4.5" class="fill-blue-500 dark:fill-blue-400" opacity="0" />
-    <circle id="ev-deliver3" r="4.5" class="fill-blue-500 dark:fill-blue-400" opacity="0" />
+    <circle id="ev-publish-packet" r="4.5" class="fill-signal" opacity="0" />
+    <circle id="ev-deliver1" r="4.5" class="fill-signal" opacity="0" />
+    <circle id="ev-deliver2" r="4.5" class="fill-signal" opacity="0" />
+    <circle id="ev-deliver3" r="4.5" class="fill-signal" opacity="0" />
   </svg>
 </div>
 
