@@ -11,6 +11,45 @@
 	color-scheme: dark;
 }
 
+/* Site palette. Defined on .dark (not :root.dark) so a section can opt into
+   the dark palette locally, like the contact band. */
+:root {
+	--ground: #f7f8fa;
+	--surface: #ffffff;
+	--ink: #0e1726;
+	--ink-soft: #3b4554;
+	--muted: #556070;
+	--rule: #dde2e9;
+	--line: #b8c1ce;
+	--signal: #1d4ed8;
+	--signal-soft: #dbe5fb;
+}
+.dark {
+	--ground: #0b111c;
+	--surface: #121a27;
+	--ink: #e6eaf0;
+	--ink-soft: #c3cbd6;
+	--muted: #aab4c3;
+	--rule: #2a3547;
+	--line: #3a475c;
+	--signal: #93b4ff;
+	--signal-soft: #1e2b45;
+}
+
+@theme inline {
+	--color-ground: var(--ground);
+	--color-surface: var(--surface);
+	--color-ink: var(--ink);
+	--color-ink-soft: var(--ink-soft);
+	--color-muted: var(--muted);
+	--color-rule: var(--rule);
+	--color-line: var(--line);
+	--color-signal: var(--signal);
+	--color-signal-soft: var(--signal-soft);
+	--font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+	--font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
 /* Blog prose in the site's voice: Inter body, Tailwind grays, blue accents.
    Both themes are defined here, so there is no prose-invert. */
 .prose-site {

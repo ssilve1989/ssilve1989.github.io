@@ -4,8 +4,6 @@
 		"@astrojs/rss": "^4.0.19",
 		"@astrojs/sitemap": "^3.7.4",
 		"@dotenvx/dotenvx": "^2.32.4",
-		"@fontsource/dosis": "^5.3.0",
-		"@fontsource/roboto": "^5.3.0",
 		"@tailwindcss/typography": "^0.5.20",
 		"@tailwindcss/vite": "^4.3.3",
 		"astro": "^7.3.5",
