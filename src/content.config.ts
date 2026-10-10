@@ -38,6 +38,8 @@ const projectsCollection = defineCollection({
 		link: z.url().optional(),
 		github: z.url().optional(),
 		featured: z.boolean().default(false),
+		/** Shown as the large card above the project list instead of as a row. */
+		spotlight: z.boolean().default(false),
 		image: z.string().optional(),
 		type: z
 			.enum(["professional", "opensource", "personal"])

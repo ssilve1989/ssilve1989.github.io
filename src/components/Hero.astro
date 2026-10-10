@@ -1,75 +1,115 @@
 ---
-// Hero component - minimal redesign
+import { getSortedPosts } from "../lib/blog";
+
+const [latest] = await getSortedPosts();
+
+const navLinks = [
+	{ label: "experience", href: "#experience" },
+	{ label: "systems", href: "#skills" },
+	{ label: "projects", href: "#projects" },
+	{ label: "writing", href: "/blog" },
+	{ label: "résumé", href: "/resume" },
+];
+
+// Diagram geometry (viewBox 560 x 316): teams on top, the platform band, then services.
+const teamXs = [0, 192, 384];
+const serviceXs = [0, 143, 286, 429];
+const platformLabels = [
+	{ text: "shared libraries", x: 16, y: 172 },
+	{ text: "service contracts", x: 290, y: 172 },
+	{ text: "conventions", x: 16, y: 206 },
+	{ text: "developer tooling", x: 290, y: 206 },
+];
 ---
 
-<section class="min-h-screen flex items-center justify-center bg-white dark:bg-gray-900 px-6">
-  <div class="max-w-2xl mx-auto text-center">
-    <h1 class="text-5xl md:text-7xl font-bold tracking-tight text-gray-900 dark:text-white mb-5">
-      Steven Silvestri
-    </h1>
+<section class="bg-ground px-6 md:px-20 pt-8 pb-20 md:pb-28">
+  <div class="max-w-6xl mx-auto">
+    <header class="flex flex-wrap items-center justify-between gap-4 pr-14 md:pr-16 font-mono text-[13px] text-muted">
+      <a href="/" class="font-medium text-ink">ssilvestri</a>
+      <nav aria-label="Primary">
+        <ul class="flex flex-wrap gap-x-7 gap-y-2">
+          {navLinks.map(({ label, href }) => (
+            <li><a href={href} class="hover:text-signal transition-colors">{label}</a></li>
+          ))}
+        </ul>
+      </nav>
+    </header>
 
-    <div class="mb-10">
-      <span class="font-mono text-sm text-blue-600 dark:text-blue-400 tracking-wide">Principal Software Engineer</span>
-      <div class="h-7 overflow-hidden mt-1">
-        <div class="text-scroll">
-          <div class="h-7 flex items-center justify-center text-gray-500 dark:text-gray-400">Building modern web experiences</div>
-          <div class="h-7 flex items-center justify-center text-gray-500 dark:text-gray-400">Crafting scalable applications</div>
-          <div class="h-7 flex items-center justify-center text-gray-500 dark:text-gray-400">Solving complex problems</div>
-          <div class="h-7 flex items-center justify-center text-gray-500 dark:text-gray-400">Creating intuitive interfaces</div>
-        </div>
+    <div class="mt-16 md:mt-24 grid items-center gap-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,560px)]">
+      <div class="flex flex-col gap-7">
+        <p class="font-mono text-[13px] tracking-wide text-signal">Steven Silvestri · Principal Software Engineer</p>
+        <h1 class="font-display font-bold text-5xl md:text-[68px] leading-[1.02] tracking-[-0.035em] text-ink">
+          I design the systems other teams build on.
+        </h1>
+        <p class="max-w-[520px] text-lg md:text-[19px] leading-relaxed text-ink-soft">
+          gRPC microservices, event-driven pipelines, and the shared NestJS libraries that product teams build on.
+        </p>
+        {latest && (
+          <a href={`/blog/${latest.id}`} class="group font-mono text-[13px] text-muted">
+            latest post · <span class="text-signal group-hover:underline underline-offset-4">{latest.data.title} →</span>
+          </a>
+        )}
       </div>
+
+      <!-- Hidden on phones: scaled to fit, its labels drop below a readable size. -->
+      <figure class="m-0 hidden sm:block">
+        <figcaption class="sr-only">
+          Product teams build on a shared platform layer of libraries, contracts, conventions and tooling, which sits on
+          gRPC services.
+        </figcaption>
+        <svg viewBox="0 0 560 316" class="hero-diagram w-full max-w-[560px] h-auto" aria-hidden="true">
+          <text x="0" y="12" class="fill-muted font-mono" font-size="11">product teams</text>
+          {teamXs.map((x) => (
+            <>
+              <rect x={x + 0.5} y="20.5" width="175" height="47" rx="8" class="fill-surface stroke-line"></rect>
+              <text x={x + 14} y="49" class="fill-ink-soft" font-size="14">team</text>
+            </>
+          ))}
+
+          <g class="stroke-line">
+            {teamXs.map((x) => <line x1={x + 88} y1="68" x2={x + 88} y2="270"></line>)}
+          </g>
+
+          <rect x="0.75" y="112" width="558.5" height="116" rx="10" class="fill-signal-soft stroke-signal" stroke-width="1.5"></rect>
+          <text x="16" y="136" class="fill-signal font-mono" font-size="11" font-weight="500">platform</text>
+          <text x="544" y="136" text-anchor="end" class="fill-signal font-mono" font-size="11">← what I build</text>
+          {platformLabels.map(({ text, x, y }) => (
+            <text x={x} y={y} class="fill-ink font-display" font-size="16" font-weight="700">{text}</text>
+          ))}
+
+          {teamXs.map((x, i) => (
+            <circle class="drop" cx={x + 88} cy="74" r="4" style={`animation-delay: ${i * 0.85}s`}></circle>
+          ))}
+
+          <text x="0" y="262" class="fill-muted font-mono" font-size="11">services</text>
+          {serviceXs.map((x) => (
+            <>
+              <rect x={x + 0.5} y="270.5" width="130" height="43" rx="8" class="fill-surface stroke-ink"></rect>
+              <text x={x + 65.5} y="296" text-anchor="middle" class="fill-ink font-mono" font-size="12">svc</text>
+            </>
+          ))}
+        </svg>
+      </figure>
     </div>
-
-    <p class="text-lg text-gray-600 dark:text-gray-300 max-w-xl mx-auto mb-12 leading-relaxed">
-      Passionate about creating exceptional digital experiences using modern technologies.
-      Specializing in React, TypeScript, and cloud-native solutions.
-    </p>
-
-    <div class="flex flex-col sm:flex-row gap-3 justify-center items-center mb-16">
-      <a
-        href="#contact"
-        class="px-7 py-3 bg-blue-600 dark:bg-blue-500 text-white font-medium rounded-md hover:bg-blue-700 dark:hover:bg-blue-400 transition-colors duration-200"
-      >
-        Get In Touch
-      </a>
-      <a
-        href="/resume"
-        target="_blank"
-        class="px-7 py-3 border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 font-medium rounded-md hover:border-blue-600 dark:hover:border-blue-400 transition-colors duration-200"
-      >
-        View Resume
-      </a>
-      <a
-        href="/blog"
-        class="px-7 py-3 border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 font-medium rounded-md hover:border-blue-600 dark:hover:border-blue-400 transition-colors duration-200"
-      >
-        Read the Blog
-      </a>
-    </div>
-
-    <a href="#about" class="inline-block text-gray-300 dark:text-gray-600 hover:text-gray-500 dark:hover:text-gray-400 transition-colors">
-      <svg class="w-5 h-5 mx-auto animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
-      </svg>
-    </a>
   </div>
 </section>
 
 <style>
-  @keyframes text-scroll {
-    0%, 20% { transform: translateY(0); }
-    25%, 45% { transform: translateY(-25%); }
-    50%, 70% { transform: translateY(-50%); }
-    75%, 95% { transform: translateY(-75%); }
-    100% { transform: translateY(-100%); }
+  .hero-diagram .drop {
+    fill: var(--signal);
+    opacity: 0;
+    animation: drop 2.6s infinite ease-in-out;
   }
-  .text-scroll {
-    animation: text-scroll 8s infinite;
+
+  @keyframes drop {
+    0% { transform: translateY(0); opacity: 0; }
+    10%, 90% { opacity: 1; }
+    100% { transform: translateY(196px); opacity: 0; }
   }
+
   @media (prefers-reduced-motion: reduce) {
-    .text-scroll, .animate-bounce {
+    .hero-diagram .drop {
       animation: none;
     }
   }
 </style>
-
