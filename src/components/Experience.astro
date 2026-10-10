@@ -8,6 +8,8 @@ const sortedExperiences = experiences.sort((a, b) => {
 	const dateB = b.data.startDate;
 	return dateB.getTime() - dateA.getTime();
 });
+// The homepage shows the most recent roles; /career has the full timeline.
+const recentExperiences = sortedExperiences.slice(0, 3);
 ---
 
 <div class="max-w-6xl mx-auto">
@@ -25,7 +27,7 @@ const sortedExperiences = experiences.sort((a, b) => {
     </svg>
 
     <div class="space-y-8">
-      {sortedExperiences.map((experience) => (
+      {recentExperiences.map((experience) => (
         <div class="job-row relative pl-[76px] sm:pl-[110px]">
           <div class="node-dot absolute left-[15px] sm:left-[27px] top-8 w-[18px] h-[18px] rounded-full bg-white dark:bg-gray-800 border-[2.5px] border-gray-300 dark:border-gray-600 transition-[border-color,transform,box-shadow] duration-300"></div>
           <div class="job-card bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden transition-[opacity,transform,border-color] duration-300">
