@@ -1,32 +1,18 @@
 ---
-import { getCollection } from "astro:content";
 import { getSortedPosts } from "../lib/blog";
 
-const current = (await getCollection("experience")).find(
-	(entry) => entry.data.current,
-);
 const posts = await getSortedPosts();
 
 const facts = [
-	current && {
-		label: "now",
-		value: `${current.data.position}, ${current.data.company}`,
-	},
-	current && {
-		label: "since",
-		value: `${current.data.startDate.getUTCFullYear()}, ${current.data.location.toLowerCase()}`,
-	},
-	current && {
-		label: "stack",
-		value: current.data.technologies.slice(0, 4).join(", "),
-	},
+	{ label: "focus", value: "distributed systems, developer experience" },
+	{ label: "stack", value: "TypeScript, Node.js, NestJS, gRPC" },
 	{
 		label: "writes about",
 		value: [...new Set(posts.flatMap((post) => post.data.tags.slice(0, 1)))]
 			.slice(0, 4)
 			.join(", "),
 	},
-].filter((fact) => fact !== undefined);
+];
 ---
 
 <div class="max-w-6xl mx-auto grid gap-14 lg:grid-cols-[minmax(0,1fr)_380px] lg:gap-24">
@@ -36,8 +22,9 @@ const facts = [
       I build the libraries and services that let other teams ship without thinking about the plumbing.
     </h2>
     <p class="max-w-[640px] text-lg leading-[1.7] text-ink-soft">
-      At TruMid I work on gRPC microservices in Node.js and own developer experience for our NestJS and RxJS stack: the
-      shared abstractions, the conventions, and the review guidance that keep our services consistent.
+      Most of my work is backend platform engineering: gRPC microservices in Node.js, event-driven pipelines, and the
+      developer experience around them. That means shared abstractions, conventions, and review guidance that keep a
+      fleet of services consistent as more teams build on it.
     </p>
     <p class="max-w-[640px] text-lg leading-[1.7] text-ink-soft">
       Lately that includes AI agents in the review and authoring loop, and being honest about what they catch and what
