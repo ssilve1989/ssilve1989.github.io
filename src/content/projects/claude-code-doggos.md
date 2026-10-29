@@ -1,4 +1,5 @@
 ---
+
 title: "Claude Code Doggos"
 description: "A pixel-art golden retriever that keeps you company in Claude Code. It sniffs the files Claude reads, digs when it edits, tilts its head when Claude asks permission, and falls asleep when you wander off."
 technologies: ["TypeScript", "Python", "Claude Code plugins"]

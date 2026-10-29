@@ -1,4 +1,5 @@
 ---
+
 title: "AI-Enhanced Development Workflow"
 description: "Custom AI agent implementations and tooling integrations that dramatically increase development productivity"
 technologies: ["AI Tools", "TypeScript", "Node.js", "Custom APIs", "Automation"]

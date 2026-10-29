@@ -1,4 +1,5 @@
 ---
+
 title: "Ulti Project - Discord Bot"
 description: "Full-featured Final Fantasy XIV Discord bot built with NestJS and GraphQL"
 technologies: ["TypeScript", "NestJS", "GraphQL", "Discord.js", "Docker", "PostgreSQL"]
