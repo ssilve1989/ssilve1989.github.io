@@ -1,5 +1,4 @@
 ---
-
 title: "Better XIVPF"
 description: "Enhanced interface and tools for Final Fantasy XIV Party Finder interactions"
 technologies: ["TypeScript", "Web APIs", "Final Fantasy XIV"]

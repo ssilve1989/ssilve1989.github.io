@@ -1,5 +1,4 @@
 ---
-
 title: "Orbit Snap"
 description: "A rhythm-style browser game where rings shrink toward a central orb and a single tap — click or Space — earns a Perfect, Good, or Miss based on timing precision"
 technologies: ["TypeScript", "Web APIs"]

@@ -1,5 +1,4 @@
 ---
-
 title: "Real-Time Risk Management Platform"
 description: "High-performance microservices platform for real-time financial risk assessment and monitoring"
 technologies: ["TypeScript", "Node.js", "gRPC", "MongoDB", "WebSockets", "Microservices"]
